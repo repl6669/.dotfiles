@@ -41,6 +41,8 @@ let NERDTreeHijackNetrw=0
 
 " Toggle NERDTree
 nmap <Leader><Leader> :NERDTreeToggle<CR>
+nmap <leader>. :NERDTreeFind<cr>
+
 
 
 
@@ -49,7 +51,7 @@ nmap <Leader><Leader> :NERDTreeToggle<CR>
 
 " For example, hitting CMD + P will open the CtrlP fuzzyfinder
 nmap <Leader>p :CtrlP<CR>
-nmap <Leader>r :CtrlPBufTag<CR>
+nmap <Leader>r :CtrlPBuffer<CR>
 
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/node_modules/*,*/vendor/*
 let g:ctrlp_match_window = 'top,order:ttb,min:1,max:20,results:20'
