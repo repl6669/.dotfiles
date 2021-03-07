@@ -36,6 +36,6 @@ If you did all of the above you may now follow these install instructions to set
 
 ### Setting up Vim
 
-1. Run `<Leader>pi` to install Plugins
+1. Run `<Leader>pi` or `:PluginInstall` to install Plugins
 
 Your Mac is now ready to use!
