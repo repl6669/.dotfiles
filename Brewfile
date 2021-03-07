@@ -66,6 +66,10 @@ cask 'visual-studio-code'
 cask 'vlc'
 cask 'iina'
 
+## Quicklook
+cask 'qlmarkdown'
+cask 'quicklook-json'
+
 ## Mac App Store
 mas 'Numbers', id: 409203825
 mas 'Spark', id: 1176895641
