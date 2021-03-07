@@ -44,6 +44,13 @@ ln -s $HOME/.dotfiles/.zshrc $HOME/.zshrc
 rm -rf $HOME/.vimrc
 ln -s $HOME/.dotfiles/.vimrc $HOME/.vimrc
 
+# Symlink additional vim config files
+ln -s ~/.dotfiles/mappings.vim ~/.vim/mappings.vim
+ln -s ~/.dotfiles/plugins.vim ~/.vim/plugins.vim
+
+# Symlink UltiSnips
+ln -s ~/.dotfiles/UltiSnips/php.snippets ~/.vim/UltiSnips/php.snippets
+
 # Symlink the Mackup config file to the home directory
 ln -s $HOME/.dotfiles/.mackup.cfg $HOME/.mackup.cfg
 
