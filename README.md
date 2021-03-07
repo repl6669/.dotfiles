@@ -2,7 +2,7 @@
 
 Personal .dotfiles
 
-Special thanks to [Dries Vints](https://github.com/driesvints) for making a great dotfiles tutorial and screencast.
+Special thanks to [Dries Vints](https://github.com/driesvints) for making a great dotfiles [tutorial](https://driesvints.com/blog/getting-started-with-dotfiles) and [screencast](https://laracasts.com/series/guest-spotlight/episodes/1).
 
 ## A Fresh macOS Setup
 
