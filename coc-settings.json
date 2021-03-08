@@ -1,4 +1,5 @@
 {
     "diagnostic.displayByAle": true,
-    "suggest.echodocSupport": true
+    "suggest.echodocSupport": true,
+    "coc.preferences.jumpCommand": "tabe"
 }
