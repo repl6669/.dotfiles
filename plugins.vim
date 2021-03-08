@@ -15,6 +15,7 @@ Plugin 'iamcco/markdown-preview.nvim'
 Plugin 'tpope/vim-vinegar'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'preservim/nerdtree'
+Plugin 'thaerkh/vim-workspace'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -24,6 +25,13 @@ call vundle#end()            " required
 " :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
 " :PluginSearch foo - searches for foo; append `!` to refresh local cache
 " :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+
+
+
+
+"------------------------Vim Workspace--------------------------"
+
+nnoremap <leader>tw :ToggleWorkspace<CR>
 
 
 
