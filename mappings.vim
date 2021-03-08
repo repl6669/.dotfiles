@@ -18,14 +18,35 @@ nmap <Leader>pi :PluginInstall<CR>
 " Add simple highlight removal
 nmap <Leader><space> :nohlsearch<CR>
 
-" Splits
-set splitbelow                                              " Always open splits below current window
-set splitright                                              " Always open splits to the right
 
-" Shortcuts for opening splits
-"" Open horizontal split
+" Open lazygit
+nmap <Leader>lg :!lazygit<CR>
+
+" Disable arrow keys
+nnoremap <Left> :echoe "Use h"<CR>
+nnoremap <Right> :echoe "Use l"<CR>
+nnoremap <Up> :echoe "Use k"<CR>
+nnoremap <Down> :echoe "Use j"<CR>
+
+" Copy & paste
+vnoremap <Leader>y "*y
+vnoremap <Leader>p "*p
+
+"------------------------Window management--------------------------"
+
+" Close window
+nmap <Leader>wc :q<CR>
+
+" Close tab
+nmap <Leader>tc :tabclose<CR>
+
+" Open new tab
+nmap <Leader>te :tabedit<CR>
+
+" Open horizontal split
 nmap <Leader>hs :sp<CR>
-"" Open vertical split
+
+" Open vertical split
 nmap <Leader>vs :vsp<CR>
 
 " Move between splits easily by pressing <CTRL-H> instead of <CTRL-W><CTRL-H> eg
@@ -46,11 +67,14 @@ nmap <Leader>8 8gt
 nmap <Leader>9 9gt
 nmap <Leader>0 0gt
 
-" Open lazygit
-nmap <Leader>lg :!lazygit<CR>
 
-" Disable arrow keys
-nnoremap <Left> :echoe "Use h"<CR>
-nnoremap <Right> :echoe "Use l"<CR>
-nnoremap <Up> :echoe "Use k"<CR>
-nnoremap <Down> :echoe "Use j"<CR>
+
+
+"------------------------File management--------------------------"
+
+nmap <Leader>s :w<CR>
+
+
+
+
+
