@@ -57,9 +57,6 @@ let NERDTreeHijackNetrw=0
 nmap <Leader><Leader> :NERDTreeToggle<CR>
 nmap <leader>. :NERDTreeFind<cr>
 
-" Open the existing NERDTree on each new tab.
-autocmd BufWinEnter * silent NERDTreeMirror
-
 
 
 
@@ -68,9 +65,16 @@ autocmd BufWinEnter * silent NERDTreeMirror
 " For example, hitting CMD + P will open the CtrlP fuzzyfinder
 nmap <D-P> :CtrlP<CR>
 
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/node_modules/*,*/vendor/*
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/node_modules/*
 let g:ctrlp_match_window = 'top,order:ttb,min:1,max:20,results:20'
 
+" Keep cache between sessions
+let g:ctrlp_clear_cache_on_exit = 0
+
+let g:ctrlp_prompt_mappings = {
+\ 'AcceptSelection("e")': ['<2-LeftMouse>'],
+\ 'AcceptSelection("t")': ['<cr>'],
+\ }
 
 
 
@@ -211,7 +215,7 @@ let g:lightline = {
 \           [ 'percent' ],
 \           [ 'lineinfo' ],
 \           [ 'fileformat', 'fileencoding' ],
-\           [ 'gutentags'],
+\           [ 'gutentags' ],
 \       ],
 \   },
 \   'component_function': {
@@ -219,6 +223,85 @@ let g:lightline = {
 \       'gutentags': 'gutentags#statusline',
 \   },
 \ }
+
+
+
+
+"------------------------Gutentags--------------------------"
+
+let g:gutentags_add_default_project_roots = 0               " Do not use default project roots
+let g:gutentags_project_root = ['.git', 'Session.vim']      " Set project root recognisers
+let g:gutentags_cache_dir = expand('~/.cache/vim/ctags/')   " Move cache elsewhere, so no need for gitignore
+let g:gutentags_generate_on_new = 1                         " Generate on new project
+let g:gutentags_generate_on_missing = 1                     " Generate on missing tag
+let g:gutentags_generate_on_write = 1                       " Generate on write
+let g:gutentags_generate_on_empty_buffer = 0                " Do not generate on empty buffer
+
+                                                            " a: Access (or export) of class members
+                                                            " i: Inheritance information
+                                                            " l: Language of input file containing tag
+                                                            " m: Implementation information
+                                                            " n: Line number of tag definition
+                                                            " \S: Signature of routine (e.g. prototype or parameter list)
+" Make Gutentags generate more
+let g:gutentags_ctags_extra_args = [
+\ '--tag-relative=yes',
+\ '--fields=+ailmnS',
+\ ]
+
+" Exclude files
+let g:gutentags_ctags_exclude = [
+\ '*.git', '*.svg', '*.hg',
+\ '*/tests/*',
+\ 'build',
+\ 'dist',
+\ '*sites/*/files/*',
+\ 'bin',
+\ 'node_modules',
+\ 'bower_components',
+\ 'cache',
+\ 'compiled',
+\ 'docs',
+\ 'example',
+\ 'bundle',
+\ 'vendor',
+\ '*.md',
+\ '*-lock.json',
+\ '*.lock',
+\ '*bundle*.js',
+\ '*build*.js',
+\ '.*rc*',
+\ '*.json',
+\ '*.min.*',
+\ '*.map',
+\ '*.bak',
+\ '*.zip',
+\ '*.pyc',
+\ '*.class',
+\ '*.sln',
+\ '*.Master',
+\ '*.csproj',
+\ '*.tmp',
+\ '*.csproj.user',
+\ '*.cache',
+\ '*.pdb',
+\ 'tags*',
+\ 'cscope.*',
+\ '*.css',
+\ '*.less',
+\ '*.scss',
+\ '*.exe', '*.dll',
+\ '*.mp3', '*.ogg', '*.flac',
+\ '*.swp', '*.swo',
+\ '*.bmp', '*.gif', '*.ico', '*.jpg', '*.png',
+\ '*.rar', '*.zip', '*.tar', '*.tar.gz', '*.tar.xz', '*.tar.bz2',
+\ '*.pdf', '*.doc', '*.docx', '*.ppt', '*.pptx',
+\ ]
+
+" Command for clearing gutentags cache easily
+command! -nargs=0 GutentagsClearCache call system('rm ' . g:gutentags_cache_dir . '/*')
+
+
 
 
 
