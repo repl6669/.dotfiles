@@ -44,14 +44,22 @@ nnoremap <leader>tw :ToggleWorkspace<CR>
 
 "------------------------NERD TREE Settings--------------------------"
 
-"" Open Nerd Tree when vim starts
-" autocmd vimenter * NERDTree | call feedkeys("\<C-\>\<C-n>\<c-w>l", 'n')
-"" Close vim when only open window is nerd tree
-" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+" Close vim when only open window is nerd tree
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
+" Ignore package directories
 let NERDTreeIgnore = ['(vendor|node_modules|bower_components)$']
+
+" Do not show help
 let NERDTreeMinimalUI=1
+" Do not block Vinegar / Netrw
 let NERDTreeHijackNetrw=0
+
+" Close NERDtree when files was opened
+let NERDTreeQuitOnOpen=1
+
+" Display arrows instead of ascii art in NERDTree
+let NERDTreeDirArrows=1
 
 " Toggle NERDTree
 nmap <Leader><Leader> :NERDTreeToggle<CR>
@@ -64,6 +72,7 @@ nmap <leader>. :NERDTreeFind<cr>
 
 " For example, hitting CMD + P will open the CtrlP fuzzyfinder
 nmap <D-P> :CtrlP<CR>
+nmap <C-P> :CtrlPBufTag<CR>
 
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/node_modules/*
 let g:ctrlp_match_window = 'top,order:ttb,min:1,max:20,results:20'
@@ -216,6 +225,7 @@ let g:lightline = {
 \           [ 'lineinfo' ],
 \           [ 'fileformat', 'fileencoding' ],
 \           [ 'gutentags' ],
+\           [ 'absolutepath' ],
 \       ],
 \   },
 \   'component_function': {
