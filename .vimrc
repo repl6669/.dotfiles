@@ -91,7 +91,7 @@ set splitright                                              " Always open splits
 " Automatically source .vimrc file on save
 augroup autosourcing
     autocmd!
-    autocmd BufWritePost .vimrc source %
+    autocmd BufWritePost .vimrc nested source %
 augroup END
 
 
