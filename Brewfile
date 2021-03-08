@@ -19,6 +19,7 @@ brew 'lazygit'                                              # Lazygit
 brew 'mackup'
 brew 'mas'                                                  # Mac App Store manager
 brew 'pkg-config'
+brew 'romkatv/powerlevel10k/powerlevel10k'                  # Powerlevel10k
 brew 'ranger'                                               # Ranger file explorer
 brew 'sqlite'                                               # SQLite
 brew 'trash'                                                # Manage the Trash bin
