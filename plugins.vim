@@ -16,6 +16,8 @@ Plugin 'tpope/vim-vinegar'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'preservim/nerdtree'
 Plugin 'thaerkh/vim-workspace'
+Plugin 'tobyS/pdv'
+Plugin 'tobyS/vmustache'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -58,8 +60,8 @@ nmap <leader>. :NERDTreeFind<cr>
 "------------------------Control-P Setting--------------------------"
 
 " For example, hitting CMD + P will open the CtrlP fuzzyfinder
-nmap <Leader>p :CtrlP<CR>
-nmap <Leader>r :CtrlPBuffer<CR>
+nmap <D-P> :CtrlP<CR>
+nmap <C-R> :CtrlPBuffer<CR>
 
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/node_modules/*,*/vendor/*
 let g:ctrlp_match_window = 'top,order:ttb,min:1,max:20,results:20'
@@ -89,11 +91,11 @@ nmap <Leader>mpt <Plug>MarkdownPreviewToggle
 
 " Set phpcs settings
 let g:ale_php_phpcs_executable='/usr/local/bin/phpcs'
-let g:ale_php_phpcs_standard='PSR@2'
+let g:ale_php_phpcs_standard='PSR2'
 
 " Set php-cs-fixer settings
-let g:ale_php_php_cs_fixer_executable='/usr/local/bin/php-cs-fixer --config=~/.php_cs'
-let g:ale_php_php_cs_fixer_options='--config ~/.php_cs'
+let g:ale_php_cs_fixer_executable='/usr/local/bin/php-cs-fixer'
+let g:ale_php_cs_fixer_options = '--config=' . $DOTFILES . '/.php_cs'
 
 " Fixers
 let g:ale_fixers = {
@@ -103,7 +105,15 @@ let g:ale_fixers = {
 \}
 
 " Linters
-let b:ale_linters = {'php': ['php', 'intelephense', 'phpcs', 'psalm']}
+let g:ale_linters = {'php': ['intelephense', 'phpcs']}
 
 " Fix on save
 let g:ale_fix_on_save = 1
+
+
+"------------------------PHP Documentor--------------------------"
+
+let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
+
+nmap <Leader>do :call pdv#DocumentWithSnip()<CR>
+
