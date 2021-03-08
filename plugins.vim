@@ -19,6 +19,7 @@ Plugin 'thaerkh/vim-workspace'
 Plugin 'tobyS/pdv'
 Plugin 'tobyS/vmustache'
 Plugin 'neoclide/coc.nvim'
+Plugin 'arnaud-lb/vim-php-namespace'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -54,6 +55,8 @@ let NERDTreeHijackNetrw=0
 nmap <Leader><Leader> :NERDTreeToggle<CR>
 nmap <leader>. :NERDTreeFind<cr>
 
+" Open the existing NERDTree on each new tab.
+autocmd BufWinEnter * silent NERDTreeMirror
 
 
 
@@ -96,7 +99,11 @@ let g:coc_global_extensions = [
 \ 'coc-json',
 \ ]
 
+" Use <Leader><space> to retrigger completion
 inoremap <silent><expr> <Leader><space> coc#refresh()
+
+" Use enter to confirm completion
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " Use `[g` and `]g` to navigate diagnostics
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
@@ -154,9 +161,38 @@ let g:ale_linters = {
 let g:ale_fix_on_save = 1
 
 
+
+
 "------------------------PHP Documentor--------------------------"
 
 let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
 
 nmap <Leader>do :call pdv#DocumentWithSnip()<CR>
+
+
+
+
+
+"------------------------PHP Namespace--------------------------"
+function! IPhpInsertUse()
+    call PhpInsertUse()
+    call feedkeys('a',  'n')
+endfunction
+
+" Use <Leader>u to import PHP Namespace
+autocmd FileType php inoremap <Leader>u <Esc>:call IPhpInsertUse()<CR>
+autocmd FileType php noremap <Leader>u :call PhpInsertUse()<CR>
+
+function! IPhpExpandClass()
+    call PhpExpandClass()
+    call feedkeys('a', 'n')
+endfunction
+
+" User <Leader>e to expand PHP Namespace
+autocmd FileType php inoremap <Leader>e <Esc>:call IPhpExpandClass()<CR>
+autocmd FileType php noremap <Leader>e :call PhpExpandClass()<CR>
+
+
+
+
 
