@@ -77,6 +77,15 @@ set incsearch                                               " Turn on incrementa
 
 
 
+"------------------------Splits--------------------------"
+
+" Splits
+set splitbelow                                              " Always open splits below current window
+set splitright                                              " Always open splits to the right
+
+
+
+
 "------------------------Auto commands--------------------------"
 
 " Automatically source .vimrc file on save
