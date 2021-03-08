@@ -9,6 +9,7 @@ tap 'homebrew/bundle'
 ## Binaries
 brew 'bash'                                                 # Latest Bash version
 brew 'coreutils'                                            # Those that come with macOS are outdated
+brew 'ctags'                                                # Ctags
 brew 'ffmpeg'
 brew 'git'                                                  # Git
 brew 'grep'
