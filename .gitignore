@@ -1,2 +1,2 @@
-.php_cs.cache
-.swp
+*.php_cs.cache
+*.swp
