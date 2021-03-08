@@ -45,11 +45,14 @@ rm -rf $HOME/.vimrc
 ln -s $HOME/.dotfiles/.vimrc $HOME/.vimrc
 
 # Symlink additional vim config files
-ln -s ~/.dotfiles/mappings.vim ~/.vim/mappings.vim
-ln -s ~/.dotfiles/plugins.vim ~/.vim/plugins.vim
+ln -s $HOME/.dotfiles/mappings.vim $HOME/.vim/mappings.vim
+ln -s $HOME/.dotfiles/plugins.vim $HOME/.vim/plugins.vim
 
 # Symlink UltiSnips
-ln -s ~/.dotfiles/UltiSnips/php.snippets ~/.vim/UltiSnips/php.snippets
+ln -s $HOME/.dotfiles/UltiSnips/php.snippets $HOME/.vim/UltiSnips/php.snippets
+
+# Symlink COC
+ln -s $HOME/.dotfiles/coc-settings.json $HOME/.vim/coc-settings.json
 
 # Symlink the Mackup config file to the home directory
 ln -s $HOME/.dotfiles/.mackup.cfg $HOME/.mackup.cfg
