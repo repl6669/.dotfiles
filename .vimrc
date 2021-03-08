@@ -61,7 +61,6 @@ endif
 
 colorscheme spaceduck
 
-let g:lightline = {'colorscheme': 'spaceduck'}
 
 " Set color column to 'magenta' and display it when something exceeds 80 chars
 highlight ColorColumn ctermbg=magenta
