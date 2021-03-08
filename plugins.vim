@@ -13,6 +13,7 @@ Plugin 'ryanoasis/vim-devicons'
 Plugin 'iamcco/markdown-preview.nvim'
 Plugin 'tpope/vim-vinegar'
 Plugin 'tpope/vim-eunuch'
+Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'preservim/nerdtree'
 Plugin 'thaerkh/vim-workspace'
@@ -20,6 +21,7 @@ Plugin 'tobyS/pdv'
 Plugin 'tobyS/vmustache'
 Plugin 'neoclide/coc.nvim'
 Plugin 'arnaud-lb/vim-php-namespace'
+Plugin 'ludovicchabant/vim-gutentags'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -192,6 +194,31 @@ endfunction
 autocmd FileType php inoremap <Leader>e <Esc>:call IPhpExpandClass()<CR>
 autocmd FileType php noremap <Leader>e :call PhpExpandClass()<CR>
 
+
+
+
+"------------------------Lightline--------------------------"
+
+let g:lightline = {
+\   'colorscheme': 'spaceduck',
+\   'active': {
+\       'left': [
+\           [ 'mode', 'paste' ],
+\           [ 'filename', 'readonly', 'modified' ],
+\           [ 'gitbranch' ],
+\       ],
+\       'right': [
+\           [ 'percent' ],
+\           [ 'lineinfo' ],
+\           [ 'fileformat', 'fileencoding' ],
+\           [ 'gutentags'],
+\       ],
+\   },
+\   'component_function': {
+\       'gitbranch': 'fugitive#head',
+\       'gutentags': 'gutentags#statusline',
+\   },
+\ }
 
 
 
