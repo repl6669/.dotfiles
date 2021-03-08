@@ -8,11 +8,11 @@ Plugin 'dense-analysis/ale'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'itchyny/lightline.vim'
 Plugin 'pineapplegiant/spaceduck'
-Plugin 'vim-syntastic/syntastic'
 Plugin 'SirVer/ultisnips'
 Plugin 'ryanoasis/vim-devicons'
 Plugin 'iamcco/markdown-preview.nvim'
 Plugin 'tpope/vim-vinegar'
+Plugin 'tpope/vim-eunuch'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'preservim/nerdtree'
 Plugin 'thaerkh/vim-workspace'
@@ -105,7 +105,9 @@ let g:ale_fixers = {
 \}
 
 " Linters
-let g:ale_linters = {'php': ['intelephense', 'phpcs']}
+let g:ale_linters = {
+\ 'php': ['intelephense', 'phpcs'],
+\}
 
 " Fix on save
 let g:ale_fix_on_save = 1
