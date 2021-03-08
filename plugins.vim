@@ -18,6 +18,7 @@ Plugin 'preservim/nerdtree'
 Plugin 'thaerkh/vim-workspace'
 Plugin 'tobyS/pdv'
 Plugin 'tobyS/vmustache'
+Plugin 'neoclide/coc.nvim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -61,7 +62,6 @@ nmap <leader>. :NERDTreeFind<cr>
 
 " For example, hitting CMD + P will open the CtrlP fuzzyfinder
 nmap <D-P> :CtrlP<CR>
-nmap <C-R> :CtrlPBuffer<CR>
 
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/node_modules/*,*/vendor/*
 let g:ctrlp_match_window = 'top,order:ttb,min:1,max:20,results:20'
@@ -87,7 +87,48 @@ nmap <Leader>mpt <Plug>MarkdownPreviewToggle
 
 
 
+"------------------------COC Settings--------------------------"
+let g:coc_global_extensions = [
+\ 'coc-snippets',
+\ 'coc-pairs',
+\ 'coc-eslint',
+\ 'coc-prettier',
+\ 'coc-json',
+\ ]
+
+inoremap <silent><expr> <Leader><space> coc#refresh()
+
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+"
+" Use gh to show documentation in preview window
+nnoremap <silent> gh :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+
+
+
 "------------------------Ale settings--------------------------"
+
+" Disable ALE lsp as completion will be handled by coc
+let g:ale_disable_lsp = 1
 
 " Set phpcs settings
 let g:ale_php_phpcs_executable='/usr/local/bin/phpcs'
