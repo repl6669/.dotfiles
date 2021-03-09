@@ -11,6 +11,7 @@ brew 'bash'                                                 # Latest Bash versio
 brew 'coreutils'                                            # Those that come with macOS are outdated
 brew 'ctags'                                                # Ctags
 brew 'ffmpeg'
+brew 'fzf'                                                  # FZF
 brew 'git'                                                  # Git
 brew 'grep'
 brew 'go'                                                   # Go
@@ -24,6 +25,7 @@ brew 'pkg-config'
 brew 'romkatv/powerlevel10k/powerlevel10k'                  # Powerlevel10k
 brew 'ranger'                                               # Ranger file explorer
 brew 'sqlite'                                               # SQLite
+brew 'the_silver_searcher'                                  # Silver searcher
 brew 'trash'                                                # Manage the Trash bin
 brew 'tree'                                                 # List directories in a tree structure
 brew 'vim'                                                  # Latest vim
