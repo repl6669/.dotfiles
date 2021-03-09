@@ -19,6 +19,7 @@ brew 'httpie'
 brew 'lazygit'                                              # Lazygit
 brew 'mackup'
 brew 'mas'                                                  # Mac App Store manager
+brew 'phpunit'                                              # PHPUnit
 brew 'pkg-config'
 brew 'romkatv/powerlevel10k/powerlevel10k'                  # Powerlevel10k
 brew 'ranger'                                               # Ranger file explorer
