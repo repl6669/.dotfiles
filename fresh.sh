@@ -57,6 +57,12 @@ ln -s $HOME/.dotfiles/coc-settings.json $HOME/.vim/coc-settings.json
 # Symlink the Mackup config file to the home directory
 ln -s $HOME/.dotfiles/.mackup.cfg $HOME/.mackup.cfg
 
+# Symblink global gitignore file
+ln -s $HOME/.dotfiles/.gitignore_global $HOME/.gitignore_global
+
+# Set global giignore
+git config --global core.excludesfile ~/.gitignore_global
+
 # Set macOS preferences
 # We will run this last because this will reload the shell
 source .macos
