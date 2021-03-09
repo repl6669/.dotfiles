@@ -5,6 +5,7 @@ so ~/.vim/mappings.vim
 
 "------------------------Basic settings--------------------------"
 
+
 filetype plugin indent on " Turn on plugins, auto indentation, and syntax highlighting
 
 set nocompatible                                            " Use Vim settings, rather then Vi settings
@@ -60,11 +61,6 @@ if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
 endif
 
 colorscheme spaceduck
-
-
-" Set color column to 'magenta' and display it when something exceeds 80 chars
-highlight ColorColumn ctermbg=magenta
-call matchadd('ColorColumn', '\%81v', 100)
 
 
 
