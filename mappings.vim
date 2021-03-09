@@ -66,6 +66,8 @@ nmap <Leader>7 7gt
 nmap <Leader>8 8gt
 nmap <Leader>9 9gt
 nmap <Leader>0 0gt
+nmap <Leader>tl :tabm +1<CR>
+nmap <Leader>th :tabm -1<CR>
 
 
 
