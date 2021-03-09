@@ -65,7 +65,15 @@ if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
   syntax on
 endif
 
-colorscheme spaceduck
+if !has('nvim')
+  let &t_ZH="\e[3m"
+  let &t_ZR="\e[23m"
+endif
+
+let g:material_theme_style = 'ocean'
+let g:material_terminal_italics = 1
+
+colorscheme material
 
 
 
