@@ -5,7 +5,6 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'dense-analysis/ale'
-Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'itchyny/lightline.vim'
 Plugin 'pineapplegiant/spaceduck'
 Plugin 'SirVer/ultisnips'
@@ -24,6 +23,9 @@ Plugin 'neoclide/coc.nvim'
 Plugin 'arnaud-lb/vim-php-namespace'
 Plugin 'ludovicchabant/vim-gutentags'
 Plugin 'sheerun/vim-polyglot'
+Plugin 'vim-test/vim-test'
+Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plugin 'junegunn/fzf.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -71,22 +73,13 @@ let g:WebDevIconsDisableDefaultFileSymbolColorFromNERDTreeFile = 1
 
 
 
-"------------------------Control-P Setting--------------------------"
+"-------------------------FZF--------------------------"
 
-" For example, hitting CMD + P will open the CtrlP fuzzyfinder
-nmap <C-P> :CtrlP<CR>
-nmap <C-F> :CtrlPBufTag<CR>
+nmap <C-P> :FZF<CR>
+nmap <C-F> :BTags<CR>
+nmap <C-A> :Ag<CR>
 
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/node_modules/*
-let g:ctrlp_match_window = 'top,order:ttb,min:1,max:20,results:20'
-
-" Keep cache between sessions
-let g:ctrlp_clear_cache_on_exit = 0
-
-let g:ctrlp_prompt_mappings = {
-\ 'AcceptSelection("e")': ['<2-LeftMouse>'],
-\ 'AcceptSelection("t")': ['<cr>'],
-\ }
+let g:fzf_layout = { 'up': '~20%' }
 
 
 
@@ -132,6 +125,9 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
 
 " Highlight symbol under cursor on CursorHold
 autocmd CursorHold * silent call CocActionAsync('highlight')
@@ -243,7 +239,7 @@ let g:lightline = {
 "------------------------Gutentags--------------------------"
 
 let g:gutentags_add_default_project_roots = 0               " Do not use default project roots
-let g:gutentags_project_root = ['.git', 'Session.vim']      " Set project root recognisers
+let g:gutentags_project_root = ['.git']      " Set project root recognisers
 let g:gutentags_cache_dir = expand('~/.cache/vim/ctags/')   " Move cache elsewhere, so no need for gitignore
 let g:gutentags_generate_on_new = 1                         " Generate on new project
 let g:gutentags_generate_on_missing = 1                     " Generate on missing tag
@@ -316,25 +312,26 @@ command! -nargs=0 GutentagsClearCache call system('rm ' . g:gutentags_cache_dir 
 
 
 
-"------------------------PHPUnit--------------------------"
 
-function! RunPHPUnitTest(filter)
-    cd %:p:h
-    if a:filter
-        normal! T yw
-        let result = system("phpunit --filter " . @" . " " . bufname("%"))
-    else
-        let result = system("phpunit " . bufname("%"))
-    endif
-    split __PHPUnit_Result__
-    normal! ggdG
-    setlocal buftype=nofile
-    call append(0, split(result, '\v\n'))
-    cd -
-endfunction
+"------------------------Vim TEST--------------------------"
 
-nnoremap <leader>t :call RunPHPUnitTest(0)<cr>
-nnoremap <leader>tf :call RunPHPUnitTest(1)<cr>
+let test#strategy = "vimterminal"
+let test#php#phpunit#executable = 'php artisan test'
+
+" In a test file runs the test nearest to the cursor, otherwise runs the last nearest test.
+nmap <silent> <Leader>tn :TestNearest<CR>
+
+" In a test file runs all tests in the current file, otherwise runs the last file tests.
+nmap <silent> <Leader>tf :TestFile<CR>
+
+" Runs the whole test suite.
+nmap <silent> <Leader>ts :TestSuite<CR>
+
+" Runs the last test.
+nmap <silent> <Leader>tl :TestLast<CR>
+
+" Visits the test file from which you last run your tests.
+nmap <silent> <Leader>tg :TestVisit<CR>
 
 
 
