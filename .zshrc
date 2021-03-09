@@ -55,3 +55,5 @@ source $DOTFILES/aliases.zsh
 # Source commands
 source $DOTFILES/commands.zsh
 
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
