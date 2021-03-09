@@ -16,12 +16,14 @@ Plugin 'tpope/vim-eunuch'
 Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'preservim/nerdtree'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'thaerkh/vim-workspace'
 Plugin 'tobyS/pdv'
 Plugin 'tobyS/vmustache'
 Plugin 'neoclide/coc.nvim'
 Plugin 'arnaud-lb/vim-php-namespace'
 Plugin 'ludovicchabant/vim-gutentags'
+Plugin 'sheerun/vim-polyglot'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -52,18 +54,19 @@ let NERDTreeIgnore = ['(vendor|node_modules|bower_components)$']
 
 " Do not show help
 let NERDTreeMinimalUI=1
+
 " Do not block Vinegar / Netrw
 let NERDTreeHijackNetrw=0
 
 " Close NERDtree when files was opened
 let NERDTreeQuitOnOpen=1
 
-" Display arrows instead of ascii art in NERDTree
-let NERDTreeDirArrows=1
-
 " Toggle NERDTree
 nmap <Leader><Leader> :NERDTreeToggle<CR>
 nmap <leader>. :NERDTreeFind<cr>
+
+let g:WebDevIconsDisableDefaultFolderSymbolColorFromNERDTreeDir = 1
+let g:WebDevIconsDisableDefaultFileSymbolColorFromNERDTreeFile = 1
 
 
 
@@ -71,8 +74,8 @@ nmap <leader>. :NERDTreeFind<cr>
 "------------------------Control-P Setting--------------------------"
 
 " For example, hitting CMD + P will open the CtrlP fuzzyfinder
-nmap <D-P> :CtrlP<CR>
-nmap <C-P> :CtrlPBufTag<CR>
+nmap <C-P> :CtrlP<CR>
+nmap <C-F> :CtrlPBufTag<CR>
 
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/node_modules/*
 let g:ctrlp_match_window = 'top,order:ttb,min:1,max:20,results:20'
@@ -312,6 +315,26 @@ let g:gutentags_ctags_exclude = [
 command! -nargs=0 GutentagsClearCache call system('rm ' . g:gutentags_cache_dir . '/*')
 
 
+
+"------------------------PHPUnit--------------------------"
+
+function! RunPHPUnitTest(filter)
+    cd %:p:h
+    if a:filter
+        normal! T yw
+        let result = system("phpunit --filter " . @" . " " . bufname("%"))
+    else
+        let result = system("phpunit " . bufname("%"))
+    endif
+    split __PHPUnit_Result__
+    normal! ggdG
+    setlocal buftype=nofile
+    call append(0, split(result, '\v\n'))
+    cd -
+endfunction
+
+nnoremap <leader>t :call RunPHPUnitTest(0)<cr>
+nnoremap <leader>tf :call RunPHPUnitTest(1)<cr>
 
 
 
