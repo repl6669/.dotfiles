@@ -57,8 +57,11 @@ ln -s $HOME/.dotfiles/coc-settings.json $HOME/.vim/coc-settings.json
 # Symlink the Mackup config file to the home directory
 ln -s $HOME/.dotfiles/.mackup.cfg $HOME/.mackup.cfg
 
-# Symblink global gitignore file
+# Symlink global gitignore file
 ln -s $HOME/.dotfiles/.gitignore_global $HOME/.gitignore_global
+
+# Symlink ctags globbal config
+ln -s $HOME/.dotfiles/.ctags $HOME/.ctags
 
 # Set global giignore
 git config --global core.excludesfile ~/.gitignore_global
