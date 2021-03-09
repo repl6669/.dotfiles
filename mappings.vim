@@ -39,6 +39,17 @@ nmap <Leader>wc :q<CR>
 
 " Close tab
 nmap <Leader>tc :tabclose<CR>
+nmap <Leader>tcr :.+1,$tabdo :tabc<CR>
+
+function! CloseSomething()
+  if winnr("$") == 1 && tabpagenr("$") > 1 && tabpagenr() > 1 && tabpagenr() < tabpagenr("$")
+    tabclose | tabprev
+  else
+    q
+  endif
+endfunction
+
+nmap <Leader>tc ::call CloseSomething()<CR>
 
 " Open new tab
 nmap <Leader>te :tabedit<CR>
@@ -66,8 +77,18 @@ nmap <Leader>7 7gt
 nmap <Leader>8 8gt
 nmap <Leader>9 9gt
 nmap <Leader>0 0gt
-nmap <Leader>tl :tabm +1<CR>
+
+" Move tab to left
 nmap <Leader>th :tabm -1<CR>
+
+" Move tab to right
+nmap <Leader>tl :tabm +1<CR>
+
+" Go to previous tab
+nnoremap <Leader>h gT<CR>
+
+" Go to next tab
+nnoremap <Leader>l gt<CR>
 
 
 
