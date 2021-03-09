@@ -7,6 +7,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'dense-analysis/ale'
 Plugin 'itchyny/lightline.vim'
 Plugin 'pineapplegiant/spaceduck'
+Plugin 'kaicataldo/material.vim'
 Plugin 'SirVer/ultisnips'
 Plugin 'ryanoasis/vim-devicons'
 Plugin 'iamcco/markdown-preview.nvim'
@@ -14,8 +15,10 @@ Plugin 'tpope/vim-vinegar'
 Plugin 'tpope/vim-eunuch'
 Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'preservim/nerdtree'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'lambdalisue/fern.vim'
+Plugin 'lambdalisue/fern-git-status.vim'
+Plugin 'lambdalisue/fern-renderer-devicons.vim'
+Plugin 'lambdalisue/glyph-palette.vim'
 Plugin 'thaerkh/vim-workspace'
 Plugin 'tobyS/pdv'
 Plugin 'tobyS/vmustache'
@@ -26,6 +29,7 @@ Plugin 'sheerun/vim-polyglot'
 Plugin 'vim-test/vim-test'
 Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plugin 'junegunn/fzf.vim'
+Plugin 'preservim/nerdcommenter'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -46,29 +50,12 @@ nnoremap <leader>tw :ToggleWorkspace<CR>
 
 
 
-"------------------------NERD TREE Settings--------------------------"
+"------------------------Fern--------------------------"
 
-" Close vim when only open window is nerd tree
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+nmap <Leader><Leader> :Fern . -drawer -toggle -width=40<CR>
+nmap <Leader>. :Fern . -drawer -reveal=% -width=40<CR>
 
-" Ignore package directories
-let NERDTreeIgnore = ['(vendor|node_modules|bower_components)$']
-
-" Do not show help
-let NERDTreeMinimalUI=1
-
-" Do not block Vinegar / Netrw
-let NERDTreeHijackNetrw=0
-
-" Close NERDtree when files was opened
-let NERDTreeQuitOnOpen=1
-
-" Toggle NERDTree
-nmap <Leader><Leader> :NERDTreeToggle<CR>
-nmap <leader>. :NERDTreeFind<cr>
-
-let g:WebDevIconsDisableDefaultFolderSymbolColorFromNERDTreeDir = 1
-let g:WebDevIconsDisableDefaultFileSymbolColorFromNERDTreeFile = 1
+let g:fern#renderer = "devicons"
 
 
 
@@ -239,7 +226,7 @@ let g:lightline = {
 "------------------------Gutentags--------------------------"
 
 let g:gutentags_add_default_project_roots = 0               " Do not use default project roots
-let g:gutentags_project_root = ['.git']      " Set project root recognisers
+let g:gutentags_project_root = ['.git']                     " Set project root recognisers
 let g:gutentags_cache_dir = expand('~/.cache/vim/ctags/')   " Move cache elsewhere, so no need for gitignore
 let g:gutentags_generate_on_new = 1                         " Generate on new project
 let g:gutentags_generate_on_missing = 1                     " Generate on missing tag
@@ -261,41 +248,43 @@ let g:gutentags_ctags_extra_args = [
 " Exclude files
 let g:gutentags_ctags_exclude = [
 \ '*.git', '*.svg', '*.hg',
+\ '*-lock.json',
+\ '*.Master',
+\ '*.bak',
+\ '*.cache',
+\ '*.class',
+\ '*.csproj',
+\ '*.csproj.user',
+\ '*.js',
+\ '*.json',
+\ '*.lock',
+\ '*.map',
+\ '*.md',
+\ '*.min.*',
+\ '*.pdb',
+\ '*.pyc',
+\ '*.sln',
+\ '*.tmp',
+\ '*.zip',
 \ '*/tests/*',
-\ 'build',
-\ 'dist',
+\ '*build*.js',
+\ '*bundle*.js',
 \ '*sites/*/files/*',
+\ '.*rc*',
 \ 'bin',
-\ 'node_modules',
 \ 'bower_components',
+\ 'build',
+\ 'bundle',
 \ 'cache',
 \ 'compiled',
+\ 'cscope.*',
+\ 'dist',
 \ 'docs',
 \ 'example',
-\ 'bundle',
-\ 'vendor',
-\ '*.md',
-\ '*-lock.json',
-\ '*.lock',
-\ '*bundle*.js',
-\ '*build*.js',
-\ '.*rc*',
-\ '*.json',
-\ '*.min.*',
-\ '*.map',
-\ '*.bak',
-\ '*.zip',
-\ '*.pyc',
-\ '*.class',
-\ '*.sln',
-\ '*.Master',
-\ '*.csproj',
-\ '*.tmp',
-\ '*.csproj.user',
-\ '*.cache',
-\ '*.pdb',
+\ 'node_modules',
 \ 'tags*',
-\ 'cscope.*',
+\ 'vendor',
+\ '*.xml',
 \ '*.css',
 \ '*.less',
 \ '*.scss',
@@ -332,6 +321,20 @@ nmap <silent> <Leader>tl :TestLast<CR>
 
 " Visits the test file from which you last run your tests.
 nmap <silent> <Leader>tg :TestVisit<CR>
+
+
+
+
+"------------------------NERD Commenter--------------------------"
+
+let g:NERDCreateDefaultMappings = 1                         " Create default mappings
+let g:NERDSpaceDelims = 1                                   " Add spaces after comment delimiters by default
+let g:NERDCompactSexyComs = 0                               " Use compact syntax for prettified multi-line comments
+let g:NERDDefaultAlign = 'left'                             " Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDCommentEmptyLines = 1                             " Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDTrimTrailingWhitespace = 1                        " Enable trimming of trailing whitespace when uncommenting
+let g:NERDToggleCheckAllLines = 1                           " Enable NERDCommenterToggle to check all selected lines is commented or not
+
 
 
 
