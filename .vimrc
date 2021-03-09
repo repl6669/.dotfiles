@@ -1,7 +1,12 @@
 let mapleader = ','                                         " Map leader to ','
+set exrc                                                    " Load local .vimrc files
+set secure                                                  " Do not allow autocommands etc.
 
 so ~/.vim/plugins.vim
 so ~/.vim/mappings.vim
+
+
+
 
 "------------------------Basic settings--------------------------"
 
