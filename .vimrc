@@ -13,23 +13,24 @@ so ~/.vim/mappings.vim
 
 filetype plugin indent on " Turn on plugins, auto indentation, and syntax highlighting
 
-set nocompatible                                            " Use Vim settings, rather then Vi settings
-set nobackup                                                " Stop vim from leaving temp files everywhere
-set nowritebackup                                           " Don't write your undo history to a file
-set history=200                                             " Only save 200 undos
-set ruler                                                   " show the cursor position all the time
-set showcmd                                                 " display incomplete commands
-set incsearch                                               " do incremental searching
-set vb                                                      " Turn on vim internal visual bell
-set t_vb=                                                   " 🔕
-set wildmenu                                                " Turn on the WiLd menu
-set laststatus=2                                            " Always display the status line
-set mousefocus                                              " gvim mouse click will select pane
-set shell=/bin/sh                                           " Ensure that vim always runs from a shell https://rvm.io/integration/vim
-set backspace=indent,eol,start                              " http://vim.wikia.com/wiki/Backspace_and_delete_problems
-set list listchars=tab:»·,trail:·                           " Display extra whitespace
-set nowrap                                                  " Do not automatically wrap on load
+set backspace=2                                             " Make backspace work like most other programs
 set formatoptions-=t                                        " Do not automatically wrap text when typing
+set hidden                                                  " Hide buffers instead of unloading them
+set history=200                                             " Only save 200 undos
+set incsearch                                               " do incremental searching
+set laststatus=2                                            " Always display the status line
+set list listchars=tab:»·,trail:·                           " Display extra whitespace
+set mousefocus                                              " gvim mouse click will select pane
+set nobackup                                                " Stop vim from leaving temp files everywhere
+set nocompatible                                            " Use Vim settings, rather then Vi settings
+set nowrap                                                  " Do not automatically wrap on load
+set nowritebackup                                           " Don't write your undo history to a file
+set ruler                                                   " show the cursor position all the time
+set shell=/bin/sh                                           " Ensure that vim always runs from a shell https://rvm.io/integration/vim
+set showcmd                                                 " display incomplete commands
+set t_vb=                                                   " 🔕
+set vb                                                      " Turn on vim internal visual bell
+set wildmenu                                                " Turn on the WiLd menu
 
 set tabstop=4                                               " The width of a TAB is set to 4.
                                                             " Still it is a \t. It is just that
@@ -38,6 +39,7 @@ set tabstop=4                                               " The width of a TAB
 
 set shiftwidth=4                                            " Indents will have a width of 4
 set softtabstop=4                                           " Sets the number of columns for a TAB
+set shiftround                                              " Round indent to multiple of shiftwidth
 set expandtab                                               " Expand TABs to spaces
 
 " Ignore compiled files
