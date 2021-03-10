@@ -3,33 +3,33 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 " let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'dense-analysis/ale'
-Plugin 'itchyny/lightline.vim'
-Plugin 'pineapplegiant/spaceduck'
-Plugin 'kaicataldo/material.vim'
-Plugin 'SirVer/ultisnips'
-Plugin 'ryanoasis/vim-devicons'
-Plugin 'iamcco/markdown-preview.nvim'
+Plugin 'VundleVim/Vundle.vim'                               " Plugin manager
+Plugin 'dense-analysis/ale'                                 " Async lint engine
+Plugin 'itchyny/lightline.vim'                              " Lightline - sexy status line
+Plugin 'pineapplegiant/spaceduck'                           " Spaceduck theme
+Plugin 'kaicataldo/material.vim'                            " Material theme
+Plugin 'SirVer/ultisnips'                                   " Snippets
+Plugin 'iamcco/markdown-preview.nvim'                       " Markdown preview
 Plugin 'tpope/vim-vinegar'
-Plugin 'tpope/vim-eunuch'
-Plugin 'tpope/vim-fugitive'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'lambdalisue/fern.vim'
-Plugin 'lambdalisue/fern-git-status.vim'
-Plugin 'lambdalisue/fern-renderer-devicons.vim'
-Plugin 'lambdalisue/glyph-palette.vim'
-Plugin 'thaerkh/vim-workspace'
-Plugin 'tobyS/pdv'
-Plugin 'tobyS/vmustache'
-Plugin 'neoclide/coc.nvim'
-Plugin 'arnaud-lb/vim-php-namespace'
-Plugin 'ludovicchabant/vim-gutentags'
-Plugin 'sheerun/vim-polyglot'
-Plugin 'vim-test/vim-test'
-Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plugin 'tpope/vim-eunuch'                                   " Easy file and directory manipulation
+Plugin 'tpope/vim-fugitive'                                 " Git support
+Plugin 'airblade/vim-gitgutter'                             " Git gutter
+Plugin 'lambdalisue/fern.vim'                               " Fern file explorer
+Plugin 'lambdalisue/fern-git-status.vim'                    " Fern git status
+Plugin  'lambdalisue/nerdfont.vim'                          " Fern nerdfont
+Plugin 'lambdalisue/fern-renderer-nerdfont.vim'             " Render Fern with nerdfont icons
+" Plugin 'lambdalisue/glyph-palette.vim
+Plugin 'thaerkh/vim-workspace'                              " Workspace manager
+Plugin 'tobyS/pdv'                                          " PHP documentor
+Plugin 'tobyS/vmustache'                                    " PHP documentor dependency
+Plugin 'neoclide/coc.nvim'                                  " Autocompletion and much more
+Plugin 'arnaud-lb/vim-php-namespace'                        " PHP namespace
+Plugin 'ludovicchabant/vim-gutentags'                       " Tags manager basically, very good
+Plugin 'sheerun/vim-polyglot'                               " Better syntax highlighting
+Plugin 'vim-test/vim-test'                                  " Run tests from vim easily
+Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }       " Fuzzy finder - top
 Plugin 'junegunn/fzf.vim'
-Plugin 'preservim/nerdcommenter'
+Plugin 'preservim/nerdcommenter'                            " Comment manager (mainly used for toggling comments)
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -55,7 +55,26 @@ nnoremap <leader>tw :ToggleWorkspace<CR>
 nmap <Leader><Leader> :Fern . -drawer -toggle -width=40<CR>
 nmap <Leader>. :Fern . -drawer -reveal=% -width=40<CR>
 
-let g:fern#renderer = "devicons"
+function! s:init_fern() abort
+    nmap <buffer> H <Plug>(fern-action-open:split)
+    nmap <buffer> V <Plug>(fern-action-open:vsplit)
+    nmap <buffer> R <Plug>(fern-action-rename)
+    nmap <buffer> M <Plug>(fern-action-move)
+    nmap <buffer> C <Plug>(fern-action-copy)
+    nmap <buffer> P <Plug>(fern-action-new-path)
+    nmap <buffer> N <Plug>(fern-action-new-file)
+    nmap <buffer> D <Plug>(fern-action-new-dir)
+    nmap <buffer> I <Plug>(fern-action-hidden-toggle)
+    nmap <buffer> dd <Plug>(fern-action-trash)
+    nmap <buffer> <Leader> <Plug>(fern-action-mark)
+endfunction
+
+augroup fern-custom
+    autocmd! *
+    autocmd FileType fern call s:init_fern()
+augroup END
+
+let g:fern#renderer = "nerdfont"
 
 
 
@@ -158,8 +177,18 @@ let g:ale_linters = {
 \ 'php': ['intelephense', 'phpcs'],
 \}
 
+" Lint on save
+let g:ale_lint_on_save = 1
+
+" Lint on text change
+let g:ale_lint_on_text_changed = 0
+
 " Fix on save
 let g:ale_fix_on_save = 1
+
+" Fix on text change
+let g:ale_fix_on_text_changed = 0
+
 
 
 
@@ -209,7 +238,6 @@ let g:lightline = {
 \       'right': [
 \           [ 'percent' ],
 \           [ 'lineinfo' ],
-\           [ 'fileformat', 'fileencoding' ],
 \           [ 'gutentags' ],
 \           [ 'absolutepath' ],
 \       ],
