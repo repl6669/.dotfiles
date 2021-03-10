@@ -13,12 +13,14 @@ Plugin 'iamcco/markdown-preview.nvim'                       " Markdown preview
 Plugin 'tpope/vim-vinegar'
 Plugin 'tpope/vim-eunuch'                                   " Easy file and directory manipulation
 Plugin 'tpope/vim-fugitive'                                 " Git support
+Plugin 'ryanoasis/vim-devicons'                             " Icons
 Plugin 'airblade/vim-gitgutter'                             " Git gutter
 Plugin 'lambdalisue/fern.vim'                               " Fern file explorer
+Plugin 'lambdalisue/fern-hijack.vim'                        " Makes fern the default file explorer instead of netrw
 Plugin 'lambdalisue/fern-git-status.vim'                    " Fern git status
-Plugin  'lambdalisue/nerdfont.vim'                          " Fern nerdfont
+Plugin 'lambdalisue/nerdfont.vim'                           " Fern nerdfont
 Plugin 'lambdalisue/fern-renderer-nerdfont.vim'             " Render Fern with nerdfont icons
-" Plugin 'lambdalisue/glyph-palette.vim
+Plugin 'lambdalisue/glyph-palette.vim'
 Plugin 'thaerkh/vim-workspace'                              " Workspace manager
 Plugin 'tobyS/pdv'                                          " PHP documentor
 Plugin 'tobyS/vmustache'                                    " PHP documentor dependency
@@ -52,8 +54,8 @@ nnoremap <leader>tw :ToggleWorkspace<CR>
 
 "------------------------Fern--------------------------"
 
-nmap <Leader><Leader> :Fern . -drawer -toggle -width=40<CR>
-nmap <Leader>. :Fern . -drawer -reveal=% -width=40<CR>
+nmap <Leader><Leader> :Fern . -drawer -toggle -width=32<CR>
+nmap <Leader>. :Fern . -drawer -reveal=% -width=32<CR>
 
 function! s:init_fern() abort
     nmap <buffer> H <Plug>(fern-action-open:split)
