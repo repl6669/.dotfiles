@@ -37,8 +37,7 @@ vnoremap <Leader>p "*p
 " Close window
 nmap <Leader>wc :q<CR>
 
-" Close tab
-nmap <Leader>tc :tabclose<CR>
+" Close tabs to the right
 nmap <Leader>tcr :.+1,$tabdo :tabc<CR>
 
 function! CloseSomething()
@@ -52,7 +51,7 @@ endfunction
 nmap <Leader>tc ::call CloseSomething()<CR>
 
 " Open new tab
-nmap <Leader>te :tabedit<CR>
+nmap <Leader>tn :tabedit<CR>
 
 " Open horizontal split
 nmap <Leader>hs :sp<CR>
@@ -66,7 +65,7 @@ nmap <C-J> <C-W><C-J>
 nmap <C-K> <C-W><C-K>
 nmap <C-L> <C-W><C-L>
 
-" Tabs
+" Numbered tabs
 nmap <Leader>1 1gt
 nmap <Leader>2 2gt
 nmap <Leader>3 3gt
