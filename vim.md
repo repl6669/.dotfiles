@@ -1,6 +1,10 @@
 # Vim
 
-## Commands
+## Mappings
+
+### Vim default mappings
+
+`kJ`: Move line to the end of the previous line
 
 ### Package commands
 
