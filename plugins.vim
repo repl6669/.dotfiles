@@ -119,7 +119,7 @@ let g:coc_global_extensions = [
 \ ]
 
 " Use <Leader><space> to retrigger completion
-inoremap <silent><expr> <Leader><space> coc#refresh()
+" inoremap <silent><expr> <Leader><space> coc#refresh()
 
 " Use enter to confirm completion
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
