@@ -6,7 +6,7 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'                               " Plugin manager
 Plugin 'dense-analysis/ale'                                 " Async lint engine
 Plugin 'itchyny/lightline.vim'                              " Lightline - sexy status line
-Plugin 'pineapplegiant/spaceduck'                           " Spaceduck theme
+Plugin 'pineapplegiant/spaceduck', { 'branch': 'main' }     " Spaceduck theme
 Plugin 'kaicataldo/material.vim'                            " Material theme
 Plugin 'SirVer/ultisnips'                                   " Snippets
 Plugin 'iamcco/markdown-preview.nvim'                       " Markdown preview
@@ -32,6 +32,7 @@ Plugin 'vim-test/vim-test'                                  " Run tests from vim
 Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }       " Fuzzy finder - top
 Plugin 'junegunn/fzf.vim'
 Plugin 'preservim/nerdcommenter'                            " Comment manager (mainly used for toggling comments)
+Plugin 'airblade/vim-rooter'                                " Project rooter
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -68,6 +69,10 @@ function! s:init_fern() abort
     nmap <buffer> D <Plug>(fern-action-new-dir)
     nmap <buffer> I <Plug>(fern-action-hidden-toggle)
     nmap <buffer> dd <Plug>(fern-action-trash)
+    nmap <buffer> l <Plug>(fern-action-expand)
+    nmap <buffer> h <Plug>(fern-action-collapse)
+    nmap <buffer> ff <Plug>(fern-action-fzf-both)
+    nmap <buffer> fg <Plug>(fern-action-grep)
     nmap <buffer> <Leader> <Plug>(fern-action-mark)
 endfunction
 
@@ -83,12 +88,53 @@ let g:fern#renderer = "nerdfont"
 
 "-------------------------FZF--------------------------"
 
-nmap <C-P> :FZF<CR>
+" This is the default extra key bindings
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+" Enable per-command history.
+" CTRL-N and CTRL-P will be automatically bound to next-history and
+" previous-history instead of down and up. If you don't like the change,
+" explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
+let g:fzf_history_dir = '~/.local/share/fzf-history'
+
+" Mapped in iTerm2 from CMD+P
+nmap <C-P> :Files<CR>
+
+" Mapped in iTerm2 from CMD+R
 nmap <C-F> :BTags<CR>
-nmap <C-A> :Ag<CR>
 
-let g:fzf_layout = { 'up': '~20%' }
+nmap <leader>b :Buffers<CR>
+nnoremap <leader>g :Rg<CR>
+nnoremap <leader>t :Tags<CR>
+nnoremap <leader>m :Marks<CR>
 
+" let g:fzf_layout = { 'up': '~20%' }
+let g:fzf_tags_command = 'ctags -R'
+
+" Make FZF display up top instead of bottom
+let $FZF_DEFAULT_OPTS = '--layout=reverse --info=inline'
+
+" Make FZF better contextually -> ignore gitignore stuff & work if not in git dir
+let $FZF_DEFAULT_COMMAND = "rg --files --hidden -g '!.git' -g '!node_modules' -g '!vendor'"
+
+let g:fzf_colors = {
+\ 'fg': ['fg', 'Normal'],
+\ 'bg': ['bg', 'Normal'],
+\ 'hl': ['fg', 'Comment'],
+\ 'fg+': ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+\ 'bg+': ['bg', 'CursorLine', 'CursorColumn'],
+\ 'hl+': ['fg', 'Statement'],
+\ 'info': ['fg', 'PreProc'],
+\ 'border': ['fg', 'Ignore'],
+\ 'prompt': ['fg', 'Conditional'],
+\ 'pointer': ['fg', 'Exception'],
+\ 'marker': ['fg', 'Keyword'],
+\ 'spinner': ['fg', 'Label'],
+\ 'header': ['fg', 'Comment'],
+\}
 
 
 "------------------------UltiSnips Settings--------------------------"
@@ -110,13 +156,37 @@ nmap <Leader>mpt <Plug>MarkdownPreviewToggle
 
 
 "------------------------COC Settings--------------------------"
+
 let g:coc_global_extensions = [
-\ 'coc-snippets',
-\ 'coc-pairs',
-\ 'coc-eslint',
-\ 'coc-prettier',
-\ 'coc-json',
-\ ]
+    \ 'coc-css',
+    \ 'coc-dictionary',
+    \ 'coc-emmet',
+    \ 'coc-emoji',
+    \ 'coc-eslint',
+    \ 'coc-git',
+    \ 'coc-go',
+    \ 'coc-highlight',
+    \ 'coc-html',
+    \ 'coc-json',
+    \ 'coc-lua',
+    \ 'coc-pairs',
+    \ 'coc-phpls',
+    \ 'coc-prettier',
+    \ 'coc-snippets',
+    \ 'coc-tailwindcss',
+    \ 'coc-yaml',
+    \ ]
+
+" Some servers have issues with backup files, see #649.
+set nobackup
+set nowritebackup
+
+" Give more space for displaying messages.
+set cmdheight=1
+
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=300
 
 " Use <Leader><space> to retrigger completion
 " inoremap <silent><expr> <Leader><space> coc#refresh()
@@ -143,14 +213,15 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 " Use gh to show documentation in preview window
 nnoremap <silent> gh :call <SID>show_documentation()<CR>
 
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
+function! s:show_documentation() abort
+    if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
+    elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+    else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+    endif
 endfunction
-
 
 
 
