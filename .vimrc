@@ -13,6 +13,9 @@ so ~/.vim/mappings.vim
 
 filetype plugin indent on " Turn on plugins, auto indentation, and syntax highlighting
 
+set autoindent                                              " Makes it indented in insert mode on new lines
+set cursorline                                              " Show a line under the cursor
+set title                                                   " Title of the window is set to 'titlestring' or filename
 set backspace=2                                             " Make backspace work like most other programs
 set formatoptions-=t                                        " Do not automatically wrap text when typing
 set hidden                                                  " Hide buffers instead of unloading them
@@ -49,11 +52,15 @@ set wildignore+="build/*"
 
 set relativenumber                                          " Set relative numbers
 set numberwidth=4                                           " Set number width
+set shell=/usr/local/bin/zsh
 
 
 
 
 "------------------------Visuals--------------------------"
+
+
+
 
 if exists('+termguicolors')
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
