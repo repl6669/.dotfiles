@@ -22,8 +22,9 @@ brew 'mackup'
 brew 'mas'                                                  # Mac App Store manager
 brew 'phpunit'                                              # PHPUnit
 brew 'pkg-config'
-brew 'romkatv/powerlevel10k/powerlevel10k'                  # Powerlevel10k
 brew 'ranger'                                               # Ranger file explorer
+brew 'ripgrep'                                              # Recursive search
+brew 'romkatv/powerlevel10k/powerlevel10k'                  # Powerlevel10k
 brew 'sqlite'                                               # SQLite
 brew 'the_silver_searcher'                                  # Silver searcher
 brew 'trash'                                                # Manage the Trash bin
