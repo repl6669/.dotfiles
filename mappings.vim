@@ -29,8 +29,8 @@ nnoremap <Up> :echoe "Use k"<CR>
 nnoremap <Down> :echoe "Use j"<CR>
 
 " Copy & paste
-vnoremap <Leader>y "*y
-vnoremap <Leader>p "*p
+map <Leader>y :.w !pbcopy<CR><CR>
+map <Leader>p :r !pbpaste<CR>
 
 "------------------------Window management--------------------------"
 
@@ -40,15 +40,18 @@ nmap <Leader>wc :q<CR>
 " Close tabs to the right
 nmap <Leader>tcr :.+1,$tabdo :tabc<CR>
 
-function! CloseSomething()
-  if winnr("$") == 1 && tabpagenr("$") > 1 && tabpagenr() > 1 && tabpagenr() < tabpagenr("$")
-    tabclose | tabprev
-  else
-    q
-  endif
-endfunction
+" Keep a list of the most recent two tabs.
+let g:tablist = [1, 1]
+autocmd TabLeave * let g:tablist[0] = g:tablist[1]
+autocmd TabLeave * let g:tablist[1] = tabpagenr()
+" When a tab is closed, return to the most recent tab.
+" The way vim updates tabs, in reality, this means we must return
+" to the second most recent tab.
+autocmd TabClosed * exe "normal " . g:tablist[0] . "gt"
 
-nmap <Leader>tc ::call CloseSomething()<CR>
+cnoremap bd<cr> b#<bar>bd#<cr>
+
+nmap <Leader>tc :tabclose<CR>
 
 " Open new tab
 nmap <Leader>tn :tabedit<CR>
