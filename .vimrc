@@ -29,7 +29,7 @@ set nocompatible                                            " Use Vim settings, 
 set nowrap                                                  " Do not automatically wrap on load
 set nowritebackup                                           " Don't write your undo history to a file
 set ruler                                                   " show the cursor position all the time
-set shell=/bin/sh                                           " Ensure that vim always runs from a shell https://rvm.io/integration/vim
+set shell=/usr/local/bin/zsh                                " Ensure that vim always runs from a shell https://rvm.io/integration/vim
 set showcmd                                                 " display incomplete commands
 set t_vb=                                                   " 🔕
 set vb                                                      " Turn on vim internal visual bell
@@ -52,21 +52,22 @@ set wildignore+="build/*"
 
 set relativenumber                                          " Set relative numbers
 set numberwidth=4                                           " Set number width
-set shell=/usr/local/bin/zsh
 
 
 
 
 "------------------------Visuals--------------------------"
 
-
-
-
 if exists('+termguicolors')
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   set termguicolors
 endif
+
+" Set terminal colors to Spaceduck
+let g:terminal_ansi_colors = [
+        \ '#000000', '#e33400', '#5ccc96', '#b3a1e6', '#00a3cc', '#ce6f8f', '#7a5ccc', '#686f9a',
+        \ '#686f9a', '#e33400', '#5ccc96', '#b3a1e6', '#00a3cc', '#ce6f8f', '#7a5ccc', '#ecf0c1']
 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
