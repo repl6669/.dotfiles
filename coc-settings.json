@@ -1,5 +1,27 @@
 {
-    "diagnostic.displayByAle": true,
+    "suggest.minTriggerInputLength": 0,
     "suggest.echodocSupport": true,
-    "coc.preferences.jumpCommand": "tabe"
+    "suggest.maxCompleteItemCount": 20,
+    "diagnostic.displayByAle": true,
+    "diagnostic.errorSign": "•",
+    "diagnostic.warningSign": "•",
+    "diagnostic.infoSign": "•",
+    "coc.preferences.jumpCommand": "tabe",
+    "intelephense.licenceKey": "00TJPX959XHH6KQ",
+    "eslint.filetypes": [
+        "javascript",
+        "typescript",
+        "typescriptreact",
+        "javascriptreact",
+        "typescript.tsx"
+    ],
+    "emmet.includeLanguages": {
+        "javascript": "javascriptreact",
+        "vue-html": "html"
+    },
+    "coc.preferences.formatOnSaveFiletypes": [
+        "json",
+        "jsx",
+        "dart"
+    ],
 }
