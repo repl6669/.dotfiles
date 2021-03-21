@@ -6,7 +6,7 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'                               " Plugin manager
 Plugin 'dense-analysis/ale'                                 " Async lint engine
 Plugin 'itchyny/lightline.vim'                              " Lightline - sexy status line
-Plugin 'pineapplegiant/spaceduck', { 'branch': 'main' }     " Spaceduck theme
+Plugin 'pineapplegiant/spaceduck'                           " Spaceduck theme
 Plugin 'kaicataldo/material.vim'                            " Material theme
 Plugin 'SirVer/ultisnips'                                   " Snippets
 Plugin 'iamcco/markdown-preview.nvim'                       " Markdown preview
@@ -101,21 +101,27 @@ let g:fzf_action = {
 let g:fzf_history_dir = '~/.local/share/fzf-history'
 
 " Mapped in iTerm2 from CMD+P
-nmap <C-P> :Files<CR>
+nmap <C-p> :Files<CR>
+" Mapped for Macvim
+nmap <D-p> :Files<CR>
 
 " Mapped in iTerm2 from CMD+R
-nmap <C-F> :BTags<CR>
+nmap <C-f> :BTags<CR>
+" Mapped for Macvim
+nmap <D-r> :BTags<CR>
 
 nmap <leader>b :Buffers<CR>
 nnoremap <leader>g :Rg<CR>
 nnoremap <leader>t :Tags<CR>
 nnoremap <leader>m :Marks<CR>
 
-" let g:fzf_layout = { 'up': '~20%' }
 let g:fzf_tags_command = 'ctags -R'
 
+let g:fzf_layout = { 'up': '40%' }
+
 " Make FZF display up top instead of bottom
-let $FZF_DEFAULT_OPTS = '--layout=reverse --info=inline'
+" --layout=reverse
+let $FZF_DEFAULT_OPTS = '--info=inline'
 
 " Make FZF better contextually -> ignore gitignore stuff & work if not in git dir
 let $FZF_DEFAULT_COMMAND = "rg --files --hidden -g '!.git' -g '!node_modules' -g '!vendor'"
@@ -312,7 +318,6 @@ let g:lightline = {
 \           [ 'percent' ],
 \           [ 'lineinfo' ],
 \           [ 'gutentags' ],
-\           [ 'absolutepath' ],
 \       ],
 \   },
 \   'component_function': {
