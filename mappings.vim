@@ -3,6 +3,9 @@
 " Edit .vimrc in new tab
 nmap <Leader>ev :tabedit $MYVIMRC<CR>
 
+" Edit .gvimrc in new tab
+nmap <Leader>egv :tabedit ~/.gvimrc<CR>
+
 " Edit plugins
 nmap <Leader>ep :tabedit ~/.vim/plugins.vim<CR>
 
@@ -20,7 +23,7 @@ nmap <Leader><space> :nohlsearch<CR>
 
 
 " Open lazygit
-nmap <Leader>lg :!lazygit<CR>
+nmap <Leader>lg :term lazygit<CR>
 
 " Disable arrow keys
 nnoremap <Left> :echoe "Use h"<CR>
