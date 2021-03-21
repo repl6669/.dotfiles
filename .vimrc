@@ -10,7 +10,6 @@ so ~/.vim/mappings.vim
 
 "------------------------Basic settings--------------------------"
 
-
 filetype plugin indent on " Turn on plugins, auto indentation, and syntax highlighting
 
 set autoindent                                              " Makes it indented in insert mode on new lines
@@ -20,6 +19,7 @@ set backspace=2                                             " Make backspace wor
 set formatoptions-=t                                        " Do not automatically wrap text when typing
 set hidden                                                  " Hide buffers instead of unloading them
 set history=200                                             " Only save 200 undos
+set ignorecase                                              " Ignorecase when searching stuff
 set incsearch                                               " do incremental searching
 set laststatus=2                                            " Always display the status line
 set list listchars=tab:»·,trail:·                           " Display extra whitespace
@@ -29,7 +29,7 @@ set nocompatible                                            " Use Vim settings, 
 set nowrap                                                  " Do not automatically wrap on load
 set nowritebackup                                           " Don't write your undo history to a file
 set ruler                                                   " show the cursor position all the time
-set shell=/usr/local/bin/zsh                                " Ensure that vim always runs from a shell https://rvm.io/integration/vim
+set shell=/bin/zsh                                          " Ensure that vim always runs from a shell https://rvm.io/integration/vim
 set showcmd                                                 " display incomplete commands
 set t_vb=                                                   " 🔕
 set vb                                                      " Turn on vim internal visual bell
@@ -84,6 +84,7 @@ let g:material_theme_style = 'ocean'
 let g:material_terminal_italics = 1
 
 colorscheme material
+" colorscheme spaceduck
 
 
 
