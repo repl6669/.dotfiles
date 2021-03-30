@@ -23,7 +23,7 @@ nmap <Leader><space> :nohlsearch<CR>
 
 
 " Open lazygit
-nmap <Leader>lg :term lazygit<CR>
+nmap <Leader>lg :term ++curwin lazygit<CR>
 
 " Disable arrow keys
 nnoremap <Left> :echoe "Use h"<CR>
