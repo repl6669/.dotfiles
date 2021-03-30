@@ -1,4 +1,5 @@
 " set the runtime path to include Vundle and initialize
+
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
@@ -33,6 +34,7 @@ Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }       " Fuzzy finder - top
 Plugin 'junegunn/fzf.vim'
 Plugin 'preservim/nerdcommenter'                            " Comment manager (mainly used for toggling comments)
 Plugin 'airblade/vim-rooter'                                " Project rooter
+Plugin 'Yggdroot/indentLine'                                " Indent line
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -235,6 +237,7 @@ endfunction
 
 " Disable ALE lsp as completion will be handled by coc
 let g:ale_disable_lsp = 1
+let g:ale_completion_enabled = 0
 
 " Set phpcs settings
 let g:ale_php_phpcs_executable='/usr/local/bin/phpcs'
@@ -253,20 +256,22 @@ let g:ale_fixers = {
 
 " Linters
 let g:ale_linters = {
-\ 'php': ['intelephense', 'phpcs'],
+\ 'php': ['intelephense'],
 \}
 
 " Lint on save
 let g:ale_lint_on_save = 1
 
 " Lint on text change
-let g:ale_lint_on_text_changed = 0
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_insert_leave = 0
 
 " Fix on save
 let g:ale_fix_on_save = 1
 
 " Fix on text change
-let g:ale_fix_on_text_changed = 0
+let g:ale_fix_on_text_changed = 'never'
+let g:ale_fix_on_insert_leave = 0
 
 
 
