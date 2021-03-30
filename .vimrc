@@ -86,6 +86,13 @@ let g:material_terminal_italics = 1
 colorscheme material
 " colorscheme spaceduck
 
+" Indent line
+let g:indentLine_char = '⎸'
+let g:indentLine_first_char = '⎸'
+let g:indentLine_showFirstIndentLevel = 0
+let g:indentLine_setColors = 1
+let g:indentLine_color_gui = '#474747'
+
 
 
 
