@@ -1,8 +1,5 @@
 <?php
 
-use PhpCsFixer\Config;
-use PhpCsFixer\Finder;
-
 $rules = [
     '@PSR2' => true,
     'array_syntax' => ['syntax' => 'short'],
@@ -17,9 +14,6 @@ $rules = [
     ],
     'braces' => true,
     'cast_spaces' => true,
-    'class_attributes_separation' => [
-        'elements' => ['method'],
-    ],
     'class_definition' => true,
     'concat_space' => [
         'spacing' => 'none',
@@ -37,11 +31,6 @@ $rules = [
     'indentation_type' => true,
     'linebreak_after_opening_tag' => true,
     'line_ending' => true,
-    'lowercase_cast' => true,
-    'lowercase_constants' => true,
-    'lowercase_keywords' => true,
-    'lowercase_static_reference' => true, // added from Symfony
-    'magic_method_casing' => true, // added from Symfony
     'magic_constant_casing' => true,
     'method_argument_space' => true,
     'native_function_casing' => true,
@@ -86,20 +75,18 @@ $rules = [
     'normalize_index_brace' => true,
     'not_operator_with_successor_space' => true,
     'object_operator_without_whitespace' => true,
-    'ordered_imports' => ['sortAlgorithm' => 'alpha'],
+    'ordered_imports' => ['sort_algorithm' => 'alpha'],
     'phpdoc_indent' => true,
-    'phpdoc_inline_tag' => true,
     'phpdoc_no_access' => true,
     'phpdoc_no_package' => true,
     'phpdoc_no_useless_inheritdoc' => true,
     'phpdoc_scalar' => true,
     'phpdoc_single_line_var_spacing' => true,
     'phpdoc_summary' => true,
-    // 'phpdoc_to_comment' => true,
     'phpdoc_trim' => true,
     'phpdoc_types' => true,
     'phpdoc_var_without_name' => true,
-    'psr4' => true,
+    'psr_autoloading' => true,
     'self_accessor' => true,
     'short_scalar_cast' => true,
     'simplified_null_return' => true,
@@ -118,7 +105,7 @@ $rules = [
     'switch_case_semicolon_to_colon' => true,
     'switch_case_space' => true,
     'ternary_operator_spaces' => true,
-    'trailing_comma_in_multiline_array' => true,
+    'trailing_comma_in_multiline' => true,
     'trim_array_spaces' => true,
     'unary_operator_spaces' => true,
     'visibility_required' => [
@@ -127,7 +114,7 @@ $rules = [
     'whitespace_after_comma_in_array' => true,
 ];
 
-$finder = Finder::create()
+$finder = PhpCsFixer\Finder::create()
     ->notPath('bootstrap')
     ->notPath('storage')
     ->notPath('vendor')
@@ -139,7 +126,9 @@ $finder = Finder::create()
     ->ignoreDotFiles(true)
     ->ignoreVCS(true);
 
-return Config::create()
+$config = new PhpCsFixer\Config();
+
+return $config
     ->setFinder($finder)
     ->setRules($rules)
     ->setRiskyAllowed(true)

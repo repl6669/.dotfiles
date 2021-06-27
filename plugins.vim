@@ -245,7 +245,7 @@ let g:ale_php_phpcs_standard='PSR2'
 
 " Set php-cs-fixer settings
 let g:ale_php_cs_fixer_executable='/usr/local/bin/php-cs-fixer'
-let g:ale_php_cs_fixer_options = '--config=' . $DOTFILES . '/.php_cs'
+let g:ale_php_cs_fixer_options = '--config=' . $DOTFILES . '/.php-cs-fixer.php'
 
 " Fixers
 let g:ale_fixers = {
@@ -259,17 +259,13 @@ let g:ale_linters = {
 \ 'php': ['intelephense'],
 \}
 
-" Lint on save
+" Linting
 let g:ale_lint_on_save = 1
-
-" Lint on text change
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_insert_leave = 0
 
-" Fix on save
+" Fixing
 let g:ale_fix_on_save = 1
-
-" Fix on text change
 let g:ale_fix_on_text_changed = 'never'
 let g:ale_fix_on_insert_leave = 0
 
@@ -413,13 +409,19 @@ command! -nargs=0 GutentagsClearCache call system('rm ' . g:gutentags_cache_dir 
 
 
 
+"------------------------Vim Rooter--------------------------"
+let g:rooter_patterns = ['=api']
+
+
+
+
 "------------------------Vim TEST--------------------------"
 
 let test#strategy = "vimterminal"
 let test#php#phpunit#executable = 'php artisan test'
 
 " In a test file runs the test nearest to the cursor, otherwise runs the last nearest test.
-nmap <silent> <Leader>tn :TestNearest<CR>
+nmap <silent> <Leader>tnt :TestNearest<CR>
 
 " In a test file runs all tests in the current file, otherwise runs the last file tests.
 nmap <silent> <Leader>tf :TestFile<CR>

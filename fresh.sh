@@ -48,6 +48,9 @@ ln -s $HOME/.dotfiles/.vimrc $HOME/.vimrc
 ln -s $HOME/.dotfiles/mappings.vim $HOME/.vim/mappings.vim
 ln -s $HOME/.dotfiles/plugins.vim $HOME/.vim/plugins.vim
 
+# Symlink neovim config files
+ln -s $HOME/.dotfiles/.config/nvim $HOME/.config/nvim
+
 # Symlink UltiSnips
 ln -s $HOME/.dotfiles/UltiSnips/php.snippets $HOME/.vim/UltiSnips/php.snippets
 
