@@ -18,6 +18,7 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=$PATH:~/.composer/vendor/bin
 export PATH="/usr/local/sbin:$PATH"
 export PATH="./vendor/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
