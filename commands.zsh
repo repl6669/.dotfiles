@@ -27,3 +27,19 @@ alias php80="phpv php@8.0"
 composer-link() {
     composer config repositories.local '{"type": "path", "url": "'$1'"}' --file composer.json
 }
+
+function stage {
+    SOURCE_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+    echo "pull existing changes..." &&
+    git pull &&
+    echo "checking out staging..." &&
+    git checkout staging &&
+    echo "pulling staging..." &&
+    git pull
+    echo "merging $SOURCE_BRANCH.." &&
+    git merge $SOURCE_BRANCH --no-edit &&    
+    echo "pushing to staging..." &&
+    git push &&
+    echo "checkout back to $SOURCE_BRANCH" &&
+    git checkout $SOURCE_BRANCH
+}
