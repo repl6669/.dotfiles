@@ -1,4 +1,5 @@
 " set the runtime path to include Vundle and initialize
+"
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -9,6 +10,7 @@ Plugin 'dense-analysis/ale'                                 " Async lint engine
 Plugin 'itchyny/lightline.vim'                              " Lightline - sexy status line
 Plugin 'pineapplegiant/spaceduck'                           " Spaceduck theme
 Plugin 'kaicataldo/material.vim'                            " Material theme
+Plugin 'Rigellute/shades-of-purple.vim'                     " Shades of purple theme
 Plugin 'SirVer/ultisnips'                                   " Snippets
 Plugin 'iamcco/markdown-preview.nvim'                       " Markdown preview
 Plugin 'tpope/vim-vinegar'
@@ -21,20 +23,19 @@ Plugin 'lambdalisue/fern-hijack.vim'                        " Makes fern the def
 Plugin 'lambdalisue/fern-git-status.vim'                    " Fern git status
 Plugin 'lambdalisue/nerdfont.vim'                           " Fern nerdfont
 Plugin 'lambdalisue/fern-renderer-nerdfont.vim'             " Render Fern with nerdfont icons
-Plugin 'lambdalisue/glyph-palette.vim'
+" Plugin 'lambdalisue/glyph-palette.vim'
 Plugin 'thaerkh/vim-workspace'                              " Workspace manager
 Plugin 'tobyS/pdv'                                          " PHP documentor
 Plugin 'tobyS/vmustache'                                    " PHP documentor dependency
 Plugin 'neoclide/coc.nvim'                                  " Autocompletion and much more
 Plugin 'arnaud-lb/vim-php-namespace'                        " PHP namespace
-Plugin 'ludovicchabant/vim-gutentags'                       " Tags manager basically, very good
+" Plugin 'ludovicchabant/vim-gutentags'                       " Tags manager basically, very good
 Plugin 'sheerun/vim-polyglot'                               " Better syntax highlighting
 Plugin 'vim-test/vim-test'                                  " Run tests from vim easily
 Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }       " Fuzzy finder - top
 Plugin 'junegunn/fzf.vim'
 Plugin 'preservim/nerdcommenter'                            " Comment manager (mainly used for toggling comments)
 Plugin 'airblade/vim-rooter'                                " Project rooter
-Plugin 'Yggdroot/indentLine'                                " Indent line
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -250,13 +251,13 @@ let g:ale_php_cs_fixer_options = '--config=' . $DOTFILES . '/.php-cs-fixer.php'
 " Fixers
 let g:ale_fixers = {
 \   '*': ['trim_whitespace'],
-\   'javascript': ['eslint', 'prettier'],
+\   'javascript': ['eslint'],
 \   'php': ['php_cs_fixer'],
 \}
 
 " Linters
 let g:ale_linters = {
-\ 'php': ['intelephense'],
+\ 'php': ['intelephense', 'php', 'psalm'],
 \}
 
 " Linting
