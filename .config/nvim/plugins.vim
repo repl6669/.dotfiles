@@ -14,15 +14,16 @@
 " Make sure you have vim-plug installed -> ~/.local/share/nvim/sit/autoload/plug.vim
 call plug#begin('~/.vim/plugged')
     Plug 'dense-analysis/ale'                                                               " Async lint engine
+    Plug 'thaerkh/vim-workspace'                                                            " Workspace manager
     Plug 'itchyny/lightline.vim'                                                            " Lightline - sexy status line
     Plug 'pineapplegiant/spaceduck'                                                         " Spaceduck theme
     Plug 'kaicataldo/material.vim'                                                          " Material theme
     Plug 'SirVer/ultisnips'                                                                 " Snippets
-    Plug 'iamcco/markdown-preview.nvim'                                                     " Markdown preview
     Plug 'tpope/vim-vinegar'
     Plug 'tpope/vim-eunuch'                                                                 " Easy file and directory manipulation
     Plug 'tpope/vim-fugitive'                                                               " Git support
-    Plug 'ryanoasis/vim-devicons'                                                           " Icons
+    Plug 'tpope/vim-surround'
+    Plug 'kyazdani42/nvim-web-devicons'                                                     " Icons
     Plug 'airblade/vim-gitgutter'                                                           " Git gutter
     Plug 'lambdalisue/fern.vim'                                                             " Fern file explorer
     Plug 'lambdalisue/fern-hijack.vim'                                                      " Makes fern the default file explorer instead of netrw
@@ -30,21 +31,19 @@ call plug#begin('~/.vim/plugged')
     Plug 'lambdalisue/nerdfont.vim'                                                         " Fern nerdfont
     Plug 'lambdalisue/fern-renderer-nerdfont.vim'                                           " Render Fern with nerdfont icons
     Plug 'lambdalisue/glyph-palette.vim'
-    Plug 'thaerkh/vim-workspace'                                                            " Workspace manager
     Plug 'tobyS/pdv'                                                                        " PHP documentor
     Plug 'tobyS/vmustache'                                                                  " PHP documentor dependency
-    Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}  " Autocompletion and much more
+    Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}                      " Autocompletion and much more
     Plug 'arnaud-lb/vim-php-namespace'                                                      " PHP namespace
-    Plug 'ludovicchabant/vim-gutentags'                                                     " Tags manager basically, very good
     Plug 'sheerun/vim-polyglot'                                                             " Better syntax highlighting
     Plug 'vim-test/vim-test'                                                                " Run tests from vim easily
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }                                     " Fuzzy finder - top
     Plug 'junegunn/fzf.vim'
     Plug 'preservim/nerdcommenter'                                                          " Comment manager (mainly used for toggling comments)
-    Plug 'airblade/vim-rooter'                                                              " Project rooter
     Plug 'kdheepak/lazygit.nvim'                                                            " Lazygit
     Plug 'kristijanhusak/vim-carbon-now-sh'
     Plug 'github/copilot.vim'
+    Plug 'rust-lang/rust.vim'
 
 call plug#end()
 
@@ -61,10 +60,18 @@ nnoremap <leader>tw :ToggleWorkspace<CR>
 
 "------------------------Fern--------------------------"
 
-nmap <Leader><Leader> :Fern . -drawer -toggle -width=32<CR>
-nmap <Leader>. :Fern . -drawer -reveal=% -width=32<CR>
+let g:fern#disable_default_mappings = 1
 
-function! s:init_fern() abort
+function! FernInit() abort
+    nmap <buffer><expr>
+          \ <Plug>(fern-my-open-expand-collapse)
+          \ fern#smart#leaf(
+          \   "\<Plug>(fern-action-open:select)",
+          \   "\<Plug>(fern-action-expand)",
+          \   "\<Plug>(fern-action-collapse)",
+          \ )
+    nmap <buffer> <CR> <Plug>(fern-action-open-or-enter)
+    nmap <buffer> <BS> <Plug>(fern-action-leave)
     nmap <buffer> H <Plug>(fern-action-open:split)
     nmap <buffer> V <Plug>(fern-action-open:vsplit)
     nmap <buffer> R <Plug>(fern-action-rename)
@@ -79,15 +86,21 @@ function! s:init_fern() abort
     nmap <buffer> h <Plug>(fern-action-collapse)
     nmap <buffer> ff <Plug>(fern-action-fzf-both)
     nmap <buffer> fg <Plug>(fern-action-grep)
-    nmap <buffer> <Leader> <Plug>(fern-action-mark)
+    nmap <buffer> <Leader> <Plug>(fern-action-mark)n
 endfunction
 
-" augroup fern-custom
-"   autocmd! *
-"   autocmd FileType fern call s:init_fern()
-" augroup END
-
 let g:fern#renderer = "nerdfont"
+
+nmap <Leader><Leader> :Fern . -drawer -toggle -width=32<CR>
+nmap <Leader>. :Fern . -drawer -reveal=% -width=32<CR>
+
+augroup FernGroup
+    autocmd!
+    autocmd FileType fern call FernInit()
+    autocmd FileType fern setlocal nonumber
+augroup END
+
+nmap <C-n> :Fern . -drawer -toggle -stay -reveal=%<CR>
 
 
 
@@ -154,12 +167,13 @@ let g:fzf_colors = {
 let g:UltiSnipsExpandTrigger="<TAB>"
 let g:UltiSnipsJumpForwardTrigger="<TAB>"
 let g:UltiSnipsJumpBackwardTrigger="<S-TAB>"
+let g:UltiSnipsSnippetDirectories=["~/.config/nvim/UltiSnips"]
 
 
 
 
 "------------------------Markdown Preview--------------------------"
-"
+
 nmap <Leader>mp <Plug>MarkdownPreview
 nmap <Leader>mps <Plug>MarkdownPreviewStop
 nmap <Leader>mpt <Plug>MarkdownPreviewToggle
@@ -167,27 +181,73 @@ nmap <Leader>mpt <Plug>MarkdownPreviewToggle
 
 
 
+"------------------------Ale settings--------------------------"
+
+" Disable ALE lsp as completion will be handled by coc
+let g:ale_disable_lsp = 1
+let g:ale_completion_enabled = 0
+
+" Set phpcs settings
+let g:ale_php_phpcs_executable='/usr/local/bin/phpcs'
+let g:ale_php_phpcs_standard='PSR2'
+
+" Set php-cs-fixer settings
+let g:ale_php_cs_fixer_executable='/usr/local/bin/php-cs-fixer'
+let g:ale_php_cs_fixer_options = '--config=' . '/Users/theimer/.dotfiles/.php-cs-fixer.php'
+
+" Fixers
+let g:ale_fixers = {
+\   '*': ['trim_whitespace'],
+\   'javascript': ['eslint', 'prettier'],
+\   'php': ['php_cs_fixer'],
+\}
+
+" Linters
+let g:ale_linters = {
+\ 'php': ['intelephense'],
+\}
+
+" Linting
+let g:ale_lint_on_save = 1
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_insert_leave = 0
+
+" Fixing
+let g:ale_fix_on_save = 1
+let g:ale_fix_on_text_changed = 'never'
+let g:ale_fix_on_insert_leave = 0
+
+
+
+
 "------------------------COC Settings--------------------------"
 
 let g:coc_global_extensions = [
-    \ 'coc-css',
-    \ 'coc-dictionary',
-    \ 'coc-emmet',
-    \ 'coc-emoji',
-    \ 'coc-eslint',
-    \ 'coc-git',
-    \ 'coc-go',
-    \ 'coc-highlight',
-    \ 'coc-html',
-    \ 'coc-json',
-    \ 'coc-lua',
-    \ 'coc-pairs',
-    \ 'coc-phpls',
-    \ 'coc-prettier',
-    \ 'coc-snippets',
-    \ 'coc-tailwindcss',
-    \ 'coc-yaml',
-    \ ]
+\ 'coc-css',
+\ 'coc-highlight',
+\ 'coc-dictionary',
+\ 'coc-emmet',
+\ 'coc-emoji',
+\ 'coc-eslint',
+\ 'coc-flutter',
+\ 'coc-git',
+\ 'coc-go',
+\ 'coc-html',
+\ 'coc-json',
+\ 'coc-lua',
+\ 'coc-pairs',
+\ 'coc-phpls',
+\ 'coc-prettier',
+\ 'coc-python',
+\ 'coc-react-refactor',
+\ 'coc-snippets',
+\ 'coc-styled-components',
+\ 'coc-tabnine',
+\ 'coc-tailwindcss',
+\ 'coc-tsserver',
+\ 'coc-word',
+\ 'coc-yaml',
+\ ]
 
 " Some servers have issues with backup files, see #649.
 set nobackup
@@ -237,45 +297,6 @@ endfunction
 
 
 
-"------------------------Ale settings--------------------------"
-
-" Disable ALE lsp as completion will be handled by coc
-let g:ale_disable_lsp = 1
-let g:ale_completion_enabled = 0
-
-" Set phpcs settings
-let g:ale_php_phpcs_executable='/usr/local/bin/phpcs'
-let g:ale_php_phpcs_standard='PSR2'
-
-" Set php-cs-fixer settings
-let g:ale_php_cs_fixer_executable='/usr/local/bin/php-cs-fixer'
-let g:ale_php_cs_fixer_options = '--config=' . $DOTFILES . '/.php-cs-fixer.php'
-
-" Fixers
-let g:ale_fixers = {
-\   '*': ['trim_whitespace'],
-\   'javascript': ['eslint', 'prettier'],
-\   'php': ['php_cs_fixer'],
-\}
-
-" Linters
-let g:ale_linters = {
-\ 'php': ['intelephense'],
-\}
-
-" Linting
-let g:ale_lint_on_save = 1
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_insert_leave = 0
-
-" Fixing
-let g:ale_fix_on_save = 1
-let g:ale_fix_on_text_changed = 'never'
-let g:ale_fix_on_insert_leave = 0
-
-
-
-
 
 "------------------------PHP Documentor--------------------------"
 
@@ -288,6 +309,7 @@ nmap <Leader>do :call pdv#DocumentWithSnip()<CR>
 
 
 "------------------------PHP Namespace--------------------------"
+
 function! IPhpInsertUse()
     call PhpInsertUse()
     call feedkeys('a',  'n')
@@ -330,91 +352,6 @@ let g:lightline = {
 \       'gutentags': 'gutentags#statusline',
 \   },
 \ }
-
-
-
-
-"------------------------Gutentags--------------------------"
-
-let g:gutentags_add_default_project_roots = 0               " Do not use default project roots
-let g:gutentags_project_root = ['.git']                     " Set project root recognisers
-let g:gutentags_cache_dir = expand('~/.cache/vim/ctags/')   " Move cache elsewhere, so no need for gitignore
-let g:gutentags_generate_on_new = 1                         " Generate on new project
-let g:gutentags_generate_on_missing = 1                     " Generate on missing tag
-let g:gutentags_generate_on_write = 1                       " Generate on write
-let g:gutentags_generate_on_empty_buffer = 0                " Do not generate on empty buffer
-
-                                                            " a: Access (or export) of class members
-                                                            " i: Inheritance information
-                                                            " l: Language of input file containing tag
-                                                            " m: Implementation information
-                                                            " n: Line number of tag definition
-                                                            " \S: Signature of routine (e.g. prototype or parameter list)
-" Make Gutentags generate more
-let g:gutentags_ctags_extra_args = [
-\ '--tag-relative=yes',
-\ '--fields=+ailmnS',
-\ ]
-
-" Exclude files
-let g:gutentags_ctags_exclude = [
-\ '*.git', '*.svg', '*.hg',
-\ '*-lock.json',
-\ '*.Master',
-\ '*.bak',
-\ '*.cache',
-\ '*.class',
-\ '*.csproj',
-\ '*.csproj.user',
-\ '*.js',
-\ '*.json',
-\ '*.lock',
-\ '*.map',
-\ '*.md',
-\ '*.min.*',
-\ '*.pdb',
-\ '*.pyc',
-\ '*.sln',
-\ '*.tmp',
-\ '*.zip',
-\ '*/tests/*',
-\ '*build*.js',
-\ '*bundle*.js',
-\ '*sites/*/files/*',
-\ '.*rc*',
-\ 'bin',
-\ 'bower_components',
-\ 'build',
-\ 'bundle',
-\ 'cache',
-\ 'compiled',
-\ 'cscope.*',
-\ 'dist',
-\ 'docs',
-\ 'example',
-\ 'node_modules',
-\ 'tags*',
-\ 'vendor',
-\ '*.xml',
-\ '*.css',
-\ '*.less',
-\ '*.scss',
-\ '*.exe', '*.dll',
-\ '*.mp3', '*.ogg', '*.flac',
-\ '*.swp', '*.swo',
-\ '*.bmp', '*.gif', '*.ico', '*.jpg', '*.png',
-\ '*.rar', '*.zip', '*.tar', '*.tar.gz', '*.tar.xz', '*.tar.bz2',
-\ '*.pdf', '*.doc', '*.docx', '*.ppt', '*.pptx',
-\ ]
-
-" Command for clearing gutentags cache easily
-command! -nargs=0 GutentagsClearCache call system('rm ' . g:gutentags_cache_dir . '/*')
-
-
-
-
-"------------------------Vim Rooter--------------------------"
-let g:rooter_patterns = ['.git', '=api']
 
 
 
