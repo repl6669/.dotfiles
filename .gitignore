@@ -1,3 +1,4 @@
 *.php_cs.cache
+.congif/nvim/plugged
 *.swp
 tags
