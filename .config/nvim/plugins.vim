@@ -15,8 +15,8 @@
 call plug#begin('~/.vim/plugged')
     Plug 'dense-analysis/ale'                                                               " Async lint engine
     Plug 'thaerkh/vim-workspace'                                                            " Workspace manager
-    Plug 'itchyny/lightline.vim'                                                            " Lightline - sexy status line
-    Plug 'pineapplegiant/spaceduck'                                                         " Spaceduck theme
+    " Plug 'itchyny/lightline.vim'                                                            " Lightline - sexy status line
+    Plug 'pineapplegiant/spaceduck', { 'branch': 'main' }
     Plug 'kaicataldo/material.vim'                                                          " Material theme
     Plug 'SirVer/ultisnips'                                                                 " Snippets
     Plug 'tpope/vim-vinegar'
@@ -35,7 +35,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'tobyS/vmustache'                                                                  " PHP documentor dependency
     Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}                      " Autocompletion and much more
     Plug 'arnaud-lb/vim-php-namespace'                                                      " PHP namespace
-    Plug 'sheerun/vim-polyglot'                                                             " Better syntax highlighting
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
     Plug 'vim-test/vim-test'                                                                " Run tests from vim easily
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }                                     " Fuzzy finder - top
     Plug 'junegunn/fzf.vim'
@@ -44,12 +44,23 @@ call plug#begin('~/.vim/plugged')
     Plug 'kristijanhusak/vim-carbon-now-sh'
     Plug 'github/copilot.vim'
     Plug 'rust-lang/rust.vim'
-
+    Plug 'nvim-lualine/lualine.nvim'
+    Plug 'ayu-theme/ayu-vim'
 call plug#end()
 
 " Brief help
 " :PlugInstall      - installs plugins; append `!` to update or just :PluginUpdate
 " :PlugClean        - confirms removal of unused plugins; append `!` to auto-approve removal
+
+
+
+"------------------------Lazygit--------------------------"
+
+" Open lazygit
+nnoremap <silent> <leader>lg :LazyGit<CR>
+
+
+
 
 "------------------------Vim Workspace--------------------------"
 
@@ -242,7 +253,6 @@ let g:coc_global_extensions = [
 \ 'coc-react-refactor',
 \ 'coc-snippets',
 \ 'coc-styled-components',
-\ 'coc-tabnine',
 \ 'coc-tailwindcss',
 \ 'coc-tsserver',
 \ 'coc-word',
@@ -298,6 +308,14 @@ endfunction
 
 
 
+"------------------------Copilot--------------------------"
+
+imap <silent><script><expr> <S-Tab> copilot#Accept("\<CR>")
+let g:copilot_no_tab_map = v:true
+
+
+
+
 "------------------------PHP Documentor--------------------------"
 
 let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
@@ -333,25 +351,95 @@ autocmd FileType php noremap <Leader>e :call PhpExpandClass()<CR>
 
 "------------------------Lightline--------------------------"
 
-let g:lightline = {
-\   'colorscheme': 'spaceduck',
-\   'active': {
-\       'left': [
-\           [ 'mode', 'paste' ],
-\           [ 'filename', 'readonly', 'modified' ],
-\           [ 'gitbranch' ],
-\       ],
-\       'right': [
-\           [ 'percent' ],
-\           [ 'lineinfo' ],
-\           [ 'gutentags' ],
-\       ],
-\   },
-\   'component_function': {
-\       'gitbranch': 'fugitive#head',
-\       'gutentags': 'gutentags#statusline',
-\   },
-\ }
+" let g:lightline = {
+" \   'colorscheme': 'spaceduck',
+" \   'active': {
+" \       'left': [
+" \           [ 'mode', 'paste' ],
+" \           [ 'filename', 'readonly', 'modified' ],
+" \           [ 'gitbranch' ],
+" \       ],
+" \       'right': [
+" \           [ 'percent' ],
+" \           [ 'lineinfo' ],
+" \           [ 'gutentags' ],
+" \       ],
+" \   },
+" \   'component_function': {
+" \       'gitbranch': 'fugitive#head',
+" \       'gutentags': 'gutentags#statusline',
+" \   },
+" \ }
+
+"------------------------Treesitter--------------------------"
+
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  -- One of "all", "maintained" (parsers with maintainers), or a list of languages
+  ensure_installed = "maintained",
+
+  -- Install languages synchronously (only applied to `ensure_installed`)
+  sync_install = false,
+
+  highlight = {
+    -- `false` will disable the whole extension
+    enable = true,
+
+    -- list of language that will be disabled
+    -- disable = { "c", "rust" },
+
+    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+    -- Using this option may slow down your editor, and you may see some duplicate highlights.
+    -- Instead of true it can also be a list of languages
+    -- additional_vim_regex_highlighting = false,
+  },
+}
+EOF
+
+
+
+"------------------------Lualine--------------------------"
+
+lua << END
+require('lualine').setup {
+    options = {
+        icons_enabled = true,
+        theme = 'spaceduck',
+        component_separators = { left = '', right = ''},
+        section_separators = { left = '', right = ''},
+        disabled_filetypes = {},
+        always_divide_middle = true,
+    },
+    sections = {
+        lualine_a = {'mode'},
+        lualine_b = {'branch', 'diff', 'diagnostics'},
+        lualine_c = {'filename'},
+        lualine_x = {'encoding', 'fileformat', 'filetype'},
+        lualine_y = {'progress'},
+        lualine_z = {'location'}
+    },
+    inactive_sections = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = {'filename'},
+        lualine_x = {'location'},
+        lualine_y = {},
+        lualine_z = {}
+    },
+    tabline = {
+        lualine_a = {'branch'},
+        lualine_b = {'filename'},
+        lualine_c = {},
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {'tabs'}
+    },
+    extensions = {}
+}
+END
+
+lua require("lualine").setup()
 
 
 
