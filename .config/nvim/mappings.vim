@@ -21,10 +21,6 @@ nmap <Leader>pi :PlugInstall<CR>
 " Add simple highlight removal
 nmap <Leader><space> :nohlsearch<CR>
 
-
-" Open lazygit
-nnoremap <silent> <leader>lg :LazyGit<CR>
-
 " Disable arrow keys
 nnoremap <Left> :echoe "Use h"<CR>
 nnoremap <Right> :echoe "Use l"<CR>
