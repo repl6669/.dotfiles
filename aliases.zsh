@@ -49,6 +49,9 @@ alias python="python3"                                  # Use python3
 ## Files
 alias ll="ls -lGaf"                                     # Better file listing
 
+## Vim
+alias vim="nvim"                                        # Use nvim
+
 ## ZSH
 alias zshconfig="vim ~/.zshrc"                          # Open zsh config in vim
 alias ohmyzsh="vim ~/.oh-my-zsh"                        # Open oh my zsh config in vim
