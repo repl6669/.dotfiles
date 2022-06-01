@@ -15,7 +15,7 @@ brew tap homebrew/bundle
 brew bundle
 
 # Set default MySQL root password and auth type.
-mysql -u root -e "ALTER USER root@localhost IDENTIFIED WITH mysql_native_password BY 'password'; FLUSH PRIVILEGES;"
+# mysql -u root -e "ALTER USER root@localhost IDENTIFIED WITH mysql_native_password BY 'password'; FLUSH PRIVILEGES;"
 
 # Install PHP extensions with PECL
 pecl install memcached imagick
@@ -40,30 +40,22 @@ mkdir $HOME/Developer/laravel
 rm -rf $HOME/.zshrc
 ln -s $HOME/.dotfiles/.zshrc $HOME/.zshrc
 
-# Removes .vimrc from $HOME (if it exists) and symlinks the .vimrc file from the .dotfiles
-rm -rf $HOME/.vimrc
-ln -s $HOME/.dotfiles/.vimrc $HOME/.vimrc
-
-# Symlink additional vim config files
-ln -s $HOME/.dotfiles/mappings.vim $HOME/.vim/mappings.vim
-ln -s $HOME/.dotfiles/plugins.vim $HOME/.vim/plugins.vim
-
 # Symlink neovim config files
 ln -s $HOME/.dotfiles/.config/nvim $HOME/.config/nvim
 
-# Symlink UltiSnips
-ln -s $HOME/.dotfiles/UltiSnips/php.snippets $HOME/.vim/UltiSnips/php.snippets
-
-# Symlink COC
-ln -s $HOME/.dotfiles/coc-settings.json $HOME/.vim/coc-settings.json
-
 # Symlink the Mackup config file to the home directory
+rn -rf $HOME/.mackup.cfg
 ln -s $HOME/.dotfiles/.mackup.cfg $HOME/.mackup.cfg
 
+# Symlink python virtual env
+ln -s $HOME/.dotfiles/.config/python-m1-env $HOME/.config/python-m1-env
+
 # Symlink global gitignore file
+rm -rf $HOME/.gitignore_global
 ln -s $HOME/.dotfiles/.gitignore_global $HOME/.gitignore_global
 
 # Symlink ctags globbal config
+rm -rf $HOME/.ctags
 ln -s $HOME/.dotfiles/.ctags $HOME/.ctags
 
 # Set global giignore
