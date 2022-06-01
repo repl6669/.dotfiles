@@ -1,0 +1,83 @@
+snippet pub "Public method" b
+public function ${1:name}(${2:$param})
+{
+	${VISUAL}${3:return null;}
+}
+$0
+endsnippet
+
+snippet pro "Protected method" b
+protected function ${1:name}(${2:$param})
+{
+	${VISUAL}${3:return null;}
+}
+$0
+endsnippet
+
+snippet pri "Private method" b
+protected function ${1:name}(${2:$param})
+{
+	${VISUAL}${3:return null;}
+}
+$0
+endsnippet
+
+snippet new "New class instance" b
+$${1:variableName} = new ${2:${1/\w+\s*/\u$0/}}($3);
+$0
+endsnippet
+
+snippet ns "Namespace declaration" b
+namespace ${1:`!p
+relpath = os.path.relpath(path)
+m = re.search(r'[A-Z].+(?=/)', relpath)
+if m:
+	snip.rv = m.group().replace('/', '\\')
+`};
+endsnippet
+
+snippet class "Class declaration template" b
+<?php
+
+namespace ${1:`!p
+relpath = os.path.relpath(path)
+m = re.search(r'[A-Z].+(?=/)', relpath)
+if m:
+	snip.rv = m.group().replace('/', '\\')
+`};
+
+class $1
+{
+}
+endsnippet
+
+snippet interface "Interface declaration template" b
+<?php
+
+namespace ${1:`!p
+relpath = os.path.relpath(path)
+m = re.search(r'[A-Z].+(?=/)', relpath)
+if m:
+	snip.rv = m.group().replace('/', '\\')
+`};
+
+interface $1
+{
+	public function ${1:someFunction}();$2
+}
+endsnippet
+
+snippet trait "Trait declaration template" b
+<?php
+
+namespace ${1:`!p
+relpath = os.path.relpath(path)
+m = re.search(r'[A-Z].+(?=/)', relpath)
+if m:
+	snip.rv = m.group().replace('/', '\\')
+`};
+
+trait $1
+{
+}
+endsnippet

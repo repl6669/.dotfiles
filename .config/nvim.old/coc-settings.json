@@ -1,0 +1,23 @@
+{
+    "workspace.ignoredFiletypes": ["log", "txt", "help"],
+    "suggest.minTriggerInputLength": 0,
+    "suggest.maxCompleteItemCount": 20,
+    "diagnostic.errorSign": "•",
+    "diagnostic.warningSign": "•",
+    "diagnostic.infoSign": "•",
+    "coc.preferences.jumpCommand": "tabe",
+    "eslint.autoFixOnSave": true,
+    "eslint.packageManager": "yarn",
+    "eslint.validate": ["javascript", "javascriptreact", "vue"],
+    "coc.preferences.formatOnSaveFiletypes": ["css", "javascript", "typescript", "vue"],
+    "prettier.tabWidth": 2,
+    "prettier.printWidth": 120,
+    "volar.formatting.enable": false,
+    "phpactor.enable": true,
+    "phpactor.path": "/Users/theimer/.vim/plugged/phpactor/bin/phpactor",
+    "tailwindCSS.includeLanguages": {
+        "vue": "html",
+        "vue-html": "html"
+    },
+    "tailwindCSS.custom.serverPath": "/Users/theimer/.config/yarn/global/node_modules/@tailwindcss/language-server/bin/tailwindcss-language-server"
+}
