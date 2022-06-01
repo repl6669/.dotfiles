@@ -13,15 +13,14 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-source /usr/local/opt/powerlevel10k/powerlevel10k.zsh-theme
+source /opt/homebrew/opt/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f $DOTFILES/.p10k.zsh ]] || source $DOTFILES/.p10k.zsh
 
 # PATH definition
-export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=/opt/homebrew/bin:$PATH
 export PATH=$PATH:~/.composer/vendor/bin
-export PATH="/usr/local/sbin:$PATH"
 export PATH="./vendor/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 
@@ -38,7 +37,7 @@ HIST_STAMPS="dd.mm.yyyy"
 # ZSH_CUSTOM=$DOTFILES
 
 # Plugins definition
-plugins=(git laravel zsh-syntax-highlighting zsh-autosuggestions node)
+plugins=(git laravel zsh-syntax-highlighting zsh-autosuggestions node artisan zsh-completions)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -58,13 +57,17 @@ fi
 # Source aliases
 source $DOTFILES/aliases.zsh
 
+export TERM=xterm
 # Source commands
 source $DOTFILES/commands.zsh
 
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-#### FIG ENV VARIABLES ####
-# Please make sure this block is at the end of this file.
-[ -s ~/.fig/fig.sh ] && source ~/.fig/fig.sh
-#### END FIG ENV VARIABLES ####
+module_init
+if command -v pyenv 1>/dev/null 2>&1; then
+ export PYENV_ROOT="$HOME/.pyenv"
+ export PATH="$PYENV_ROOT/bin:$PATH"
+ eval "$(pyenv init --path)"
+ eval "$(pyenv init -)"
+fi
