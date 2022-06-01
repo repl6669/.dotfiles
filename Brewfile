@@ -49,36 +49,22 @@ brew 'mysql'
 brew 'nginx'
 brew 'node'
 brew 'php'
-brew 'php@7.3'
 brew 'php@7.4'
 brew 'redis'
 brew 'yarn'
 
 ## Apps
-cask '1password'
-cask '1password-cli'
-cask 'background-music-pre'
-cask 'brave-browser'
-cask 'discord'
-cask 'docker'
-cask 'figma'
 cask 'iina'
 cask 'imageoptim'
 cask 'ray'
 cask 'signal'
-cask 'skype'
 cask 'tableplus'
 cask 'the-unarchiver'
 cask 'tinkerwell'
-cask 'visual-studio-code'
-cask 'vlc'
 
 ## Quicklook
 cask 'qlmarkdown'
 cask 'quicklook-json'
 
 ## Mac App Store
-mas 'Numbers', id: 409203825
 mas 'Spark', id: 1176895641
-mas 'Speedtest', id: 1153157709
-mas 'Tweetbot', id: 1384080005
