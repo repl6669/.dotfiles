@@ -34,23 +34,75 @@ call plug#begin('~/.vim/plugged')
     Plug 'tobyS/pdv'                                                                        " PHP documentor
     Plug 'tobyS/vmustache'                                                                  " PHP documentor dependency
     Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}                      " Autocompletion and much more
-    Plug 'arnaud-lb/vim-php-namespace'                                                      " PHP namespace
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
     Plug 'vim-test/vim-test'                                                                " Run tests from vim easily
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }                                     " Fuzzy finder - top
     Plug 'junegunn/fzf.vim'
-    Plug 'preservim/nerdcommenter'                                                          " Comment manager (mainly used for toggling comments)
+    " Plug 'preservim/nerdcommenter'                                                          " Comment manager (mainly used for toggling comments)
+    Plug 'tpope/vim-commentary'                                                             " Comment manager
+    Plug 'JoosepAlviste/nvim-ts-context-commentstring'                                      " Context comment string
     Plug 'kdheepak/lazygit.nvim'                                                            " Lazygit
     Plug 'kristijanhusak/vim-carbon-now-sh'
     Plug 'github/copilot.vim'
     Plug 'rust-lang/rust.vim'
     Plug 'nvim-lualine/lualine.nvim'
     Plug 'ayu-theme/ayu-vim'
+    Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+    Plug 'tpope/vim-unimpaired'
+    Plug 'challenger-deep-theme/vim', { 'as': 'challenger-deep' }
+    Plug 'sheerun/vim-polyglot'
+    Plug 'jwalton512/vim-blade'
+    Plug 'phpactor/phpactor', {'for': 'php', 'tag': '*', 'do': 'composer install --no-dev -o'}
+    " PHPActor completions, dunno if want yet, because of ncm2 changes (may be big)
+    " Plug 'ncm2/ncm2'
+    " Plug 'roxma/nvim-yarp'
+    " Plug 'phpactor/ncm2-phpactor'
+
+    " LSP
+    " Plug 'neovim/nvim-lspconfig'
+    " Plug 'williamboman/nvim-lsp-installer'
+
+    " Plug 'hrsh7th/cmp-nvim-lsp'
+    " Plug 'hrsh7th/cmp-buffer'
+    " Plug 'hrsh7th/cmp-path'
+    " Plug 'hrsh7th/cmp-cmdline'
+    " Plug 'hrsh7th/nvim-cmp'
+    " Plug 'quangnguyen30192/cmp-nvim-ultisnips'
 call plug#end()
 
 " Brief help
 " :PlugInstall      - installs plugins; append `!` to update or just :PluginUpdate
 " :PlugClean        - confirms removal of unused plugins; append `!` to auto-approve removal
+
+
+
+
+"------------------------Phpactor--------------------------"
+
+augroup PhpactorMappings
+    au!
+    au FileType php nmap <buffer> <Leader>u :PhpactorImportClass<CR>
+    au FileType php nmap <buffer> <Leader>e :PhpactorClassExpand<CR>
+    au FileType php nmap <buffer> <Leader>ua :PhpactorImportMissingClasses<CR>
+    au FileType php nmap <buffer> <Leader>mm :PhpactorContextMenu<CR>
+    au FileType php nmap <buffer> <Leader>nn :PhpactorNavigate<CR>
+    au FileType php,cucumber nmap <buffer> <Leader>o
+        \ :PhpactorGotoDefinition edit<CR>
+    au FileType php nmap <buffer> <Leader>K :PhpactorHover<CR>
+    au FileType php nmap <buffer> <Leader>tt :PhpactorTransform<CR>
+    au FileType php nmap <buffer> <Leader>cc :PhpactorClassNew<CR>
+    au FileType php nmap <buffer> <Leader>ci :PhpactorClassInflect<CR>
+    au FileType php nmap <buffer> <Leader>fr :PhpactorFindReferences<CR>
+    au FileType php nmap <buffer> <Leader>mf :PhpactorMoveFile<CR>
+    au FileType php nmap <buffer> <Leader>cf :PhpactorCopyFile<CR>
+    au FileType php nmap <buffer> <silent> <Leader>ee
+        \ :PhpactorExtractExpression<CR>
+    au FileType php vmap <buffer> <silent> <Leader>ee
+        \ :<C-u>PhpactorExtractExpression<CR>
+    au FileType php vmap <buffer> <silent> <Leader>em
+        \ :<C-u>PhpactorExtractMethod<CR>
+augroup END
+
 
 
 
@@ -91,7 +143,7 @@ function! FernInit() abort
     nmap <buffer> P <Plug>(fern-action-new-path)
     nmap <buffer> N <Plug>(fern-action-new-file)
     nmap <buffer> D <Plug>(fern-action-new-dir)
-    nmap <buffer> I <Plug>(fern-action-hidden-toggle)
+    nmap <buffer> I <Plug>(fern-action-hidden:toggle)>
     nmap <buffer> dd <Plug>(fern-action-trash)
     nmap <buffer> l <Plug>(fern-action-expand)
     nmap <buffer> h <Plug>(fern-action-collapse)
@@ -199,11 +251,11 @@ let g:ale_disable_lsp = 1
 let g:ale_completion_enabled = 0
 
 " Set phpcs settings
-let g:ale_php_phpcs_executable='/usr/local/bin/phpcs'
+let g:ale_php_phpcs_executable='/opt/homebrew/bin/phpcs'
 let g:ale_php_phpcs_standard='PSR2'
 
 " Set php-cs-fixer settings
-let g:ale_php_cs_fixer_executable='/usr/local/bin/php-cs-fixer'
+let g:ale_php_cs_fixer_executable='/opt/homebrew/bin/php-cs-fixer'
 let g:ale_php_cs_fixer_options = '--config=' . '/Users/theimer/.dotfiles/.php-cs-fixer.php'
 
 " Fixers
@@ -238,22 +290,15 @@ let g:coc_global_extensions = [
 \ 'coc-highlight',
 \ 'coc-dictionary',
 \ 'coc-emmet',
-\ 'coc-emoji',
 \ 'coc-eslint',
-\ 'coc-flutter',
 \ 'coc-git',
 \ 'coc-go',
 \ 'coc-html',
 \ 'coc-json',
-\ 'coc-lua',
 \ 'coc-pairs',
-\ 'coc-phpls',
 \ 'coc-prettier',
 \ 'coc-python',
-\ 'coc-react-refactor',
-\ 'coc-snippets',
 \ 'coc-styled-components',
-\ 'coc-tailwindcss',
 \ 'coc-tsserver',
 \ 'coc-word',
 \ 'coc-yaml',
@@ -280,18 +325,34 @@ inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
+" Select range based on AST
+nmap <silent><Leader>r <Plug>(coc-range-select)
+xmap <silent><Leader>r <Plug>(coc-range-select)
+
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
+" List code actions available for the current buffer
+nmap <leader>ca<space>  <Plug>(coc-codeaction)
+
+" Use <CR> to validate completion (allows auto import on completion)
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Mappings to format selected
+vmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
+
 " Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
 
 " Highlight symbol under cursor on CursorHold
 autocmd CursorHold * silent call CocActionAsync('highlight')
-"
+
 " Use gh to show documentation in preview window
 nnoremap <silent> gh :call <SID>show_documentation()<CR>
 
@@ -310,7 +371,7 @@ endfunction
 
 "------------------------Copilot--------------------------"
 
-imap <silent><script><expr> <S-Tab> copilot#Accept("\<CR>")
+imap <silent><script><expr> <Leader><TAB> copilot#Accept("\<CR>")
 let g:copilot_no_tab_map = v:true
 
 
@@ -318,7 +379,7 @@ let g:copilot_no_tab_map = v:true
 
 "------------------------PHP Documentor--------------------------"
 
-let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
+let g:pdv_template_dir = $HOME ."/.vim/plugged/pdv/templates_snip"
 
 nmap <Leader>do :call pdv#DocumentWithSnip()<CR>
 
@@ -376,7 +437,7 @@ autocmd FileType php noremap <Leader>e :call PhpExpandClass()<CR>
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
   -- One of "all", "maintained" (parsers with maintainers), or a list of languages
-  ensure_installed = "maintained",
+  -- ensure_installed = "maintained",
 
   -- Install languages synchronously (only applied to `ensure_installed`)
   sync_install = false,
@@ -394,6 +455,10 @@ require'nvim-treesitter.configs'.setup {
     -- Instead of true it can also be a list of languages
     -- additional_vim_regex_highlighting = false,
   },
+
+  context_commentstring = {
+    enable = true
+  }
 }
 EOF
 
@@ -405,7 +470,7 @@ lua << END
 require('lualine').setup {
     options = {
         icons_enabled = true,
-        theme = 'spaceduck',
+        theme = 'challenger_deep',
         component_separators = { left = '', right = ''},
         section_separators = { left = '', right = ''},
         disabled_filetypes = {},
@@ -446,8 +511,10 @@ lua require("lualine").setup()
 
 "------------------------Vim TEST--------------------------"
 
-let test#strategy = "vimterminal"
-let test#php#phpunit#executable = 'php artisan test'
+let g:test#neovim#start_normal = 1 " start in normal mode
+let test#strategy = "neovim"
+let test#php#phpunit#executable = './vendor/bin/phpunit'
+let test#php#pest#executable = './vendor/bin/pest'
 
 " In a test file runs the test nearest to the cursor, otherwise runs the last nearest test.
 nmap <silent> <Leader>tnt :TestNearest<CR>
@@ -476,4 +543,7 @@ let g:NERDDefaultAlign = 'left'                             " Align line-wise co
 let g:NERDCommentEmptyLines = 1                             " Allow commenting and inverting empty lines (useful when commenting a region)
 let g:NERDTrimTrailingWhitespace = 1                        " Enable trimming of trailing whitespace when uncommenting
 let g:NERDToggleCheckAllLines = 1                           " Enable NERDCommenterToggle to check all selected lines is commented or not
+
+
+
 

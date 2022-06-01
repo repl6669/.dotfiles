@@ -34,7 +34,7 @@ set nocompatible                                            " Use Vim settings, 
 set nowrap                                                  " Do not automatically wrap on load
 set nowritebackup                                           " Don't write your undo history to a file
 set ruler                                                   " show the cursor position all the time
-set shell=/bin/zsh                                          " Ensure that vim always runs from a shell https://rvm.io/integration/vim
+set shell=/opt/homebrew/bin/zsh                             " Ensure that vim always runs from a shell https://rvm.io/integration/vim
 set showcmd                                                 " display incomplete commands
 set t_vb=                                                   " 🔕
 set vb                                                      " Turn on vim internal visual bell
