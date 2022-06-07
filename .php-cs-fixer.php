@@ -22,9 +22,10 @@ $rules = [
     'elseif' => true,
     'encoding' => true,
     'full_opening_tag' => true,
-    'fully_qualified_strict_types' => true, // added by Shift
+    'fully_qualified_strict_types' => true,
     'function_declaration' => true,
     'function_typehint_space' => true,
+    'global_namespace_import' => true,
     'heredoc_to_nowdoc' => true,
     'include' => true,
     'increment_style' => ['style' => 'post'],
