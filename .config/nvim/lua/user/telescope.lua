@@ -119,13 +119,12 @@ telescope.setup {
     },
 }
 
-keymap("n", "<D-p>", "<cmd>Telescope find_files<cr>", opts)
+keymap("n", "<Leader>ff", "<cmd>Telescope find_files<cr>", opts)
 keymap("n", "<Leader>ffh", "<cmd>Telescope find_files hidden=true<cr>", opts)
+keymap("n", "<Leader>fr", "<cmd>Telescope lsp_document_symbols<cr>", opts)
 keymap("n", "<Leader>fg", "<cmd>Telescope live_grep<cr>", opts)
 keymap("n", "<Leader>fb", "<cmd>Telescope buffers<cr>", opts)
 keymap("n", "<Leader>fh", "<cmd>Telescope help_tags<cr>", opts)
-
-keymap("n", "<D-r>", "<cmd>Telescope lsp_document_symbols<cr>", opts)
 
 telescope.load_extension('lazygit')
 telescope.load_extension('fzf')
