@@ -9,7 +9,8 @@ alias c="clear"
 
 # Directories
 alias dotfiles="cd $DOTFILES"                           # Go to .dotfiles directory
-alias lara="cd ~/Developer/laravel"                     # Open default laravel projects directory
+alias repos="cd ~/Developer"                            # Open default projects directory
+alias lara="cd ~/Developer/php"                         # Open default php / laravel projects directory
 
 ## PHP & Laravel aliases
 alias a="php artisan"                                   # Run artisan
