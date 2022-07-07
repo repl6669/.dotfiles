@@ -13,7 +13,7 @@ lg() {
 
 phpv() {
     valet stop
-    brew unlink php@7.4 php@8.0 php@8.1
+    brew unlink php@8.0 php@8.1
     brew link --force --overwrite $1
     brew services start $1
     composer global update
