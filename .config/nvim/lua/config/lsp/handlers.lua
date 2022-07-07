@@ -43,7 +43,7 @@ end
 
 local function lsp_highlight_document(client)
     -- Highlight on hover
-    if client.resolved_capabilities.document_highlight then
+    if client.server_capabilities.documentHighlightProvider then
         vim.api.nvim_exec(
             [[
               augroup lsp_document_highlight
@@ -70,16 +70,26 @@ local function lsp_keymaps(bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, "n", "[d", '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>q", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>f", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>", opts)
 end
 
 M.on_attach = function(client, bufnr)
-    if client.name == "tsserver" then
-        client.resolved_capabilities.document_formatting = false
-    end
+    local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
-    if client.name == "intelephense" then
-        client.resolved_capabilities.document_formatting = false
+    if client.supports_method("textDocument/formatting") then
+        vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+        vim.api.nvim_create_autocmd("BufWritePost", {
+            group = augroup,
+            buffer = bufnr,
+            callback = function()
+                vim.lsp.buf.format({
+                    bufnr = bufnr,
+                    filter = function(client)
+                        return client.name == "null-ls"
+                    end,
+                })
+            end,
+        })
     end
 
     lsp_keymaps(bufnr)

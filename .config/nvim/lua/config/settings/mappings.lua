@@ -21,19 +21,19 @@ vim.cmd([[
 keymap("n", "<Leader>ev", ":edit /Users/theimer/.config/nvim/init.lua<CR>", opts)
 
 -- Edit plugins
-keymap("n", "<Leader>ep", ":edit /Users/theimer/.config/nvim/lua/user/plugins.lua<CR>", opts)
+keymap("n", "<Leader>ep", ":edit /Users/theimer/.config/nvim/lua/config/plugins/plugins.lua<CR>", opts)
 
 -- Edit mappings
-keymap("n", "<Leader>em", ":edit /Users/theimer/.config/nvim/lua/user/mappings.lua<CR>", opts)
+keymap("n", "<Leader>em", ":edit /Users/theimer/.config/nvim/lua/config/settings/mappings.lua<CR>", opts)
 
 -- Add simple highlight removal
 keymap("n", "<Leader><Space>", ":nohlsearch<CR>", opts)
 
 -- Disable arrow keys
-keymap("n", "<Left>", ":echo \"Use h\"", opts)
-keymap("n", "<Right>", ":echo \"Use l\"", opts)
-keymap("n", "<Up>", ":echo \"Use k\"", opts)
-keymap("n", "<Down>", ":echo \"Use j\"", opts)
+keymap("n", "<Left>", ':echo "Use h"', opts)
+keymap("n", "<Right>", ':echo "Use l"', opts)
+keymap("n", "<Up>", ':echo "Use k"', opts)
+keymap("n", "<Down>", ':echo "Use j"', opts)
 
 -- Tabs
 -- Close tabs to the right

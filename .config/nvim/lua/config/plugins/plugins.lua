@@ -69,7 +69,13 @@ return packer.startup(function(use)
     use { 'junegunn/fzf.vim' }
     use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 
-    use "tpope/vim-commentary" -- Comment manager
+    -- Comment manager
+    use {
+        'numToStr/Comment.nvim',
+        config = function()
+            require('Comment').setup()
+        end
+    }
     use "JoosepAlviste/nvim-ts-context-commentstring" -- Context comment string
     use "kdheepak/lazygit.nvim" -- Lazygit
 
@@ -86,6 +92,7 @@ return packer.startup(function(use)
 
     -- Colorschemes
     use "kaicataldo/material.vim" -- Material theme
+    use "cseelus/vim-colors-lucid" -- Lucid theme
     use "pineapplegiant/spaceduck" -- Spaceduck
     use { "challenger-deep-theme/vim", as = 'challenger-deep' }
     use({ -- Port of VSCode's Tokio Night theme
@@ -112,12 +119,15 @@ return packer.startup(function(use)
 
     -- cmp plugins
     use "hrsh7th/nvim-cmp" -- The completion plugin
+    use "hrsh7th/cmp-nvim-lsp" -- lsp completion
     use "hrsh7th/cmp-buffer" -- buffer completions
     use "hrsh7th/cmp-path" -- path completions
     use "hrsh7th/cmp-cmdline" -- cmdline completions
     use "saadparwaiz1/cmp_luasnip" -- snippet completions
+    use "uga-rosa/cmp-dictionary" -- dictionary completion
     use "onsails/lspkind-nvim" -- icons on the popups
-    use "hrsh7th/cmp-nvim-lsp"
+    use "f3fora/cmp-spell" -- spell completion
+    use "hrsh7th/cmp-nvim-lsp-signature-help" -- lsp signature help completion
 
     -- linting
     use({ -- Null-LS Use external formatters and linters

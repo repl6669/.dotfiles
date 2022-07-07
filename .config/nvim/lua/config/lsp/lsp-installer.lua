@@ -7,27 +7,32 @@ end
 -- Alternatively, you may also register handlers on specific server instances instead (see example below).
 lsp_installer.on_server_ready(function(server)
     local opts = {
-        on_attach = require("user.lsp.handlers").on_attach,
-        capabilities = require("user.lsp.handlers").capabilities,
+        on_attach = require("config.lsp.handlers").on_attach,
+        capabilities = require("config.lsp.handlers").capabilities,
     }
 
     if server.name == "intelephense" then
-        local intelephense_opts = require("user.lsp.settings.intelephense")
+        local intelephense_opts = require("config.lsp.settings.intelephense")
         opts = vim.tbl_deep_extend("force", intelephense_opts, opts)
     end
 
     if server.name == "phpactor" then
-        local phpactor_opts = require("user.lsp.settings.phpactor")
+        local phpactor_opts = require("config.lsp.settings.phpactor")
+        opts = vim.tbl_deep_extend("force", phpactor_opts, opts)
+    end
+
+    if server.name == "psalm" then
+        local phpactor_opts = require("config.lsp.settings.psalm")
         opts = vim.tbl_deep_extend("force", phpactor_opts, opts)
     end
 
     if server.name == "jsonls" then
-        local jsonls_opts = require("user.lsp.settings.jsonls")
+        local jsonls_opts = require("config.lsp.settings.jsonls")
         opts = vim.tbl_deep_extend("force", jsonls_opts, opts)
     end
 
     if server.name == "sumneko_lua" then
-        local sumneko_opts = require("user.lsp.settings.sumneko_lua")
+        local sumneko_opts = require("config.lsp.settings.sumneko_lua")
         opts = vim.tbl_deep_extend("force", sumneko_opts, opts)
     end
 

@@ -69,6 +69,12 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
+  ["Comment.nvim"] = {
+    config = { "\27LJ\2\n5\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\fComment\frequire\0" },
+    loaded = true,
+    path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/Comment.nvim",
+    url = "https://github.com/numToStr/Comment.nvim"
+  },
   LuaSnip = {
     loaded = true,
     path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/LuaSnip",
@@ -89,15 +95,30 @@ _G.packer_plugins = {
     path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/cmp-cmdline",
     url = "https://github.com/hrsh7th/cmp-cmdline"
   },
+  ["cmp-dictionary"] = {
+    loaded = true,
+    path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/cmp-dictionary",
+    url = "https://github.com/uga-rosa/cmp-dictionary"
+  },
   ["cmp-nvim-lsp"] = {
     loaded = true,
     path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp",
     url = "https://github.com/hrsh7th/cmp-nvim-lsp"
   },
+  ["cmp-nvim-lsp-signature-help"] = {
+    loaded = true,
+    path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp-signature-help",
+    url = "https://github.com/hrsh7th/cmp-nvim-lsp-signature-help"
+  },
   ["cmp-path"] = {
     loaded = true,
     path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/cmp-path",
     url = "https://github.com/hrsh7th/cmp-path"
+  },
+  ["cmp-spell"] = {
+    loaded = true,
+    path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/cmp-spell",
+    url = "https://github.com/f3fora/cmp-spell"
   },
   cmp_luasnip = {
     loaded = true,
@@ -288,10 +309,10 @@ _G.packer_plugins = {
     path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/vim-blade",
     url = "https://github.com/jwalton512/vim-blade"
   },
-  ["vim-commentary"] = {
+  ["vim-colors-lucid"] = {
     loaded = true,
-    path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/vim-commentary",
-    url = "https://github.com/tpope/vim-commentary"
+    path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/vim-colors-lucid",
+    url = "https://github.com/cseelus/vim-colors-lucid"
   },
   ["vim-eunuch"] = {
     loaded = true,
@@ -331,6 +352,10 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
+-- Config for: Comment.nvim
+time([[Config for Comment.nvim]], true)
+try_loadstring("\27LJ\2\n5\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\fComment\frequire\0", "config", "Comment.nvim")
+time([[Config for Comment.nvim]], false)
 -- Config for: trouble.nvim
 time([[Config for trouble.nvim]], true)
 try_loadstring("\27LJ\2\n9\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\ftrouble\frequire\0", "config", "trouble.nvim")

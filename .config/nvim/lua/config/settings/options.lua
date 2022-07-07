@@ -37,8 +37,8 @@ local options = {
     wrap           = false, -- display lines as one long line
     writebackup    = false, -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
     pumheight      = 10, -- pop up menu height
-    scrolloff      = 8, -- is one of my fav
-    sidescrolloff  = 8, -- how much to scroll when using the scrollbar
+    scrolloff      = 16, -- is one of my fav
+    sidescrolloff  = 16, -- how much to scroll when using the scrollbar
 }
 
 for k, v in pairs(options) do
