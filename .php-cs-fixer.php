@@ -1,7 +1,7 @@
 <?php
 
 $rules = [
-    '@PSR2' => true,
+    '@PSR12' => true,
     'array_syntax' => ['syntax' => 'short'],
     'array_indentation' => true,
     'binary_operator_spaces' => [
