@@ -2,14 +2,6 @@ require("config.settings")
 require("config.lsp")
 require("config.plugins")
 
--- Autocommand that reloads neovim whenever you save the init.lua file
-vim.cmd([[
-  augroup autosourcing
-    autocmd!
-    autocmd BufWritePost init.lua nested source <afile>
-  augroup END
-]])
-
 -- Close quickfix window when selecting an item from it
 vim.cmd([[
 :autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose<CR>
