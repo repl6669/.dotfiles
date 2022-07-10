@@ -1,6 +1,4 @@
 local opts = { noremap = true, silent = true }
-
--- Shorten function name
 local keymap = vim.api.nvim_set_keymap
 
 local telescope_status_ok, telescope = pcall(require, "telescope")
@@ -125,6 +123,7 @@ keymap("n", "<Leader>fr", "<cmd>Telescope lsp_document_symbols<cr>", opts)
 keymap("n", "<Leader>fg", "<cmd>Telescope live_grep<cr>", opts)
 keymap("n", "<Leader>fb", "<cmd>Telescope buffers<cr>", opts)
 keymap("n", "<Leader>fh", "<cmd>Telescope help_tags<cr>", opts)
+keymap("n", "<Leader>fd", "<cmd>Telescope diagnostics<cr>", opts)
 
 telescope.load_extension("lazygit")
 telescope.load_extension("fzf")

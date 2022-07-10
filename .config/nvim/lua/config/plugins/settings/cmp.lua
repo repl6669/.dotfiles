@@ -71,23 +71,30 @@ cmp.setup({
 				nvim_lsp = "[Lsp]",
 				luasnip = "[Snippet]",
 				buffer = "[Buffer]",
-				nvim_lua = "[Lua]",
 				path = "[Path]",
-				omni = "[Omni]",
 				spell = "[Spell]",
+				dictionary = "[Dictionary]",
 			})[entry.source.name]
 			return vim_item
 		end,
 	},
 	sources = {
-		-- { name = "copilot", group_index = 2 },
-		{ name = "nvim_lsp", group_index = 2 },
-		{ name = "path", group_index = 2 },
-		{ name = "buffer", group_index = 2 },
-		{ name = "luasnip", group_index = 2 },
-		{ name = "spell", group_index = 2 },
-		{ name = "dictionary", group_index = 2 },
-		{ name = "nvim_lsp_signature_help", group_index = 2 },
+		{ name = "nvim_lsp" },
+		{ name = "path" },
+		{ name = "luasnip" },
+		{ name = "spell" },
+		{ name = "nvim_lsp_signature_help" },
+		{
+			name = "dictionary",
+			keyword_length = 3,
+		},
+		{
+			name = "buffer",
+			keyword_length = 3,
+			get_bufnrs = function()
+				return vim.api.nvim_list_bufs()
+			end,
+		},
 	},
 	confirm_opts = {
 		behavior = cmp.ConfirmBehavior.Replace,
@@ -102,4 +109,25 @@ cmp.setup({
 		completion = cmp.config.window.bordered(),
 		documentation = cmp.config.window.bordered(),
 	},
+})
+
+require("cmp_dictionary").setup({
+	dic = {
+		["*"] = {
+			"/usr/share/dict/words",
+			"~/dict/cs/words",
+		},
+		spelllang = {
+			en = "/usr/share/dict/words",
+			cs = "~/dict/cs/words",
+		},
+	},
+	-- The following are default values.
+	exact = 2,
+	first_case_insensitive = false,
+	document = false,
+	document_command = "wn %s -over",
+	async = false,
+	capacity = 5,
+	debug = false,
 })

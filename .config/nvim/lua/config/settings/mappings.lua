@@ -1,5 +1,4 @@
 local opts = { noremap = true, silent = true }
-
 local term_opts = { silent = true }
 
 -- Shorten function name
@@ -18,16 +17,22 @@ vim.cmd([[
 
 -- Quick settings access
 -- Edit init.lua in new tab
-keymap("n", "<Leader>ev", ":edit /Users/theimer/.config/nvim/init.lua<CR>", opts)
+keymap("n", "<Leader>evc", ":edit /Users/theimer/.config/nvim/init.lua<CR>", opts)
 
 -- Edit plugins
-keymap("n", "<Leader>ep", ":edit /Users/theimer/.config/nvim/lua/config/plugins/plugins.lua<CR>", opts)
+keymap("n", "<Leader>epc", ":edit /Users/theimer/.config/nvim/lua/config/plugins/plugins.lua<CR>", opts)
 
 -- Edit mappings
-keymap("n", "<Leader>em", ":edit /Users/theimer/.config/nvim/lua/config/settings/mappings.lua<CR>", opts)
+keymap("n", "<Leader>emc", ":edit /Users/theimer/.config/nvim/lua/config/settings/mappings.lua<CR>", opts)
+
+-- Edit colorschemes
+keymap("n", "<Leader>ecc", ":edit /Users/theimer/.config/nvim/lua/config/settings/colorscheme.lua<CR>", opts)
 
 -- Add simple highlight removal
 keymap("n", "<Leader><Space>", ":nohlsearch<CR>", opts)
+
+-- Source init.lua
+keymap("n", "<leader>snv", ":source $MYVIMRC<CR>", opts)
 
 -- Disable arrow keys
 keymap("n", "<Left>", ':echo "Use h"', opts)

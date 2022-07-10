@@ -1,20 +1,23 @@
--- Spaceduck theme
--- local colorscheme = "spaceduck"
-
--- Tokyo night theme
--- local colorscheme = "tokyonight"
--- vim.g.tokyonight_style = "night"
--- vim.g.tokyonight_italic_functions = true
-
 -- Challenger deep theme
-local colorscheme = "challenger_deep"
-vim.g.challenger_deep_termcolors = 1
+-- local colorscheme = "challenger_deep"
+-- vim.g.challenger_deep_termcolors = 1
+-- vim.g.challenger_deep_termcolors = 16
 
--- Lucid theme
--- local colorscheme = "lucid"
+-- Rose Pine theme
+require("rose-pine").setup({
+	dark_variant = "moon",
+})
+local colorscheme = "rose-pine"
+
+-- Github theme
+-- require("github-theme").setup({
+-- 	theme_style = "light",
+-- 	function_style = "italic",
+-- })
+-- local colorscheme = "github-light"
 
 local status_ok, _ = pcall(vim.cmd, "colorscheme " .. colorscheme)
 if not status_ok then
-    vim.notify("colorscheme " .. colorscheme .. " not found!")
-    return
+	vim.notify("colorscheme " .. colorscheme .. " not found!")
+	return
 end
