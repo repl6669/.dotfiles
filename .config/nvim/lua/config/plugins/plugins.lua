@@ -151,6 +151,9 @@ return packer.startup(function(use)
     })
     use("nvim-telescope/telescope-media-files.nvim")
 
+    -- todos
+    use("aserebryakov/vim-todo-lists")
+
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all use
     if PACKER_BOOTSTRAP then
