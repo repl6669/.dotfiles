@@ -21,7 +21,8 @@ require 'lspconfig'.intelephense.setup {
             enable = true,
         },
         files = {
-            maxSize = 10000000
+            maxSize = 40000000,
+            -- exclude = {}
         },
     },
 }
@@ -38,7 +39,7 @@ require("phpactor").setup({
         check_on_startup = "none",
     },
     lspconfig = {
-        enabled = true,
+        enabled = false,
         options = {
             on_attach = on_attach,
             capabilities = capabilities,
