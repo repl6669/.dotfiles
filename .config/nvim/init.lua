@@ -11,4 +11,3 @@ vim.cmd([[
 -- set up snippets
 -- rework vim.cmd to lua as much as possible
 -- if FZF is to be kept, swap to lua fzf?
--- switch to coq instead of cmp?
