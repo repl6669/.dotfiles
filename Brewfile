@@ -20,17 +20,13 @@ brew 'httpie'
 brew 'lazygit'                                              # Lazygit
 brew 'mackup'
 brew 'mas'                                                  # Mac App Store manager
-brew 'phpunit'                                              # PHPUnit
 brew 'pkg-config'
 brew 'ranger'                                               # Ranger file explorer
 brew 'ripgrep'                                              # Recursive search
-brew 'romkatv/powerlevel10k/powerlevel10k'                  # Powerlevel10k
 brew 'sqlite'                                               # SQLite
-brew 'the_silver_searcher'                                  # Silver searcher
 brew 'trash'                                                # Manage the Trash bin
 brew 'tree'                                                 # List directories in a tree structure
-brew 'vim'                                                  # Latest vim
-brew 'zlib'                                                 # Needed for Memcached
+brew 'neovim'                                               # Latest neovim
 
 ## Spatie Medialibrary
 brew 'jpegoptim'
@@ -43,28 +39,18 @@ brew 'gifsicle'
 brew 'composer'
 brew 'imagemagick'
 brew 'libmemcached'
-brew 'meilisearch'
 brew 'memcached'
 brew 'mysql'
 brew 'nginx'
 brew 'node'
 brew 'php'
-brew 'php@7.4'
 brew 'redis'
 brew 'yarn'
-
-## Apps
-cask 'iina'
-cask 'imageoptim'
-cask 'ray'
-cask 'signal'
-cask 'tableplus'
-cask 'the-unarchiver'
-cask 'tinkerwell'
 
 ## Quicklook
 cask 'qlmarkdown'
 cask 'quicklook-json'
 
-## Mac App Store
-mas 'Spark', id: 1176895641
+## Apps
+cask 'warp'                                                 # Warp Terminal
+
