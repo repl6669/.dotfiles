@@ -25,6 +25,9 @@ keymap("n", "<Leader>epc", ":edit /Users/theimer/.config/nvim/lua/config/plugins
 -- Edit mappings
 keymap("n", "<Leader>emc", ":edit /Users/theimer/.config/nvim/lua/config/settings/mappings.lua<CR>", opts)
 
+-- Edit LSP coniig
+keymap("n", "<Leader>elc", ":edit /Users/theimer/.config/nvim/lua/config/lsp/init.lua<CR>", opts)
+
 -- Edit colorschemes
 keymap("n", "<Leader>ecc", ":edit /Users/theimer/.config/nvim/lua/config/settings/colorscheme.lua<CR>", opts)
 
