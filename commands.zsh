@@ -21,7 +21,6 @@ phpv() {
     valet install
 }
 
-alias php74="phpv php@7.4"
 alias php80="phpv php@8.0"
 alias php81="phpv php@8.1"
 
