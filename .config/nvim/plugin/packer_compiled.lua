@@ -165,10 +165,10 @@ _G.packer_plugins = {
     path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/fzf.vim",
     url = "https://github.com/junegunn/fzf.vim"
   },
-  ["git-blame.nvim"] = {
+  ["github-nvim-theme"] = {
     loaded = true,
-    path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/git-blame.nvim",
-    url = "https://github.com/f-person/git-blame.nvim"
+    path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/github-nvim-theme",
+    url = "https://github.com/projekt0n/github-nvim-theme"
   },
   ["gitsigns.nvim"] = {
     loaded = true,
@@ -200,11 +200,6 @@ _G.packer_plugins = {
     path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/markdown-preview.nvim",
     url = "https://github.com/iamcco/markdown-preview.nvim"
   },
-  ["material.vim"] = {
-    loaded = true,
-    path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/material.vim",
-    url = "https://github.com/kaicataldo/material.vim"
-  },
   ["nerdfont.vim"] = {
     loaded = true,
     path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/nerdfont.vim",
@@ -219,11 +214,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/nvim-cmp",
     url = "https://github.com/hrsh7th/nvim-cmp"
-  },
-  ["nvim-lsp-installer"] = {
-    loaded = true,
-    path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/nvim-lsp-installer",
-    url = "https://github.com/williamboman/nvim-lsp-installer"
   },
   ["nvim-lspconfig"] = {
     loaded = true,
@@ -255,12 +245,10 @@ _G.packer_plugins = {
     path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/pdv",
     url = "https://github.com/tobyS/pdv"
   },
-  phpactor = {
-    loaded = false,
-    needs_bufread = true,
-    only_cond = false,
-    path = "/Users/theimer/.local/share/nvim/site/pack/packer/opt/phpactor",
-    url = "https://github.com/phpactor/phpactor"
+  ["phpactor.nvim"] = {
+    loaded = true,
+    path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/phpactor.nvim",
+    url = "https://github.com/gbprod/phpactor.nvim"
   },
   ["plenary.nvim"] = {
     loaded = true,
@@ -272,10 +260,10 @@ _G.packer_plugins = {
     path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/popup.nvim",
     url = "https://github.com/nvim-lua/popup.nvim"
   },
-  spaceduck = {
+  ["rose-pine"] = {
     loaded = true,
-    path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/spaceduck",
-    url = "https://github.com/pineapplegiant/spaceduck"
+    path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/rose-pine",
+    url = "https://github.com/rose-pine/neovim"
   },
   ["telescope-fzf-native.nvim"] = {
     loaded = true,
@@ -292,12 +280,6 @@ _G.packer_plugins = {
     path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/telescope.nvim",
     url = "https://github.com/nvim-telescope/telescope.nvim"
   },
-  ["tokyonight.nvim"] = {
-    config = { "\27LJ\2\n8\0\0\2\0\4\0\0056\0\0\0009\0\1\0'\1\3\0=\1\2\0K\0\1\0\nnight\21tokyonight_style\6g\bvim\0" },
-    loaded = true,
-    path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/tokyonight.nvim",
-    url = "https://github.com/folke/tokyonight.nvim"
-  },
   ["trouble.nvim"] = {
     config = { "\27LJ\2\n9\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\ftrouble\frequire\0" },
     loaded = true,
@@ -308,11 +290,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/vim-blade",
     url = "https://github.com/jwalton512/vim-blade"
-  },
-  ["vim-colors-lucid"] = {
-    loaded = true,
-    path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/vim-colors-lucid",
-    url = "https://github.com/cseelus/vim-colors-lucid"
   },
   ["vim-eunuch"] = {
     loaded = true,
@@ -360,17 +337,6 @@ time([[Config for Comment.nvim]], false)
 time([[Config for trouble.nvim]], true)
 try_loadstring("\27LJ\2\n9\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\ftrouble\frequire\0", "config", "trouble.nvim")
 time([[Config for trouble.nvim]], false)
--- Config for: tokyonight.nvim
-time([[Config for tokyonight.nvim]], true)
-try_loadstring("\27LJ\2\n8\0\0\2\0\4\0\0056\0\0\0009\0\1\0'\1\3\0=\1\2\0K\0\1\0\nnight\21tokyonight_style\6g\bvim\0", "config", "tokyonight.nvim")
-time([[Config for tokyonight.nvim]], false)
-vim.cmd [[augroup packer_load_aucmds]]
-vim.cmd [[au!]]
-  -- Filetype lazy-loads
-time([[Defining lazy-load filetype autocommands]], true)
-vim.cmd [[au FileType php ++once lua require("packer.load")({'phpactor'}, { ft = "php" }, _G.packer_plugins)]]
-time([[Defining lazy-load filetype autocommands]], false)
-vim.cmd("augroup END")
 if should_profile then save_profiles() end
 
 end)
