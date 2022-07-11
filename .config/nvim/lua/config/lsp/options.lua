@@ -79,16 +79,11 @@ M.on_attach = function(client, bufnr)
 
     if client.supports_method("textDocument/formatting") then
         vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-        vim.api.nvim_create_autocmd("BufWritePost", {
+        vim.api.nvim_create_autocmd("BufWritePre", {
             group = augroup,
             buffer = bufnr,
-            callback = function()
-                vim.lsp.buf.format({
-                    bufnr = bufnr,
-                    filter = function(client)
-                        return client.name == "null-ls"
-                    end,
-                })
+            callback = function(client)
+                vim.lsp.buf.format({ bufnr = bufnr })
             end,
         })
     end
@@ -99,8 +94,8 @@ end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
-local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-if not status_ok then
+local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+if not ok then
     return
 end
 
