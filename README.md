@@ -29,13 +29,14 @@ If you did all of the above you may now follow these install instructions to set
 
 1. Update macOS to the latest version with the App Store
 2. Clone this repo to `~/.dotfiles`
-3. Install [Oh My Zsh](https://github.com/robbyrussell/oh-my-zsh#getting-started)
-4. Run `fresh.sh` to start the installation
-5. After mackup is synced with your cloud storage, restore preferences by running `mackup restore`
-6. Restart your computer to finalize the process
+3. Run `fresh.sh` to start the installation
+4. After mackup is synced with your cloud storage, restore preferences by running `mackup restore`
+5. Restart your computer to finalize the process
 
-### Setting up Vim
+### Setting up neovim
 
-1. Run `<Leader>pi` or `:PluginInstall` to install Plugins
+1. Open `$HOME/.config/nvim/lua/config/plugins/plugins.lua`
+2. Save the file and packer should install everything
+3. Enjoy neovim
 
 Your Mac is now ready to use!
