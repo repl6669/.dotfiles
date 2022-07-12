@@ -8,6 +8,7 @@ require("config.plugins")
 -- ]])
 
 -- TODO
--- set up snippets
+-- setup null-ls with pint (now making problmms)
+-- make php snippets
 -- rework vim.cmd to lua as much as possible
 -- if FZF is to be kept, swap to lua fzf?
