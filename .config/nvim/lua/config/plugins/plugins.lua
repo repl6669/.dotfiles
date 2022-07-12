@@ -150,6 +150,7 @@ return packer.startup(function(use)
         requires = { { "nvim-lua/plenary.nvim" } },
     })
     use("nvim-telescope/telescope-media-files.nvim")
+    use {'nvim-telescope/telescope-ui-select.nvim' }
 
     -- todos
     use("aserebryakov/vim-todo-lists")
