@@ -117,6 +117,11 @@ telescope.setup({
     },
 })
 
+vim.lsp.handlers["textDocument/references"] = builtin.lsp_references
+vim.lsp.handlers["textDocument/definition"] = builtin.lsp_definitions
+vim.lsp.handlers["textDocument/inplementation"] = builtin.lsp_implementations
+vim.lsp.handlers["textDocument/typeDefinition"] = builtin.lsp_type_definitions
+
 keymap("n", "<Leader>ff", "<cmd>Telescope find_files<cr>", opts)
 keymap("n", "<Leader>fhf", "<cmd>Telescope find_files hidden=true<cr>", opts)
 keymap("n", "<Leader>fr", "<cmd>Telescope lsp_document_symbols<cr>", opts)
@@ -127,3 +132,4 @@ keymap("n", "<Leader>fd", "<cmd>Telescope diagnostics<cr>", opts)
 
 telescope.load_extension("lazygit")
 telescope.load_extension("fzf")
+telescope.load_extension("ui-select")
