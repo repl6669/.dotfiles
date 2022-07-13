@@ -80,6 +80,11 @@ _G.packer_plugins = {
     path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/LuaSnip",
     url = "https://github.com/L3MON4D3/LuaSnip"
   },
+  ["auto-session"] = {
+    loaded = true,
+    path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/auto-session",
+    url = "https://github.com/rmagatti/auto-session"
+  },
   ["challenger-deep"] = {
     loaded = true,
     path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/challenger-deep",
@@ -130,26 +135,6 @@ _G.packer_plugins = {
     path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/copilot.vim",
     url = "https://github.com/github/copilot.vim"
   },
-  ["fern-git-status.vim"] = {
-    loaded = true,
-    path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/fern-git-status.vim",
-    url = "https://github.com/lambdalisue/fern-git-status.vim"
-  },
-  ["fern-hijack.vim"] = {
-    loaded = true,
-    path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/fern-hijack.vim",
-    url = "https://github.com/lambdalisue/fern-hijack.vim"
-  },
-  ["fern-renderer-nerdfont.vim"] = {
-    loaded = true,
-    path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/fern-renderer-nerdfont.vim",
-    url = "https://github.com/lambdalisue/fern-renderer-nerdfont.vim"
-  },
-  ["fern.vim"] = {
-    loaded = true,
-    path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/fern.vim",
-    url = "https://github.com/lambdalisue/fern.vim"
-  },
   ["friendly-snippets"] = {
     loaded = true,
     path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/friendly-snippets",
@@ -165,20 +150,10 @@ _G.packer_plugins = {
     path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/fzf.vim",
     url = "https://github.com/junegunn/fzf.vim"
   },
-  ["github-nvim-theme"] = {
-    loaded = true,
-    path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/github-nvim-theme",
-    url = "https://github.com/projekt0n/github-nvim-theme"
-  },
   ["gitsigns.nvim"] = {
     loaded = true,
     path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/gitsigns.nvim",
     url = "https://github.com/lewis6991/gitsigns.nvim"
-  },
-  ["glyph-palette.vim"] = {
-    loaded = true,
-    path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/glyph-palette.vim",
-    url = "https://github.com/lambdalisue/glyph-palette.vim"
   },
   ["lazygit.nvim"] = {
     loaded = true,
@@ -200,15 +175,15 @@ _G.packer_plugins = {
     path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/markdown-preview.nvim",
     url = "https://github.com/iamcco/markdown-preview.nvim"
   },
-  ["nerdfont.vim"] = {
-    loaded = true,
-    path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/nerdfont.vim",
-    url = "https://github.com/lambdalisue/nerdfont.vim"
-  },
   ["null-ls.nvim"] = {
     loaded = true,
     path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/null-ls.nvim",
     url = "https://github.com/jose-elias-alvarez/null-ls.nvim"
+  },
+  ["nvim-autopairs"] = {
+    loaded = true,
+    path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/nvim-autopairs",
+    url = "https://github.com/windwp/nvim-autopairs"
   },
   ["nvim-cmp"] = {
     loaded = true,
@@ -219,6 +194,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
     url = "https://github.com/neovim/nvim-lspconfig"
+  },
+  ["nvim-tree.lua"] = {
+    loaded = true,
+    path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/nvim-tree.lua",
+    url = "https://github.com/kyazdani42/nvim-tree.lua"
   },
   ["nvim-treesitter"] = {
     loaded = true,
@@ -265,6 +245,11 @@ _G.packer_plugins = {
     path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/rose-pine",
     url = "https://github.com/rose-pine/neovim"
   },
+  ["session-lens"] = {
+    loaded = true,
+    path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/session-lens",
+    url = "https://github.com/rmagatti/session-lens"
+  },
   ["telescope-fzf-native.nvim"] = {
     loaded = true,
     path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/telescope-fzf-native.nvim",
@@ -296,11 +281,6 @@ _G.packer_plugins = {
     path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/vim-blade",
     url = "https://github.com/jwalton512/vim-blade"
   },
-  ["vim-eunuch"] = {
-    loaded = true,
-    path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/vim-eunuch",
-    url = "https://github.com/tpope/vim-eunuch"
-  },
   ["vim-fugitive"] = {
     loaded = true,
     path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/vim-fugitive",
@@ -325,11 +305,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/vim-vinegar",
     url = "https://github.com/tpope/vim-vinegar"
-  },
-  ["vim-workspace"] = {
-    loaded = true,
-    path = "/Users/theimer/.local/share/nvim/site/pack/packer/start/vim-workspace",
-    url = "https://github.com/thaerkh/vim-workspace"
   },
   vmustache = {
     loaded = true,
