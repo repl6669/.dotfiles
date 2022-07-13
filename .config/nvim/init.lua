@@ -8,7 +8,6 @@ require("config.plugins")
 -- ]])
 
 -- TODO
--- configure auto-session plugin instead of vim-workspace, because it has telescope support by other plugin lol
 -- setup null-ls with pint (now making problmms)
 -- make php snippets
 -- rework vim.cmd to lua as much as possible
