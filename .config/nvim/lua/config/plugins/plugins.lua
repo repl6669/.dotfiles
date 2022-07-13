@@ -44,22 +44,24 @@ return packer.startup(function(use)
     use("wbthomason/packer.nvim") -- Have packer manage itself
     use("nvim-lua/popup.nvim") -- An implementation of the Popup API from vim in Neovim
     use("nvim-lua/plenary.nvim") -- Useful lua functions used ny lots of plugins
-    use("thaerkh/vim-workspace") -- Workspace manager
     use("tpope/vim-vinegar")
-    use("tpope/vim-eunuch") -- Easy file and directory manipulation
-    use("tpope/vim-fugitive") -- Git support
+    use("rmagatti/auto-session")
     use({
-        "lewis6991/gitsigns.nvim",
-        tag = "release", -- To use the latest release
+        "rmagatti/session-lens",
+        requires = { "rmagatti/auto-session", "nvim-telescope/telescope.nvim" }
     })
+    use("tpope/vim-fugitive") -- Git support
+    use("windwp/nvim-autopairs")
+    use({ "lewis6991/gitsigns.nvim", tag = "release" }) -- To use the latest release 
     use("tpope/vim-surround") -- Easily change surrounding characters
     use("kyazdani42/nvim-web-devicons") -- Icons
-    use("lambdalisue/fern.vim") -- Fern file explorer
-    use("lambdalisue/fern-hijack.vim") -- Makes fern the default file explorer instead of netrw
-    use("lambdalisue/fern-git-status.vim") -- Fern git status
-    use("lambdalisue/glyph-palette.vim")
-    use("lambdalisue/nerdfont.vim") -- Fern nerdfont
-    use("lambdalisue/fern-renderer-nerdfont.vim") -- Render Fern with nerdfont icons
+    use {
+        'kyazdani42/nvim-tree.lua',
+        requires = {
+            'kyazdani42/nvim-web-devicons', -- optional, for file icons
+        },
+        tag = 'nightly' -- optional, updated every week. (see issue #1193)
+    }
     use("tobyS/pdv") -- PHP documentor
     use("tobyS/vmustache") -- PHP documentor dependency
     use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }) -- Treesitter
@@ -104,7 +106,6 @@ return packer.startup(function(use)
         as = "rose-pine",
         tag = "v1.*",
     })
-    use({ "projekt0n/github-nvim-theme" })
 
     -- LSP
     use("neovim/nvim-lspconfig")
@@ -150,7 +151,7 @@ return packer.startup(function(use)
         requires = { { "nvim-lua/plenary.nvim" } },
     })
     use("nvim-telescope/telescope-media-files.nvim")
-    use {'nvim-telescope/telescope-ui-select.nvim' }
+    use { 'nvim-telescope/telescope-ui-select.nvim' }
 
     -- todos
     use("aserebryakov/vim-todo-lists")
