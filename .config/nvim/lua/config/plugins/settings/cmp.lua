@@ -90,8 +90,12 @@ cmp.setup({
             name = "buffer",
             keyword_length = 3,
             get_bufnrs = function()
-                return vim.api.nvim_list_bufs()
-            end,
+                local bufs = {}
+                for _, win in ipairs(vim.api.nvim_list_wins()) do
+                    bufs[vim.api.nvim_win_get_buf(win)] = true
+                end
+                return vim.tbl_keys(bufs)
+            end
         },
     },
     confirm_opts = {
@@ -108,6 +112,13 @@ cmp.setup({
         documentation = cmp.config.window.bordered(),
     },
 })
+
+local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+
+cmp.event:on(
+    'confirm_done',
+    cmp_autopairs.on_confirm_done()
+)
 
 require("cmp_dictionary").setup({
     dic = {
