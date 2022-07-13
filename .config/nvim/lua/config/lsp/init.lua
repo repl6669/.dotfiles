@@ -52,6 +52,20 @@ require("phpactor").setup({
     },
 })
 
+-- Volar LSP config
+require 'lspconfig'.volar.setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    init_options = {
+        typescript = {
+            serverPath = '/opt/homebrew/lib/node_modules/typescript/lib/tsserverlibrary.js'
+            -- Alternative location if installed as root:
+            -- serverPath = '/usr/local/lib/node_modules/typescript/lib/tsserverlibrary.js'
+        }
+    },
+    filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue', 'json' }
+}
+
 -- Lua LSP config
 require 'lspconfig'.sumneko_lua.setup {
     on_attach = on_attach,
