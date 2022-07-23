@@ -91,13 +91,6 @@ return packer.startup(function(use)
         end,
     })
     use("jwalton512/vim-blade")
-    use({
-        "gbprod/phpactor.nvim",
-        requires = {
-            "nvim-lua/plenary.nvim", -- required to update phpactor
-            "neovim/nvim-lspconfig", -- required to automaticly register lsp serveur
-        },
-    })
 
     -- Colorschemes
     use({ "challenger-deep-theme/vim", as = "challenger-deep" })
@@ -120,6 +113,7 @@ return packer.startup(function(use)
             })
         end,
     })
+    use("j-hui/fidget.nvim")
 
     -- cmp plugins
     use("hrsh7th/nvim-cmp") -- The completion plugin
@@ -155,6 +149,7 @@ return packer.startup(function(use)
 
     -- todos
     use("aserebryakov/vim-todo-lists")
+    use("folke/todo-comments.nvim")
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all use
