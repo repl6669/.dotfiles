@@ -10,47 +10,32 @@ local on_attach = require("config.lsp.options").on_attach
 local capabilities = require("config.lsp.options").capabilities
 
 -- Intelephese LSP config
-require 'lspconfig'.intelephense.setup {
+-- require 'lspconfig'.intelephense.setup {
+--     on_attach = on_attach,
+--     capabilities = capabilities,
+--     init_options = {
+--         licenseKey = "00TJPX959XHH6KQ",
+--     },
+--     settings = {
+--         diagnostics = {
+--             enable = true,
+--         },
+--         files = {
+--             maxSize = 40000000,
+--             -- exclude = {}
+--         },
+--     },
+-- }
+
+-- Phpactor LSP config
+require'lspconfig'.phpactor.setup{
     on_attach = on_attach,
     capabilities = capabilities,
     init_options = {
-        licenseKey = "00TJPX959XHH6KQ",
-    },
-    settings = {
-        diagnostics = {
-            enable = true,
-        },
-        files = {
-            maxSize = 40000000,
-            -- exclude = {}
-        },
-    },
+        ["language_server_phpstan.enabled"] = false,
+        ["language_server_psalm.enabled"] = false,
+    }
 }
-
--- Phpactor LSP config
-require("phpactor").setup({
-    install = {
-        path = vim.fn.stdpath("data") .. "/opt/",
-        branch = "master",
-        bin = vim.fn.stdpath("data") .. "/opt/phpactor/bin/phpactor",
-        php_bin = "php",
-        composer_bin = "composer",
-        git_bin = "git",
-        check_on_startup = "none",
-    },
-    lspconfig = {
-        enabled = false,
-        options = {
-            on_attach = on_attach,
-            capabilities = capabilities,
-            settings = {
-                files = {
-                    maxSize = 10000000
-                }
-            }
-        },
-    },
-})
 
 -- Volar LSP config
 require 'lspconfig'.volar.setup {
