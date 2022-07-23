@@ -7,17 +7,17 @@ require("nvim-tree").setup({
         adaptive_size = true,
         mappings = {
             list = {
-                { key = { "<CR>", "o", "<2-LeftMouse>" }, action = "edit" },
+                { key = { "l", "<CR>", "o" }, action = "edit" },
                 { key = "<C-e>", action = "edit_in_place" },
                 { key = "O", action = "edit_no_picker" },
-                { key = { "<C-]>", "<2-RightMouse>" }, action = "cd" },
+                { key = { "<C-]>" }, action = "cd" },
                 { key = "<C-v>", action = "vsplit" },
                 { key = "<C-x>", action = "split" },
                 { key = "<C-t>", action = "tabnew" },
                 { key = "<", action = "prev_sibling" },
                 { key = ">", action = "next_sibling" },
                 { key = "P", action = "parent_node" },
-                { key = "<BS>", action = "close_node" },
+                { key = "h", action = "close_node" },
                 { key = "<Tab>", action = "preview" },
                 { key = "K", action = "first_sibling" },
                 { key = "J", action = "last_sibling" },
@@ -25,7 +25,7 @@ require("nvim-tree").setup({
                 { key = "H", action = "toggle_dotfiles" },
                 { key = "U", action = "toggle_custom" },
                 { key = "R", action = "refresh" },
-                { key = "n", action = "create" },
+                { key = { "n", "N" }, action = "create" },
                 { key = "d", action = "remove" },
                 { key = "dd", action = "trash" },
                 { key = "r", action = "rename" },
@@ -40,7 +40,7 @@ require("nvim-tree").setup({
                 { key = "[c", action = "prev_git_item" },
                 { key = "]e", action = "next_diag_item" },
                 { key = "]c", action = "next_git_item" },
-                { key = "-", action = "dir_up" },
+                { key = { "-", "<BS>" }, action = "dir_up" },
                 { key = "s", action = "system_open" },
                 { key = "f", action = "live_filter" },
                 { key = "F", action = "clear_live_filter" },
@@ -56,9 +56,21 @@ require("nvim-tree").setup({
     },
     renderer = {
         group_empty = true,
+        icons = {
+            glyphs = {
+                folder = {
+                    default = "",
+                    open = "",
+                    symlink = "",
+                },
+            },
+        },
     },
     filters = {
         dotfiles = true,
+    },
+    git = {
+        enable = false,
     },
     actions = {
         open_file = {
