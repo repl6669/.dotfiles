@@ -84,7 +84,7 @@ cmp.setup({
         { name = "nvim_lsp_signature_help" },
         {
             name = "dictionary",
-            keyword_length = 5,
+            keyword_length = 3,
         },
         {
             name = "buffer",
