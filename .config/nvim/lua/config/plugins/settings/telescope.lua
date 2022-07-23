@@ -134,5 +134,4 @@ keymap("n", "<Leader>fs", "<cmd>Telescope session-lens search_session<cr>", opts
 telescope.load_extension("lazygit")
 telescope.load_extension("fzf")
 telescope.load_extension("ui-select")
--- telescope.load_extension('projects')
 telescope.load_extension("session-lens")
