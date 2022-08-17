@@ -130,6 +130,7 @@ keymap("n", "<Leader>fb", "<cmd>Telescope buffers<cr>", opts)
 keymap("n", "<Leader>fh", "<cmd>Telescope help_tags<cr>", opts)
 keymap("n", "<Leader>fd", "<cmd>Telescope diagnostics<cr>", opts)
 keymap("n", "<Leader>fs", "<cmd>Telescope session-lens search_session<cr>", opts)
+keymap("n", "<Leader>ft", "<cmd>TodoTelescope<cr>", opts)
 
 telescope.load_extension("lazygit")
 telescope.load_extension("fzf")
