@@ -28,7 +28,7 @@ require("nvim-tree").setup({
                 { key = { "n", "N" }, action = "create" },
                 { key = "d", action = "remove" },
                 { key = "dd", action = "trash" },
-                { key = "r", action = "rename" },
+                { key = { "M", "m", "r" }, action = "rename" },
                 { key = "<C-r>", action = "full_rename" },
                 { key = "x", action = "cut" },
                 { key = "c", action = "copy" },
@@ -74,7 +74,7 @@ require("nvim-tree").setup({
     },
     actions = {
         change_dir = {
-          enable = false,
+            enable = false,
         },
         open_file = {
             quit_on_open = true,
