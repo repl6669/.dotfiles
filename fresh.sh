@@ -43,6 +43,9 @@ ln -s $HOME/.dotfiles/.config/nvim $HOME/.config/nvim
 # Symlink lazygit config file
 ln -s $HOME/.dotfiles/lazygit.yml '/Users/theimer/Library/Application Support/jesseduffield/lazygit/config.yml'
 
+# Symlink pint config file
+ln -s $HOME/.dotfiles/pint.json $HOME/.config/pint.json
+
 # Symlink the Mackup config file to the home directory
 rn -rf $HOME/.mackup.cfg
 ln -s $HOME/.dotfiles/.mackup.cfg $HOME/.mackup.cfg
