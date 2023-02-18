@@ -21,7 +21,8 @@ alias cdao="composer dump-autoload -o"                  # Composer dump autoload
 alias cr="composer require"                             # Composer require
 alias ci="composer install"                             # Composer install
 alias cu="composer update"                              # Composer update
-alias t="./vendor/bin/phpunit"                          # Run PHPUnit
+alias t="./vendor/bin/pest"                             # Run Pest tests
+alias pt="./vendor/bin/phpunit"                             # Run PHPUnit tests
 
 ## JavaScript aliases
 alias yn="yarn nuxt"                                    # Run nuxt
@@ -44,14 +45,16 @@ alias unstage="git restore --staged ."                  # Git unstage
 alias wip="commit wip"                                  # Git commit wip
 
 ## Python
-alias pip="pip3"                                        # Use pip3
-alias python="python3"                                  # Use python3
+# alias pip="pip3"                                        # Use pip3
+# alias python="python3"                                  # Use python3
 
 ## Files
 alias ll="ls -lGaf"                                     # Better file listing
 
 ## Vim
 alias vim="nvim"                                        # Use nvim
+alias neo="neovide"                                      # Use neovide
+alias vimr="vimr"                                         # Use vimr
 
 ## ZSH
 alias zshconfig="vim ~/.zshrc"                          # Open zsh config in vim
