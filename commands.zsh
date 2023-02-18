@@ -13,7 +13,7 @@ lg() {
 
 phpv() {
     valet stop
-    brew unlink php@8.0 php@8.1
+    brew unlink php@8.0 php@8.1 # php@7.4 
     brew link --force --overwrite $1
     brew services start $1
     composer global update
@@ -21,6 +21,7 @@ phpv() {
     valet install
 }
 
+# alias php74="phpv php@7.4"
 alias php80="phpv php@8.0"
 alias php81="phpv php@8.1"
 
