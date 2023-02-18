@@ -1,6 +1,12 @@
-require("config.settings")
-require("config.lsp")
-require("config.plugins")
+-- Plugins
+require("config.plugins.plugins")
+require("config.plugins.settings") -- Slowly get rid of
+
+-- Settings
+require("config.settings.mappings")
+require("config.settings.options")
+require("config.settings.colorscheme")
+require("config.settings.neovide")
 
 -- Close quickfix window when selecting an item from it
 -- vim.cmd([[

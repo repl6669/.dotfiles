@@ -1,16 +1,17 @@
 local opts = { noremap = true, silent = true }
 local keymap = vim.api.nvim_set_keymap
+local tree = require("nvim-tree")
 
-require("nvim-tree").setup({
+tree.setup({
     sort_by = "case_sensitive",
     view = {
         adaptive_size = true,
         mappings = {
             list = {
-                { key = { "l", "<CR>", "o" }, action = "edit" },
+                { key = { "<CR>", "o" }, action = "open" },
                 { key = "<C-e>", action = "edit_in_place" },
                 { key = "O", action = "edit_no_picker" },
-                { key = { "<C-]>" }, action = "cd" },
+                { key = { "l", "<C-]>" }, action = "cd" },
                 { key = "<C-v>", action = "vsplit" },
                 { key = "<C-x>", action = "split" },
                 { key = "<C-t>", action = "tabnew" },
@@ -82,4 +83,4 @@ require("nvim-tree").setup({
     }
 })
 
-keymap("n", "<Leader><Leader>", ":NvimTreeToggle .<CR>", opts)
+keymap("n", "<Leader>nt", ":NvimTreeToggle .<CR>", opts)

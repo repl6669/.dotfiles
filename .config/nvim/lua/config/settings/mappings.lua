@@ -99,9 +99,10 @@ keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
 -- Navigate buffers
 keymap("n", "<S-l>", ":bnext<CR>", opts)
 keymap("n", "<S-h>", ":bprevious<CR>", opts)
-keymap("n", "<Leader>bd", ":bd<CR>", opts)
+keymap("n", "<Leader>.", ":bd<CR>", opts)
 
--- Insert --
+-- Paste from clipboard
+keymap("n", "<D-v>", '"+p', opts)
 
 -- Visual --
 -- Stay in indent mode
