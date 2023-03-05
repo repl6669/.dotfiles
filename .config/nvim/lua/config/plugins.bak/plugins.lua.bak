@@ -180,8 +180,29 @@ return packer.startup(function(use)
 	-- Create directories which do not exist when creating a file
 	use("jessarcher/vim-heritage")
 
+	-- Buffer line
+	use({
+		"akinsho/bufferline.nvim",
+		tag = "v3.*",
+		requires = "nvim-tree/nvim-web-devicons",
+		config = function()
+			require("config.plugins.settings.bufferline")
+		end,
+	})
+
 	-- Status line
-	use("nvim-lualine/lualine.nvim")
+	use({
+		"nvim-lualine/lualine.nvim",
+		config = function()
+			require("config.plugins.settings.lualine")
+		end,
+	})
+	use({
+		"arkav/lualine-lsp-progress",
+		requires = {
+			"nvim-lualine/lualine.nvim",
+		},
+	})
 
 	-- Markdown previews in browser
 	use({
@@ -192,12 +213,21 @@ return packer.startup(function(use)
 	})
 
 	-- Colorschemes
-	use({ "challenger-deep-theme/vim", as = "challenger-deep" })
+	use({
+		"challenger-deep-theme/vim",
+		as = "challenger-deep",
+	})
 	use({
 		"rose-pine/neovim",
 		as = "rose-pine",
 	})
 	use({ "catppuccin/nvim", as = "catppuccin" })
+	use({
+		"folke/tokyonight.nvim",
+		config = function()
+			require("config.plugins.settings.tokyonight")
+		end,
+	})
 
 	-- LSP
 	use({
@@ -253,10 +283,15 @@ return packer.startup(function(use)
 	})
 
 	-- UI for lsp progress
-	use("j-hui/fidget.nvim")
+	-- use("j-hui/fidget.nvim")
 
 	-- Debugging
-	use("mfussenegger/nvim-dap")
+	use({
+		"mfussenegger/nvim-dap",
+		config = function()
+			require("config.plugins.settings.dap")
+		end,
+	})
 
 	-- CMP
 	use({
@@ -325,6 +360,9 @@ return packer.startup(function(use)
 	-- Todo comments
 	use("aserebryakov/vim-todo-lists")
 	use("folke/todo-comments.nvim")
+
+	-- Notifications
+	use("rcarriga/nvim-notify")
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all use

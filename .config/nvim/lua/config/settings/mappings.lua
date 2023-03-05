@@ -20,7 +20,7 @@ vim.cmd([[
 keymap("n", "<Leader>evc", ":edit /Users/theimer/.config/nvim/init.lua<CR>", opts)
 
 -- Edit plugins
-keymap("n", "<Leader>epc", ":edit /Users/theimer/.config/nvim/lua/config/plugins/plugins.lua<CR>", opts)
+keymap("n", "<Leader>epc", ":edit /Users/theimer/.config/nvim/lua/config/plugins/init.lua<CR>", opts)
 
 -- Edit mappings
 keymap("n", "<Leader>emc", ":edit /Users/theimer/.config/nvim/lua/config/settings/mappings.lua<CR>", opts)
@@ -50,18 +50,6 @@ keymap("n", "<Leader>tc", ":tabclose<CR>", opts)
 keymap("n", "<Leader>tn", ":tabedit<CR>", opts)
 keymap("n", "<Leader>hs", ":sp<CR>", opts)
 keymap("n", "<Leader>vs", ":vsp<CR>", opts)
-
--- Numbered tabs
-keymap("n", "<Leader>1", ":LualineBuffersJump 1<CR>", opts)
-keymap("n", "<Leader>2", ":LualineBuffersJump 2<CR>", opts)
-keymap("n", "<Leader>3", ":LualineBuffersJump 3<CR>", opts)
-keymap("n", "<Leader>4", ":LualineBuffersJump 4<CR>", opts)
-keymap("n", "<Leader>5", ":LualineBuffersJump 5<CR>", opts)
-keymap("n", "<Leader>6", ":LualineBuffersJump 6<CR>", opts)
-keymap("n", "<Leader>7", ":LualineBuffersJump 7<CR>", opts)
-keymap("n", "<Leader>8", ":LualineBuffersJump 8<CR>", opts)
-keymap("n", "<Leader>9", ":LualineBuffersJump 9<CR>", opts)
-keymap("n", "<Leader>0", ":LualineBuffersJump 10<CR>", opts)
 
 -- Move tab to left
 keymap("n", "<Leader>th", ":tabm -1<CR>", opts)
