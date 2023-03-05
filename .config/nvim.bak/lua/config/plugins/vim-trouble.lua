@@ -1,0 +1,19 @@
+return {}
+-- return {
+--     "folke/trouble.nvim",
+--     dependencies = {"kyazdani42/nvim-web-devicons"},
+--     config = function()
+--         require("trouble").setup({
+--             -- your configuration comes here
+--             -- or leave it empty to use the default
+--             -- refer to the configuration section below
+--
+--             -- Vim trouble
+--             vim.api.nvim_set_keymap("n", "<Leader>xx", "<CMD>TroubleToggle<CR>")
+--             vim.api.nvim_set_keymap("n", "<Leader>xd", "<CMD>TroubleToggle document_diagnostics<CR>")
+--             vim.api.nvim_set_keymap("n", "<Leader>xq", "<CMD>TroubleToggle quickfix<CR>")
+--             vim.api.nvim_set_keymap("n", "<Leader>xl", "<CMD>TroubleToggle loclist<CR>")
+--             vim.api.nvim_set_keymap("n", "gR", "<CMD>TroubleToggle lsp_references<CR>")
+--         })
+--     end
+-- }
