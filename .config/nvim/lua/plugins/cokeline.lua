@@ -96,6 +96,7 @@ return {
         text = "",
         fg = get_hex("ColorColumn", "bg"),
         bg = get_hex("Normal", "bg"),
+        truncation = { priority = 1 },
       },
     }
     require("cokeline").setup({
@@ -106,7 +107,7 @@ return {
         new_buffers_position = "next",
       },
       rendering = {
-        max_buffer_width = 25,
+        max_buffer_width = 32,
       },
       default_hl = {
         fg = function(buffer)
