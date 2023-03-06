@@ -53,7 +53,7 @@ alias ll="ls -lGaf"                                     # Better file listing
 
 ## Vim
 alias vim="nvim"                                        # Use nvim
-alias neo="neovide --multigrid"                         # Use neovide
+alias neo="neovide"                         # Use neovide
 alias vimr="vimr"                                       # Use vimr
 
 ## ZSH
