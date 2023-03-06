@@ -14,6 +14,10 @@ return {
         "json",
         "json5",
         "jsonc",
+        "python",
+        "rust",
+        "vue",
+        "sql",
       })
       vim.list_extend(opts, {
         context_commentstring = {
