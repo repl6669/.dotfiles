@@ -62,6 +62,7 @@ return {
       variant = "auto",
       --- @usage 'main'|'moon'|'dawn'
       dark_variant = "main",
+      disable_float_background = false,
     },
   },
   {
