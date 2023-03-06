@@ -57,9 +57,12 @@ return {
     name = "rose-pine",
     lazy = false,
     priority = 1000,
-    config = function()
-      require("rose-pine").setup()
-    end,
+    opts = {
+      --- @usage 'auto'|'main'|'moon'|'dawn'
+      variant = "auto",
+      --- @usage 'main'|'moon'|'dawn'
+      dark_variant = "main",
+    },
   },
   {
     "LazyVim/LazyVim",
