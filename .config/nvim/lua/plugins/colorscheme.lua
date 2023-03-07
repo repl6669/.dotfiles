@@ -53,16 +53,26 @@ return {
     },
   },
   {
-    "rose-pine/neovim",
+    -- "rose-pine/neovim",
+    "theimerj/rose-pine-neovim",
     name = "rose-pine",
     lazy = false,
     priority = 1000,
+    branch = "mini-indentscope",
     opts = {
       --- @usage 'auto'|'main'|'moon'|'dawn'
       variant = "auto",
       --- @usage 'main'|'moon'|'dawn'
       dark_variant = "main",
       disable_float_background = false,
+      highlight_groups = {
+        TabLineFill = { bg = "none" },
+        MiniIndentscopeSymbol = { fg = "iris" },
+        MiniIndentscopeSymbolOff = { fg = "iris" },
+        IndentBlanklineChar = { fg = "overlay" },
+        IndentBlanklineSpaceChar = { fg = "overlay" },
+        IndentBlanklineSpaceCharBlankline = { fg = "overlay" },
+      },
     },
   },
   {
