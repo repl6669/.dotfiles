@@ -13,6 +13,9 @@ return {
       end,
     },
   },
+  keys = {
+    { "<leader>fr", "<cmd>Telescope lsp_document_symbols<cr>", desc = "Find Document Symbols" },
+  },
   opts = {
     defaults = {
       path_display = { "smart" },
