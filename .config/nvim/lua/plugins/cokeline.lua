@@ -19,7 +19,7 @@ return {
       },
       left_separator = {
         text = "",
-        fg = get_hex("ColorColumn", "bg"),
+        fg = get_hex("DarkenedPanel", "bg"),
         bg = get_hex("Normal", "bg"),
         truncation = { priority = 1 },
       },
@@ -94,7 +94,7 @@ return {
       },
       right_separator = {
         text = "",
-        fg = get_hex("ColorColumn", "bg"),
+        fg = get_hex("DarkenedPanel", "bg"),
         bg = get_hex("Normal", "bg"),
         truncation = { priority = 1 },
       },
@@ -104,7 +104,7 @@ return {
       buffers = {
         -- filter_valid = function(buffer) return buffer.type ~= 'terminal' end,
         -- filter_visible = function(buffer) return buffer.type ~= 'terminal' end,
-        new_buffers_position = "next",
+        -- new_buffers_position = "next",
       },
       rendering = {
         max_buffer_width = 32,
@@ -113,7 +113,7 @@ return {
         fg = function(buffer)
           return buffer.is_focused and get_hex("Normal", "fg") or get_hex("Comment", "fg")
         end,
-        bg = get_hex("ColorColumn", "bg"),
+        bg = get_hex("DarkenedPanel", "bg"),
       },
       components = {
         components.space,
@@ -127,6 +127,8 @@ return {
       },
     })
 
+    vim.keymap.set("n", "<S-h>", "<Plug>(cokeline-focus-prev)", { silent = true, desc = "Focus Previous Buffer" })
+    vim.keymap.set("n", "<S-l>", "<Plug>(cokeline-focus-next)", { silent = true, desc = "Focus Next Buffer" })
     vim.keymap.set("n", "<Leader>bp", "<Plug>(cokeline-pick-focus)", { silent = true, desc = "Pick a Buffer" })
     vim.keymap.set("n", "<Leader>bc", "<Plug>(cokeline-pick-close)", { silent = true, desc = "Pick a Buffer to Close" })
   end,
