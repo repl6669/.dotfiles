@@ -14,7 +14,7 @@ return {
     },
   },
   keys = {
-    { "<leader>fr", "<cmd>Telescope lsp_document_symbols<cr>", desc = "Find Document Symbols" },
+    { "<leader>fr", ":Telescope lsp_document_symbols<cr>", desc = "Find Document Symbols" },
   },
   opts = {
     defaults = {
