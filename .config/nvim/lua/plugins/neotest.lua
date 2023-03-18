@@ -6,6 +6,7 @@ return {
     "nvim-treesitter/nvim-treesitter",
     "antoinemadec/FixCursorHold.nvim",
     "theutz/neotest-pest",
+    "rouge8/neotest-rust",
     "nvim-neotest/neotest-plenary",
   },
   config = function()
@@ -18,6 +19,7 @@ return {
             return "vendor/bin/pest"
           end,
         }),
+        -- require("neotest-rust"),
         require("neotest-plenary"),
       },
       floating = {
@@ -36,14 +38,59 @@ return {
       },
     })
 
-    vim.keymap.set("n", "<leader>tf", '<CMD>lua require("neotest").run.run(vim.fn.expand("%"))<CR>', opts) -- Run all tests in current file
-    vim.keymap.set("n", "<leader>ts", '<CMD>lua require("neotest").run.run({ suite = true })<CR>', opts) -- Run the whole test suite
-    vim.keymap.set("n", "<leader>tnt", '<CMD>lua require("neotest").run.run()<CR>', opts) -- Run the nearest test to the cursor
-    vim.keymap.set("n", "<leader>dnt", '<CMD>lua require("neotest").run.run({strategy = "dap"})<CR>', opts) -- Debug nearest test
-    vim.keymap.set("n", "<leader>snt", '<CMD>lua require("neotest").run.stop()<CR>', opts) -- Stop running nearest test
-    vim.keymap.set("n", "<leader>ant", '<CMD>lua require("neotest").run.attach()<CR>', opts) -- Attach to the nearest test
-    vim.keymap.set("n", "<leader>ttop", '<CMD>lua require("neotest").output_panel.toggle()<CR>', opts) -- Toggle test output panel
-    vim.keymap.set("n", "<leader>tts", '<CMD>lua require("neotest").summary.toggle()<CR>', opts) -- Toggle test summary
-    vim.keymap.set("n", "<leader>to", '<CMD>lua require("neotest").output.open({ enter = true })<CR>', opts) -- Toggle test summary
+    vim.keymap.set(
+      "n",
+      "<leader>tf",
+      '<CMD>lua require("neotest").run.run(vim.fn.expand("%"))<CR>',
+      { desc = "Run tests in current file" }
+    )
+    vim.keymap.set(
+      "n",
+      "<leader>ts",
+      '<CMD>lua require("neotest").run.run({ suite = true })<CR>',
+      { desc = "Run the whole test suite" }
+    )
+    vim.keymap.set(
+      "n",
+      "<leader>tnt",
+      '<CMD>lua require("neotest").run.run()<CR>',
+      { desc = "Run the nearest test to the cursor" }
+    )
+    vim.keymap.set(
+      "n",
+      "<leader>dnt",
+      '<CMD>lua require("neotest").run.run({strategy = "dap"})<CR>',
+      { desc = "Debug nearest test" }
+    )
+    vim.keymap.set(
+      "n",
+      "<leader>snt",
+      '<CMD>lua require("neotest").run.stop()<CR>',
+      { desc = "Stop running nearest test" }
+    )
+    vim.keymap.set(
+      "n",
+      "<leader>ant",
+      '<CMD>lua require("neotest").run.attach()<CR>',
+      { desc = "Attach to the nearest test" }
+    )
+    vim.keymap.set(
+      "n",
+      "<leader>ttop",
+      '<CMD>lua require("neotest").output_panel.toggle()<CR>',
+      { desc = "Toggle test output panel" }
+    )
+    vim.keymap.set(
+      "n",
+      "<leader>tts",
+      '<CMD>lua require("neotest").summary.toggle()<CR>',
+      { desc = "Toggle test summary" }
+    )
+    vim.keymap.set(
+      "n",
+      "<leader>to",
+      '<CMD>lua require("neotest").output.open({ enter = true })<CR>',
+      { desc = "Toggle test summary" }
+    )
   end,
 }
