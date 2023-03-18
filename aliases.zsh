@@ -50,7 +50,7 @@ alias wip="commit wip"                                  # Git commit wip
 # alias python="python3"                                # Use python3
 
 ## Files
-alias ll="ls -lGaf"                                     # Better file listing
+alias ll="exa -la"                                     # Better file listing
 
 ## Vim
 alias vim="nvim"                                        # Use nvim
