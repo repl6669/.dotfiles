@@ -53,12 +53,10 @@ return {
     },
   },
   {
-    -- "rose-pine/neovim",
-    "theimerj/rose-pine-neovim",
+    "rose-pine/neovim",
     name = "rose-pine",
     lazy = false,
     priority = 1000,
-    branch = "mini-indentscope",
     opts = {
       --- @usage 'auto'|'main'|'moon'|'dawn'
       variant = "auto",
