@@ -18,6 +18,7 @@ return {
         "rust",
         "vue",
         "sql",
+        "yaml",
       })
       vim.list_extend(opts, {
         context_commentstring = {
