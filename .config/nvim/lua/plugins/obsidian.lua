@@ -42,6 +42,6 @@ return {
     { "<leader>ol", ":ObsidianLink<cr>", desc = "Link Note" }, -- to link an in-line visual selection of text to a note. This command has one optional argument: the ID, path, or alias of the note to link to. If not given, the selected text will be used to find the note with a matching ID, path, or alias.
     { "<leader>oln", ":ObsidianLinkNew<cr>", desc = "Create Link" }, -- to create a new note and link it to an in-line visual selection of text. This command has one optional argument: the title of the new note. If not given, the selected text will be used as the title.
     { "<leader>olf", ":ObsidianFollowLink<cr>", desc = "Follow Link to Note" }, -- to follow a note reference under the cursor.
-    { "<leader>ot", ":ObsidianTemplate<cr>", desc = "Insert Template" }, -- to follow a note reference under the cursor.
+    { "<leader>oit", ":ObsidianTemplate<cr>", desc = "Insert Template" }, -- to follow a note reference under the cursor.
   },
 }
