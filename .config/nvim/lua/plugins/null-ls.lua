@@ -8,7 +8,9 @@ return {
         nls.builtins.formatting.stylua,
         nls.builtins.diagnostics.flake8,
         nls.builtins.formatting.pint.with({
-          -- extra_args = { "--config", vim.fn.expand("~/.config/pint.json") },
+          command = vim.fn.expand("~/.composer/vendor/bin/pint"),
+          prefer_local = vim.fn.expand("./vendor/bin/pint"),
+          extra_args = { "--config", vim.fn.expand("~/.config/pint.json") },
         }),
       },
     }
