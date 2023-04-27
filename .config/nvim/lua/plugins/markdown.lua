@@ -108,9 +108,9 @@ return {
       vim.g.mkdp_theme = "light"
 
       -- Markdown Preview
-      vim.keymap.set("n", "<Leader>mp", "<Plug>MarkdownPreview", opts)
-      vim.keymap.set("n", "<Leader>mps", "<Plug>MarkdownPreviewStop", opts)
-      vim.keymap.set("n", "<Leader>mpt", "<Plug>MarkdownPreviewToggle", opts)
+      vim.keymap.set("n", "<Leader>mpp", "<Plug>MarkdownPreview", { desc = "Start Markdown Preview" })
+      vim.keymap.set("n", "<Leader>mps", "<Plug>MarkdownPreviewStop", { desc = "Stop Markdown Preview" })
+      vim.keymap.set("n", "<Leader>mpt", "<Plug>MarkdownPreviewToggle", { desc = "Toggle Markdown Preview" })
     end,
   },
   -- {
