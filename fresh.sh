@@ -17,24 +17,17 @@ brew bundle
 # Set default MySQL root password and auth type.
 # mysql -u root -e "ALTER USER root@localhost IDENTIFIED WITH mysql_native_password BY 'password'; FLUSH PRIVILEGES;"
 
-# Install PHP extensions with PECL
-sudo pecl install imagick
+# Setup PHP & Laravel
+sudo pecl install imagick # Install PHP extensions with PECL
+/usr/local/bin/composer global require laravel/installer laravel/valet # Install global Composer packages
+$HOME/.composer/vendor/bin/valet install # Install Laravel Valet
 
-# Install global Composer packages
-/usr/local/bin/composer global require laravel/installer laravel/valet
+# Create projects directories
+mkdir $HOME/Developer # This is a default directory for macOS user accounts but doesn't come pre-installed
+mkdir $HOME/Developer/php # Create sites subdirectories
 
-# Install Laravel Valet
-$HOME/.composer/vendor/bin/valet install
-
-# Create a Sites directory
-# This is a default directory for macOS user accounts but doesn't comes pre-installed
-mkdir $HOME/Developer
-
-# Create sites subdirectories
-mkdir $HOME/Developer/php
-
-# Removes .zshrc from $HOME (if it exists) and symlinks the .zshrc file from the .dotfiles
-rm -rf $HOME/.zshrc
+# Setup ZSH
+rm -rf $HOME/.zshrc # Removes .zshrc from $HOME (if it exists) and symlinks the .zshrc file from the .dotfiles
 ln -s $HOME/.dotfiles/.zshrc $HOME/.zshrc
 
 # Symlink neovim config files
@@ -50,9 +43,9 @@ ln -s $HOME/.dotfiles/pint.json $HOME/.config/pint.json
 rn -rf $HOME/.mackup.cfg
 ln -s $HOME/.dotfiles/.mackup.cfg $HOME/.mackup.cfg
 
-# Symlink global gitignore file
-rm -rf $HOME/.gitignore_global
-ln -s $HOME/.dotfiles/.gitignore_global $HOME/.gitignore_global
+rm -rf $HOME/.gitignore_global # Remove defaiult global gitignore before symlink
+ln -s $HOME/.dotfiles/.gitignore_global $HOME/.gitignore_global # Symlink global gitignore file
+ln -s $HOME/.dotfiles/.ripgreprc $HOME/.config/.ripgreprc # Symlink global ripgrep config file
 
 # Set global giignore
 git config --global core.excludesfile ~/.gitignore_global
