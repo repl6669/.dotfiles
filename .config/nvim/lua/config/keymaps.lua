@@ -3,11 +3,11 @@
 -- Add any additional keymaps here
 
 -- Clipboard
-vim.keymap.set("n", "<D-c>", '"+y', { desc = "Copy to system clipboard" })
-vim.keymap.set("n", "<D-v>", '"+p', { desc = "Paste from system clipboard" })
+vim.keymap.set("n", "<D-c>", '"+y', { desc = "Copy to System Clipboard" })
+vim.keymap.set("n", "<D-v>", '"+p', { desc = "Paste from System Clipboard" })
 
 -- Manage buffers
-vim.keymap.set("n", "<Leader>.", ":bd<CR>", { desc = "Close buffer" })
+vim.keymap.set("n", "<Leader>.", ":bd<CR>", { desc = "Close Buffer" })
 
 -- Quick settings access
-vim.keymap.set("n", "<Leader>evc", ":edit /Users/theimer/.config/nvim/init.lua<CR>", { desc = "Edit init.lua" })
+vim.keymap.set("n", "<Leader>C", ":edit /Users/theimer/.config/nvim/init.lua<CR>", { desc = "Edit Configuration" })
