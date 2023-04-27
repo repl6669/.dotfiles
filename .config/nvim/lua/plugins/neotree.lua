@@ -1,14 +1,10 @@
 return {
   "nvim-neo-tree/neo-tree.nvim",
-  lazy = false,
   opts = {
     filesystem = {
       bind_to_cwd = false,
       follow_current_file = true,
-      hijack_netrw_behavior = "open_default",
-      -- "open_default"
-      -- "open_current",
-      -- "disabled",
+      hijack_netrw_behavior = "open_default", -- "open_default" or "open_current" or "disabled",
     },
   },
   config = function()
