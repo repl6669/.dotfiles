@@ -32,16 +32,19 @@ return {
     end,
   },
   keys = {
-    { "<leader>obl", ":ObsidianBacklinks<cr>", desc = "Get List of References" }, -- for getting a location list of references to the current buffer.
+    { "<leader>ob", ":ObsidianBacklinks<cr>", desc = "Get List of References" }, -- for getting a location list of references to the current buffer.
     { "<leader>ot", ":ObsidianToday<cr>", desc = "Create Daily Note" }, -- to create a new daily note.
     { "<leader>oy", ":ObsidianYesterday<cr>", desc = "Open or Create Note for Previous Working Day" }, -- to open (eventually creating) the daily note for the previous working day.
     { "<leader>oo", ":ObsidianOpen<cr>", desc = "Open Note in Obsidian app" }, -- to open a note in the Obsidian app. This command has one optional argument: the ID, path, or alias of the note to open. If not given, the note corresponding to the current buffer is opened.
-    { "<leader>on", ":ObsidianNew ", desc = "Create New Note" }, -- to create a new note. This command has one optional argument: the title of the new note.
+    { "<leader>oc", ":ObsidianNew ", desc = "Create New Note" }, -- to create a new note. This command has one optional argument: the title of the new note.
+    { "<leader>oC", ":ObsidianNew<cr>", desc = "Create New Random Note" }, -- to create a new note. This command has one optional argument: the title of the new note.
     { "<leader>os", ":ObsidianSearch<cr>", desc = "Search Notes" }, -- to search for notes in your vault using ripgrep with fzf.vim, fzf-lua or telescope.nvim. This command has one optional argument: a search query to start with.
-    { "<leader>oqs", ":ObsidianQuickSwitch<cr>", desc = "Switch Notes" }, -- to quickly switch to another notes in your vault, searching by its name using fzf.vim, fzf-lua or telescope.nvim.
-    { "<leader>ol", ":ObsidianLink<cr>", desc = "Link Note" }, -- to link an in-line visual selection of text to a note. This command has one optional argument: the ID, path, or alias of the note to link to. If not given, the selected text will be used to find the note with a matching ID, path, or alias.
-    { "<leader>oln", ":ObsidianLinkNew<cr>", desc = "Create Link" }, -- to create a new note and link it to an in-line visual selection of text. This command has one optional argument: the title of the new note. If not given, the selected text will be used as the title.
-    { "<leader>olf", ":ObsidianFollowLink<cr>", desc = "Follow Link to Note" }, -- to follow a note reference under the cursor.
-    { "<leader>oit", ":ObsidianTemplate<cr>", desc = "Insert Template" }, -- to follow a note reference under the cursor.
+    { "<leader>of", ":ObsidianQuickSwitch<cr>", desc = "Switch Notes" }, -- to quickly switch to another notes in your vault, searching by its name using fzf.vim, fzf-lua or telescope.nvim.
+    { "<leader>ol", ":ObsidianLink ", mode = { "n" }, desc = "Link Note" }, -- to link an in-line visual selection of text to a note. This command has one optional argument: the ID, path, or alias of the note to link to. If not given, the selected text will be used to find the note with a matching ID, path, or alias.
+    { "<leader>ol", ":ObsidianLink<cr>", mode = { "v" }, desc = "Link Note with Selection" }, -- to link an in-line visual selection of text to a note. This command has one optional argument: the ID, path, or alias of the note to link to. If not given, the selected text will be used to find the note with a matching ID, path, or alias.
+    { "<leader>oa", ":ObsidianLinkNew ", mode = { "n" }, desc = "Create Link" }, -- to create a new note and link it to an in-line visual selection of text. This command has one optional argument: the title of the new note. If not given, the selected text will be used as the title.
+    { "<leader>oa", ":ObsidianLinkNew<cr>", mode = { "v" }, desc = "Create Link with Selection" }, -- to create a new note and link it to an in-line visual selection of text. This command has one optional argument: the title of the new note. If not given, the selected text will be used as the title.
+    { "<leader>og", ":ObsidianFollowLink<cr>", desc = "Follow Link to Note" }, -- to follow a note reference under the cursor.
+    { "<leader>ot", ":ObsidianTemplate<cr>", desc = "Insert Template" }, -- to follow a note reference under the cursor.
   },
 }
