@@ -1,9 +1,3 @@
-
-#### FIG ENV VARIABLES ####
-# Please make sure this block is at the start of this file.
-[ -s ~/.fig/shell/pre.sh ] && source ~/.fig/shell/pre.sh
-#### END FIG ENV VARIABLES ####
-
 # Path to dotfiles
 export DOTFILES=$HOME/.dotfiles
 export OBSIDIAN="${HOME}/Library/Mobile\ Documents/iCloud\~md\~obsidian/Documents/obsidian"
@@ -73,5 +67,7 @@ if command -v pyenv 1>/dev/null 2>&1; then
  eval "$(pyenv init --path)"
  eval "$(pyenv init -)"
 fi
+
+RIPGREP_CONFIG_PATH="~/.config/.ripgreprc"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
