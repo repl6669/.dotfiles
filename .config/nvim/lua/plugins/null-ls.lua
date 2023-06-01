@@ -8,6 +8,7 @@ return {
       sources = {
         -- nls.builtins.formatting.prettierd,
         nls.builtins.formatting.stylua,
+        nls.builtins.formatting.xmlformat,
         nls.builtins.formatting.pint.with({
           command = vim.fn.expand("~/.local/share/nvim/mason/packages/pint/vendor/bin/pint"),
           -- prefer_local = vim.fn.expand("./vendor/bin/pint"),
