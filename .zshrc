@@ -52,6 +52,7 @@ fi
 
 # Source aliases
 source $DOTFILES/aliases.zsh
+source $DOTFILES/aliases-docker.zsh
 
 export TERM=xterm
 # Source commands
