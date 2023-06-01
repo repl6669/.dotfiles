@@ -9,9 +9,11 @@ alias c="clear"
 
 # Directories
 alias dot="cd $DOTFILES"                                    # Go to .dotfiles directory
-alias repos="cd ~/Developer"                                # Open default projects directory
-alias lara="cd ~/Developer/php"                             # Open default php / laravel projects directory
 alias obs="cd $OBSIDIAN"                                    # Go to obsidian root directory
+alias repos="cd ~/Developer"                                # Open default projects directory
+alias ppd="cd ~/Developer/php"                              # Open root php projects directory
+alias pro="cd ~/Developer/php/projects"                     # Open php projects directory
+alias pac="cd ~/Developer/php/packages"                     # Open php packages directory
 
 ## PHP & Laravel aliases
 alias a="php artisan"                                       # Run artisan
@@ -61,4 +63,7 @@ alias vimr="vimr"                                           # Use vimr
 ## ZSH
 alias zshconfig="vim ~/.zshrc"                              # Open zsh config in vim
 alias ohmyzsh="vim ~/.oh-my-zsh"                            # Open oh my zsh config in vim
+
+# Copilot CLI
+eval "$(github-copilot-cli alias -- "$0")"
 
