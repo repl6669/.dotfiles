@@ -13,7 +13,7 @@ lg() {
 
 phpv() {
     valet stop
-    brew unlink php@8.0 php@8.1 # php@7.4 
+    brew unlink php@8.1 php@8.2 # php@7.4
     brew link --force --overwrite $1
     brew services start $1
     composer global update
@@ -22,8 +22,9 @@ phpv() {
 }
 
 # alias php74="phpv php@7.4"
-alias php80="phpv php@8.0"
+# alias php80="phpv php@8.0"
 alias php81="phpv php@8.1"
+alias php82="phpv php@8.2"
 
 composer-link() {
     composer config repositories.local '{"type": "path", "url": "'$1'"}' --file composer.json
