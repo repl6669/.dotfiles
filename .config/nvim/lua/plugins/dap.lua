@@ -73,10 +73,13 @@ return {
 
     dap.configurations.php = {
       {
+        name = "Listen for Xdebug",
         type = "php",
         request = "launch",
-        name = "Listen for Xdebug",
         port = 9003,
+        pathMappings = {
+          ["/var/www/html/"] = "${workspaceFolder}",
+        },
       },
     }
   end,
