@@ -7,6 +7,7 @@ return {
       ["<leader>cp"] = { name = "+php" },
       ["<leader>o"] = { name = "+obsidian" },
       ["<leader>a"] = { name = "+annotations/docblocks" },
+      ["<leader>p"] = { name = "+pomodoro" },
     },
   },
 }
