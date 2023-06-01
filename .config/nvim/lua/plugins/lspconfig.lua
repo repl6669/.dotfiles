@@ -64,7 +64,7 @@ return {
         init_options = {
           licenseKey = "00TJPX959XHH6KQ",
           files = {
-            maxSize = 1000000,
+            maxSize = 10000000,
           },
         },
       },
@@ -103,12 +103,8 @@ return {
             client.server_capabilities.documentRangeFormattingProvider = false -- Formatting handled by null-ls
 
             client.server_capabilities.codeActionProvider = false -- Handled by phpactor
-            client.server_capabilities.completionProvider = false -- Handled by phpactor
             client.server_capabilities.definitionProvider = false -- Handled by phpactor
             client.server_capabilities.renameProvider = false -- Handled by phpactor
-            client.server_capabilities.hoverProvider = false -- Handled by phpactor
-            client.server_capabilities.workspaceSymbolProvider = false -- Handled by phpactor
-            client.server_capabilities.documentSymbolProvider = false -- Handled by phpactor
 
             -- vim.notify(vim.inspect(client.name))
             -- vim.notify(vim.inspect(client.server_capabilities))
@@ -120,6 +116,10 @@ return {
           -- Phpactor
           if client.name == "phpactor" then
             client.server_capabilities.documentDiagnosticsProvider = false -- Diagnostics handled by intelephense
+            client.server_capabilities.workspaceSymbolProvider = false -- Handled by intelephense
+            client.server_capabilities.documentSymbolProvider = false -- Handled by intelephense
+            client.server_capabilities.completionProvider = false -- Handled by intelephense
+            client.server_capabilities.hoverProvider = false -- Handled by intelephense
 
             client.server_capabilities.documentFormattingProvider = false -- Formatting handled by null-ls
             client.server_capabilities.documentRangeFormattingProvider = false -- Formatting handled by null-ls
