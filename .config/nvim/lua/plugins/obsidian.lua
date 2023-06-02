@@ -30,6 +30,9 @@ return {
       end
       return tostring(os.time()) .. "-" .. suffix
     end,
+
+    -- Optional, set to true if you don't want Obsidian to manage frontmatter.
+    disable_frontmatter = true,
   },
   keys = {
     { "<leader>ob", ":ObsidianBacklinks<cr>", desc = "Get List of References" }, -- for getting a location list of references to the current buffer.
