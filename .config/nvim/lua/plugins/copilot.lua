@@ -1,30 +1,32 @@
--- Copilot
-
 return {
   "zbirenbaum/copilot.lua",
-  cmd = "Copilot",
-  event = "InsertEnter",
-  config = function()
-    require("copilot").setup({
-      panel = {
-        auto_refresh = false,
-        keymap = {
-          accept = "<CR>",
-          jump_prev = "[[",
-          jump_next = "]]",
-          refresh = "gr",
-          open = "<D-CR>",
-        },
+  opts = {
+    panel = {
+      auto_refresh = false,
+      keymap = {
+        jump_prev = "[[",
+        jump_next = "]]",
+        accept = "<CR>",
+        refresh = "gr",
+        open = "<D-CR>",
       },
-      suggestion = {
-        auto_trigger = true,
-        keymap = {
-          accept = "<D-l>",
-          prev = "<D-[>",
-          next = "<D-]>",
-          dismiss = "<C-]>",
-        },
+    },
+    suggestion = {
+      enabled = true,
+      auto_trigger = true,
+      debounce = 50,
+      keymap = {
+        accept = "<D-l>",
+        accept_word = false,
+        accept_line = false,
+        prev = "<D-[>",
+        next = "<D-]>",
+        dismiss = "<C-]>",
       },
-    })
-  end,
+    },
+    filetypes = {
+      markdown = true,
+      help = true,
+    },
+  },
 }
