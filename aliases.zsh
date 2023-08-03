@@ -57,7 +57,7 @@ alias ll="exa -la"                                          # Better file listin
 
 ## Vim
 alias vim="nvim"                                            # Use nvim
-alias neo="neovide"                                         # Use neovide
+alias neo="neovide --multigrid"                             # Use neovide
 alias vimr="vimr"                                           # Use vimr
 
 ## ZSH
