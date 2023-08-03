@@ -14,9 +14,9 @@ return {
         settings = {
           typescript = {
             format = {
-              indentSize = vim.o.shiftwidth,
-              convertTabsToSpaces = vim.o.expandtab,
-              tabSize = vim.o.tabstop,
+              indentSize = 2,
+              convertTabsToSpaces = true,
+              tabSize = 2,
             },
           },
           javascript = {
@@ -59,24 +59,16 @@ return {
         },
       },
       -- tailwindcss = {},
-      intelephense = {
-        ---@type lspconfig.options.intelephense
-        init_options = {
-          licenseKey = "00TJPX959XHH6KQ",
-          files = {
-            maxSize = 10000000,
-          },
-        },
-      },
-      phpactor = {
-        init_options = {
-          ["language_server_phpstan.enabled"] = false,
-          ["language_server_psalm.enabled"] = false,
-          ["language_server.diagnostics_on_update"] = false,
-          ["language_server.diagnostics_on_save"] = false,
-          ["language_server.diagnostics_on_open"] = false,
-        },
-      },
+      -- intelephense = {
+      --   ---@type lspconfig.options.intelephense
+      --   init_options = {
+      --     licenseKey = "00TJPX959XHH6KQ",
+      --     files = {
+      --       maxSize = 10000000,
+      --     },
+      --   },
+      -- },
+      phpactor = {},
       ---@type lspconfig.options.volar
       volar = {},
       sqlls = {},
@@ -95,34 +87,34 @@ return {
         require("typescript").setup({ server = opts })
         return true
       end,
-      intelephense = function(_, opts)
-        require("lazyvim.util").on_attach(function(client, buffer)
-          -- Intelephense
-          if client.name == "intelephense" then
-            client.server_capabilities.documentFormattingProvider = false -- Formatting handled by null-ls
-            client.server_capabilities.documentRangeFormattingProvider = false -- Formatting handled by null-ls
-
-            client.server_capabilities.codeActionProvider = false -- Handled by phpactor
-            client.server_capabilities.definitionProvider = false -- Handled by phpactor
-            client.server_capabilities.renameProvider = false -- Handled by phpactor
-
-            -- vim.notify(vim.inspect(client.name))
-            -- vim.notify(vim.inspect(client.server_capabilities))
-          end
-        end)
-      end,
+      -- intelephense = function(_, opts)
+      --   require("lazyvim.util").on_attach(function(client, buffer)
+      --     -- Intelephense
+      --     if client.name == "intelephense" then
+      --       client.server_capabilities.documentFormattingProvider = false -- Formatting handled by null-ls
+      --       client.server_capabilities.documentRangeFormattingProvider = false -- Formatting handled by null-ls
+      --
+      --       client.server_capabilities.codeActionProvider = false -- Handled by phpactor
+      --       client.server_capabilities.definitionProvider = false -- Handled by phpactor
+      --       client.server_capabilities.renameProvider = false -- Handled by phpactor
+      --
+      --       -- vim.notify(vim.inspect(client.name))
+      --       -- vim.notify(vim.inspect(client.server_capabilities))
+      --     end
+      --   end)
+      -- end,
       phpactor = function(_, opts)
         require("lazyvim.util").on_attach(function(client, buffer)
           -- Phpactor
           if client.name == "phpactor" then
-            client.server_capabilities.documentDiagnosticsProvider = false -- Diagnostics handled by intelephense
-            client.server_capabilities.workspaceSymbolProvider = false -- Handled by intelephense
-            client.server_capabilities.documentSymbolProvider = false -- Handled by intelephense
-            client.server_capabilities.completionProvider = false -- Handled by intelephense
-            client.server_capabilities.hoverProvider = false -- Handled by intelephense
-
-            client.server_capabilities.documentFormattingProvider = false -- Formatting handled by null-ls
-            client.server_capabilities.documentRangeFormattingProvider = false -- Formatting handled by null-ls
+            -- client.server_capabilities.documentDiagnosticsProvider = false -- Diagnostics handled by intelephense
+            -- client.server_capabilities.workspaceSymbolProvider = false -- Handled by intelephense
+            -- client.server_capabilities.documentSymbolProvider = false -- Handled by intelephense
+            -- client.server_capabilities.completionProvider = false -- Handled by intelephense
+            -- client.server_capabilities.hoverProvider = false -- Handled by intelephense
+            --
+            -- client.server_capabilities.documentFormattingProvider = false -- Formatting handled by null-ls
+            -- client.server_capabilities.documentRangeFormattingProvider = false -- Formatting handled by null-ls
 
             -- vim.notify(vim.inspect(client.name))
             -- vim.notify(vim.inspect(client.server_capabilities))
