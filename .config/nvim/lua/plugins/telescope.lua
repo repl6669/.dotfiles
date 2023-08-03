@@ -5,9 +5,11 @@ return {
   dependencies = {
     {
       "nvim-telescope/telescope-fzf-native.nvim",
+      "rcarriga/nvim-notify",
       build = "make",
       config = function()
         require("telescope").load_extension("fzf")
+        require("telescope").load_extension("notify")
       end,
       keys = {
         -- stylua: ignore
