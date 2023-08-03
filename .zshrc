@@ -19,6 +19,7 @@ export PATH=/opt/homebrew/bin:$PATH
 export PATH=$PATH:~/.composer/vendor/bin
 export PATH="./vendor/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
@@ -69,6 +70,9 @@ if command -v pyenv 1>/dev/null 2>&1; then
  eval "$(pyenv init -)"
 fi
 
+# Ripgrep
 RIPGREP_CONFIG_PATH="~/.config/.ripgreprc"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+
