@@ -1,6 +1,7 @@
 if vim.g.neovide then
   -- Set up font
   vim.opt.guifont = { "DankMono Nerd Font Mono", ":h20" }
+  -- vim.opt.linespace = 4
 
   -- Helper function for transparency formatting
   local alpha = function()
@@ -8,7 +9,7 @@ if vim.g.neovide then
   end
   -- g:neovide_transparency should be 0 if you want to unify transparency of content and title bar.
   vim.g.neovide_transparency = 0.0
-  vim.g.transparency = 0.95
+  vim.g.transparency = 0.90
   vim.g.neovide_background_color = "#191723" .. alpha()
 
   -- Light theme settings
@@ -20,6 +21,9 @@ if vim.g.neovide then
 
   -- Disable cursor animation
   vim.g.neovide_cursor_animation_length = 0
+
+  -- Set scroll animation length
+  vim.g.neovide_scroll_animation_length = 0.2
 
   -- Enable cursor ripple effect
   vim.g.neovide_cursor_vfx_mode = "ripple"
