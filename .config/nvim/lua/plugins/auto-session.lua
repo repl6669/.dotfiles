@@ -1,3 +1,7 @@
+if true then
+  return {}
+end
+
 -- Session management
 return {
   "rmagatti/auto-session",
