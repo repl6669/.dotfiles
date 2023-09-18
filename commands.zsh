@@ -21,6 +21,10 @@ phpv() {
     valet install
 }
 
+myip() {
+    ifconfig | grep "inet " | grep -Fv 127.0.0.1 | awk '{print $2}'
+}
+
 # alias php74="phpv php@7.4"
 # alias php80="phpv php@8.0"
 alias php81="phpv php@8.1"
