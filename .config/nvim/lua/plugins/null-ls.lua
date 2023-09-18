@@ -21,7 +21,7 @@ return {
           -- extra_args = { "--config", vim.fn.expand("~/.config/pint.json") },
         }),
         nls.builtins.diagnostics.phpstan,
-        nls.builtins.diagnostics.shellcheck,
+        -- nls.builtins.diagnostics.shellcheck,
       },
       temp_dir = "/tmp",
     }
