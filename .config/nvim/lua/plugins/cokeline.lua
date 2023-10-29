@@ -1,8 +1,11 @@
 return {
-  "noib3/nvim-cokeline",
+  "willothy/nvim-cokeline",
+  dependencies = {
+    "nvim-lua/plenary.nvim", -- Required for v0.4.0+
+  },
   config = function()
-    local get_hex = require("cokeline/utils").get_hex
-    local mappings = require("cokeline/mappings")
+    local get_hex = require("cokeline.hlgroups").get_hl_attr
+    local mappings = require("cokeline.mappings")
 
     local comments_fg = get_hex("Comment", "fg")
     local errors_fg = get_hex("DiagnosticError", "fg")
@@ -114,6 +117,16 @@ return {
           return buffer.is_focused and get_hex("Normal", "fg") or get_hex("Comment", "fg")
         end,
         bg = get_hex("DarkenedPanel", "bg"),
+      },
+      sidebar = {
+        filetype = { "neo-tree" },
+        components = {
+          {
+            text = function(buf)
+              return "File Explorer"
+            end,
+          },
+        },
       },
       components = {
         components.space,
