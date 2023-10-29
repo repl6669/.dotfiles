@@ -9,28 +9,6 @@ return {
     servers = {
       docker_compose_language_service = {},
       dockerls = {},
-      ---@type lspconfig.options.tsserver
-      tsserver = {
-        settings = {
-          typescript = {
-            format = {
-              indentSize = 2,
-              convertTabsToSpaces = true,
-              tabSize = 2,
-            },
-          },
-          javascript = {
-            format = {
-              indentSize = vim.o.shiftwidth,
-              convertTabsToSpaces = vim.o.expandtab,
-              tabSize = vim.o.tabstop,
-            },
-          },
-          completions = {
-            completeFunctionCalls = true,
-          },
-        },
-      },
       ---@type lspconfig.options.lua_ls
       lua_ls = {
         settings = {
@@ -74,19 +52,6 @@ return {
       sqlls = {},
     },
     setup = {
-      tsserver = function(_, opts)
-        require("lazyvim.util").on_attach(function(client, buffer)
-          -- vim.notify(vim.inspect(client.server_capabilities))
-          if client.name == "tsserver" then
-            -- stylua: ignore
-            vim.keymap.set("n", "<leader>co", "<cmd>TypescriptOrganizeImports<CR>", { buffer = buffer, desc = "Organize Imports" })
-            -- stylua: ignore
-            vim.keymap.set("n", "<leader>cR", "<cmd>TypescriptRenameFile<CR>", { desc = "Rename File", buffer = buffer })
-          end
-        end)
-        require("typescript").setup({ server = opts })
-        return true
-      end,
       -- intelephense = function(_, opts)
       --   require("lazyvim.util").on_attach(function(client, buffer)
       --     -- Intelephense
@@ -103,24 +68,24 @@ return {
       --     end
       --   end)
       -- end,
-      phpactor = function(_, opts)
-        require("lazyvim.util").on_attach(function(client, buffer)
-          -- Phpactor
-          if client.name == "phpactor" then
-            -- client.server_capabilities.documentDiagnosticsProvider = false -- Diagnostics handled by intelephense
-            -- client.server_capabilities.workspaceSymbolProvider = false -- Handled by intelephense
-            -- client.server_capabilities.documentSymbolProvider = false -- Handled by intelephense
-            -- client.server_capabilities.completionProvider = false -- Handled by intelephense
-            -- client.server_capabilities.hoverProvider = false -- Handled by intelephense
-            --
-            -- client.server_capabilities.documentFormattingProvider = false -- Formatting handled by null-ls
-            -- client.server_capabilities.documentRangeFormattingProvider = false -- Formatting handled by null-ls
-
-            -- vim.notify(vim.inspect(client.name))
-            -- vim.notify(vim.inspect(client.server_capabilities))
-          end
-        end)
-      end,
+      -- phpactor = function(_, opts)
+      --   require("lazyvim.util").on_attach(function(client, buffer)
+      --     -- Phpactor
+      --     if client.name == "phpactor" then
+      --       client.server_capabilities.documentDiagnosticsProvider = false     -- Diagnostics handled by intelephense
+      --       client.server_capabilities.workspaceSymbolProvider = false         -- Handled by intelephense
+      --       client.server_capabilities.documentSymbolProvider = false          -- Handled by intelephense
+      --       client.server_capabilities.completionProvider = false              -- Handled by intelephense
+      --       client.server_capabilities.hoverProvider = false                   -- Handled by intelephense
+      --
+      --       client.server_capabilities.documentFormattingProvider = false      -- Formatting handled by null-ls
+      --       client.server_capabilities.documentRangeFormattingProvider = false -- Formatting handled by null-ls
+      --
+      --       -- vim.notify(vim.inspect(client.name))
+      --       -- vim.notify(vim.inspect(client.server_capabilities))
+      --     end
+      --   end)
+      -- end,
     },
   },
 }
