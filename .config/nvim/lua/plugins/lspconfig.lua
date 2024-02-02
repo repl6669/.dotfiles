@@ -1,18 +1,27 @@
 return {
   "neovim/nvim-lspconfig",
   dependencies = {
-    "b0o/SchemaStore.nvim",
-    version = false, -- last release is way too old
+    { "antosha417/nvim-lsp-file-operations", config = true },
   },
   opts = {
     -- make sure mason installs the server
     servers = {
       docker_compose_language_service = {},
       dockerls = {},
-      ---@type lspconfig.options.lua_ls
       lua_ls = {
+        -- mason = false, -- set to false if you don't want this server to be installed with mason
+        -- Use this to add any additional keymaps
+        -- for specific lsp servers
+        ---@type LazyKeysSpec[]
+        -- keys = {},
         settings = {
           Lua = {
+            workspace = {
+              checkThirdParty = false,
+            },
+            completion = {
+              callSnippet = "Replace",
+            },
             diagnostics = {
               -- Get the language server to recognize the `vim` global
               globals = { "vim" },
@@ -20,23 +29,6 @@ return {
           },
         },
       },
-      ---@type lspconfig.options.jsonls
-      jsonls = {
-        -- lazy-load schemastore when needed
-        on_new_config = function(new_config)
-          new_config.settings.json.schemas = new_config.settings.json.schemas or {}
-          vim.list_extend(new_config.settings.json.schemas, require("schemastore").json.schemas())
-        end,
-        settings = {
-          json = {
-            format = {
-              enable = true,
-            },
-            validate = { enable = true },
-          },
-        },
-      },
-      -- tailwindcss = {},
       -- intelephense = {
       --   ---@type lspconfig.options.intelephense
       --   init_options = {
@@ -47,45 +39,19 @@ return {
       --   },
       -- },
       phpactor = {},
-      ---@type lspconfig.options.volar
-      volar = {},
+      tsserver = {
+        on_attach = function(client)
+          -- disable formatting, since we use prettier
+          client.resolved_capabilities.document_formatting = false
+        end,
+      },
+      volar = {
+        on_attach = function(client)
+          -- disable formatting, since we use prettier
+          client.resolved_capabilities.document_formatting = false
+        end,
+      },
       sqlls = {},
-    },
-    setup = {
-      -- intelephense = function(_, opts)
-      --   require("lazyvim.util").on_attach(function(client, buffer)
-      --     -- Intelephense
-      --     if client.name == "intelephense" then
-      --       client.server_capabilities.documentFormattingProvider = false -- Formatting handled by null-ls
-      --       client.server_capabilities.documentRangeFormattingProvider = false -- Formatting handled by null-ls
-      --
-      --       client.server_capabilities.codeActionProvider = false -- Handled by phpactor
-      --       client.server_capabilities.definitionProvider = false -- Handled by phpactor
-      --       client.server_capabilities.renameProvider = false -- Handled by phpactor
-      --
-      --       -- vim.notify(vim.inspect(client.name))
-      --       -- vim.notify(vim.inspect(client.server_capabilities))
-      --     end
-      --   end)
-      -- end,
-      -- phpactor = function(_, opts)
-      --   require("lazyvim.util").on_attach(function(client, buffer)
-      --     -- Phpactor
-      --     if client.name == "phpactor" then
-      --       client.server_capabilities.documentDiagnosticsProvider = false     -- Diagnostics handled by intelephense
-      --       client.server_capabilities.workspaceSymbolProvider = false         -- Handled by intelephense
-      --       client.server_capabilities.documentSymbolProvider = false          -- Handled by intelephense
-      --       client.server_capabilities.completionProvider = false              -- Handled by intelephense
-      --       client.server_capabilities.hoverProvider = false                   -- Handled by intelephense
-      --
-      --       client.server_capabilities.documentFormattingProvider = false      -- Formatting handled by null-ls
-      --       client.server_capabilities.documentRangeFormattingProvider = false -- Formatting handled by null-ls
-      --
-      --       -- vim.notify(vim.inspect(client.name))
-      --       -- vim.notify(vim.inspect(client.server_capabilities))
-      --     end
-      --   end)
-      -- end,
     },
   },
 }
