@@ -12,3 +12,4 @@ vim.opt.shell = "/opt/homebrew/bin/zsh" -- shell to use
 vim.opt.numberwidth = 4 -- set the width of the line numbers
 vim.opt.signcolumn = "yes" -- always show the sign column, otherwise it would shift the text each time
 vim.opt.number = false -- together with relativenumber set to true, it is aligned to the right, which is nicer
+vim.opt.winblend = 0 -- global transparency for floating windows
