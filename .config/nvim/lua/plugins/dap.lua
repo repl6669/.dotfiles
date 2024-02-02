@@ -1,3 +1,8 @@
+-- Disable the config, but keep it for reference
+if true then
+  return {}
+end
+
 -- Neovim debug adapter protocol
 
 return {
