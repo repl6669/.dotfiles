@@ -56,9 +56,9 @@ alias wip="commit wip"                                      # Git commit wip
 alias ll="eza -la"                                          # Better file listing
 
 ## Vim
-alias vim="nvim"                                            # Use nvim
-alias neo="neovide --multigrid"                             # Use neovide
-alias vimr="vimr"                                           # Use vimr
+alias vim="nvim"                                                    # Use nvim
+alias neo="neovide --no-tabs --frame buttonless --title-hidden"     # Use neovide
+alias vimr="vimr"                                                   # Use vimr
 
 ## ZSH
 alias zshconfig="vim ~/.zshrc"                              # Open zsh config in vim
