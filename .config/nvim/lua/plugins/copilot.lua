@@ -2,6 +2,7 @@ return {
   "zbirenbaum/copilot.lua",
   opts = {
     panel = {
+      enabled = false,
       auto_refresh = false,
       keymap = {
         jump_prev = "[[",
