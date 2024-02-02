@@ -7,23 +7,44 @@ return {
     local get_hex = require("cokeline.hlgroups").get_hl_attr
     local mappings = require("cokeline.mappings")
 
+    local red = vim.g.terminal_color_1
+    local yellow = vim.g.terminal_color_3
+
     local comments_fg = get_hex("Comment", "fg")
     local errors_fg = get_hex("DiagnosticError", "fg")
     local warnings_fg = get_hex("DiagnosticWarn", "fg")
 
-    local red = vim.g.terminal_color_1
-    local yellow = vim.g.terminal_color_3
+    local p = require("rose-pine.palette")
+    local rose_pine_config = require("rose-pine.config")
+
+    local bg_base = p.base
+    if rose_pine_config.options.styles.transparency then
+      bg_base = "NONE"
+    end
+
+    local bg_hl = "NONE"
+    local transparent_bg = bg_base
+    local bg = nil
+
+    local inactive_fg = p.subtle
+    local inactive_bg = bg
+
+    local active_fg = p.gold
+    local active_bg = bg
 
     local components = {
       space = {
         text = " ",
-        bg = get_hex("Normal", "bg"),
+        bg = transparent_bg,
         truncation = { priority = 1 },
       },
       left_separator = {
-        text = "",
-        fg = get_hex("DarkenedPanel", "bg"),
-        bg = get_hex("Normal", "bg"),
+        -- text = "",
+        text = "",
+        fg = function(buffer)
+          return buffer.is_focused and active_bg or inactive_bg
+        end,
+        bg = transparent_bg,
         truncation = { priority = 1 },
       },
       icon = {
@@ -96,9 +117,12 @@ return {
         truncation = { priority = 1 },
       },
       right_separator = {
-        text = "",
-        fg = get_hex("DarkenedPanel", "bg"),
-        bg = get_hex("Normal", "bg"),
+        -- text = "",
+        text = "",
+        fg = function(buffer)
+          return buffer.is_focused and active_bg or inactive_bg
+        end,
+        bg = transparent_bg,
         truncation = { priority = 1 },
       },
     }
@@ -114,17 +138,25 @@ return {
       },
       default_hl = {
         fg = function(buffer)
-          return buffer.is_focused and get_hex("Normal", "fg") or get_hex("Comment", "fg")
+          return buffer.is_focused and active_fg or inactive_fg
         end,
-        bg = get_hex("DarkenedPanel", "bg"),
+        bg = function(buffer)
+          return buffer.is_focused and active_bg or inactive_bg
+        end,
+        italic = function(buffer)
+          return buffer.is_focused
+        end,
       },
+      fill_hl = bg_hl,
       sidebar = {
         filetype = { "neo-tree" },
         components = {
           {
             text = function(buf)
-              return "File Explorer"
+              return " Neotree"
             end,
+            bg = transparent_bg,
+            bold = true,
           },
         },
       },
