@@ -7,9 +7,6 @@ return {
       "html",
       "javascript",
       "jsdoc",
-      "json",
-      "json5",
-      "jsonc",
       "lua",
       "luadoc",
       "luap",
@@ -42,4 +39,24 @@ return {
       additional_vim_regex_highlighting = { "markdown" },
     },
   },
+  config = function(_, opts)
+    local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+
+    parser_config.blade = {
+      install_info = {
+        url = "https://github.com/EmranMR/tree-sitter-blade",
+        files = { "src/parser.c" },
+        branch = "main",
+      },
+      filetype = "blade",
+    }
+
+    vim.filetype.add({
+      pattern = {
+        [".*%.blade%.php"] = "blade",
+      },
+    })
+
+    require("nvim-treesitter.configs").setup(opts)
+  end,
 }
