@@ -1,8 +1,20 @@
 return {
   "epwalsh/obsidian.nvim",
   ft = "markdown",
+  version = "*",
+  event = {
+    -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
+    -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
+    "BufReadPre /Users/theimer/Library/Mobile Documents/iCloud~md~obsidian/Documents/obsidian/**.md",
+    "BufNewFile /Users/theimer/Library/Mobile Documents/iCloud~md~obsidian/Documents/obsidian/**.md",
+  },
   opts = {
-    dir = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/obsidian",
+    workspaces = {
+      {
+        name = "personal",
+        path = "/Users/theimer/Library/Mobile Documents/iCloud~md~obsidian/Documents/obsidian",
+      },
+    },
     use_advanced_uri = true,
     notes_subdir = "Zettelkasten",
     daily_notes = {
