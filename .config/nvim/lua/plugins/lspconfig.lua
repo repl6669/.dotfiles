@@ -45,6 +45,14 @@ return {
           client.resolved_capabilities.document_formatting = false
         end,
       },
+      tailwindcss = {
+        -- exclude a filetype from the default_config
+        filetypes_exclude = { "php", "md", "markdown" },
+        -- add additional filetypes to the default_config
+        filetypes_include = {},
+        -- to fully override the default_config, change the below
+        -- filetypes = {}
+      },
       volar = {
         on_attach = function(client)
           -- disable formatting, since we use prettier
