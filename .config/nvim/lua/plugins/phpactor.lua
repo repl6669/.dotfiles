@@ -21,7 +21,7 @@ return {
       { "<leader>cplr", ":PhpActor lsp/reindex<CR>", mode = { "n" }, desc = "Reindex PhpActor LSP" },
       { "<leader>cpim", ":PhpActor import_missing_classes<CR>", mode = { "n" }, desc = "Import Missing Classes" },
     },
-    config = {
+    opts = {
       install = {
         -- path = vim.fn.stdpath("data") .. "/opt/",
         -- branch = "master",
