@@ -10,7 +10,6 @@ return {
       json = { "prettierd" },
       json5 = { "prettierd" },
       lua = { "stylua" },
-      markdown = { "prettierd" },
       php = { "pint" },
       vue = { "prettierd" },
       typescript = { "prettierd" },
