@@ -1,7 +1,3 @@
-if true then
-  return {}
-end
-
 return {
   "adalessa/laravel.nvim",
   dependencies = {
@@ -9,23 +5,33 @@ return {
     "tpope/vim-dotenv",
     "MunifTanjim/nui.nvim",
   },
+  ft = { "php", "blade" },
   cmd = { "Sail", "Artisan", "Composer", "Npm", "Yarn", "Laravel" },
   keys = {
-    { "<leader>la", ":Laravel artisan<cr>" },
-    { "<leader>lr", ":Laravel routes<cr>" },
-    { "<leader>lm", ":Laravel related<cr>" },
+    { "<leader>la", ":Laravel artisan<cr>", desc = "Laravel artisan" },
+    { "<leader>lr", ":Laravel routes<cr>", desc = "Laravel routes" },
+    { "<leader>lm", ":Laravel related<cr>", desc = "Laravel related" },
     {
       "<leader>lt",
       function()
         require("laravel.tinker").send_to_tinker()
       end,
       mode = "v",
-      desc = "Laravel Application Routes",
+      desc = "Send to tinker",
+    },
+  },
+  opts = {
+    lsp_server = "phpactor",
+    features = {
+      null_ls = {
+        enable = false,
+      },
+      route_info = {
+        enable = false,
+        position = "right",
+      },
     },
   },
   event = { "VeryLazy" },
-  config = function()
-    require("laravel").setup()
-    require("telescope").load_extension("laravel")
-  end,
+  config = true,
 }
