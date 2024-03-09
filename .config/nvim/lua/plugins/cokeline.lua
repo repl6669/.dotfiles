@@ -7,44 +7,28 @@ return {
     local get_hex = require("cokeline.hlgroups").get_hl_attr
     local mappings = require("cokeline.mappings")
 
-    local red = vim.g.terminal_color_1
-    local yellow = vim.g.terminal_color_3
-
     local comments_fg = get_hex("Comment", "fg")
     local errors_fg = get_hex("DiagnosticError", "fg")
     local warnings_fg = get_hex("DiagnosticWarn", "fg")
+    local info_fg = get_hex("DiagnosticInfo", "fg")
+    local hints_fg = get_hex("DiagnosticHint", "fg")
 
-    local p = require("rose-pine.palette")
-    local rose_pine_config = require("rose-pine.config")
+    local transparent = get_hex("Normal", "bg")
+    local background = get_hex("BufferCurrent", "bg")
 
-    local bg_base = p.base
-    if rose_pine_config.options.styles.transparency then
-      bg_base = "NONE"
-    end
-
-    local bg_hl = "NONE"
-    local transparent_bg = bg_base
-    local bg = nil
-
-    local inactive_fg = p.subtle
-    local inactive_bg = bg
-
-    local active_fg = p.gold
-    local active_bg = bg
+    local red = vim.g.terminal_color_1
+    local yellow = vim.g.terminal_color_3
 
     local components = {
       space = {
         text = " ",
-        bg = transparent_bg,
+        bg = transparent,
         truncation = { priority = 1 },
       },
       left_separator = {
-        -- text = "",
-        text = "",
-        fg = function(buffer)
-          return buffer.is_focused and active_bg or inactive_bg
-        end,
-        bg = transparent_bg,
+        text = "",
+        fg = background,
+        bg = transparent,
         truncation = { priority = 1 },
       },
       icon = {
@@ -96,13 +80,17 @@ return {
       },
       diagnostics = {
         text = function(buffer)
-          return (buffer.diagnostics.errors ~= 0 and "  " .. buffer.diagnostics.errors)
-            or (buffer.diagnostics.warnings ~= 0 and "  " .. buffer.diagnostics.warnings)
+          return (buffer.diagnostics.errors ~= 0 and "  " .. buffer.diagnostics.errors)
+            or (buffer.diagnostics.warnings ~= 0 and "  " .. buffer.diagnostics.warnings)
+            or (buffer.diagnostics.infos ~= 0 and "  " .. buffer.diagnostics.infos)
+            or (buffer.diagnostics.hints ~= 0 and " 󰌵 " .. buffer.diagnostics.hints)
             or ""
         end,
         fg = function(buffer)
           return (buffer.diagnostics.errors ~= 0 and errors_fg)
             or (buffer.diagnostics.warnings ~= 0 and warnings_fg)
+            or (buffer.diagnostics.infos ~= 0 and info_fg)
+            or (buffer.diagnostics.hints ~= 0 and hints_fg)
             or nil
         end,
         truncation = { priority = 1 },
@@ -117,12 +105,9 @@ return {
         truncation = { priority = 1 },
       },
       right_separator = {
-        -- text = "",
-        text = "",
-        fg = function(buffer)
-          return buffer.is_focused and active_bg or inactive_bg
-        end,
-        bg = transparent_bg,
+        text = "",
+        fg = background,
+        bg = transparent,
         truncation = { priority = 1 },
       },
     }
@@ -138,16 +123,11 @@ return {
       },
       default_hl = {
         fg = function(buffer)
-          return buffer.is_focused and active_fg or inactive_fg
+          return buffer.is_focused and get_hex("BufferCurrentMod", "fg") or get_hex("BufferInactive", "fg")
         end,
-        bg = function(buffer)
-          return buffer.is_focused and active_bg or inactive_bg
-        end,
-        italic = function(buffer)
-          return buffer.is_focused
-        end,
+        bg = background,
       },
-      fill_hl = bg_hl,
+      fill_hl = "Normal",
       sidebar = {
         filetype = { "neo-tree" },
         components = {
@@ -155,7 +135,7 @@ return {
             text = function(buf)
               return " Neotree"
             end,
-            bg = transparent_bg,
+            bg = transparent,
             bold = true,
           },
         },
