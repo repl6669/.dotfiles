@@ -1,6 +1,6 @@
 if vim.g.neovide then
   -- Set up font
-  vim.opt.guifont = { "DankMono Nerd Font Mono", ":h20" }
+  vim.opt.guifont = { "JetBrainsMono Nerd Font", ":h18" }
   -- vim.opt.linespace = 4
 
   -- vim.g.neovide_transparency = 0.0
@@ -14,6 +14,7 @@ if vim.g.neovide then
   -- vim.g.neovide_remember_window_size = false
 
   vim.g.neovide_theme = "auto"
+  vim.g.winblend = 0
 
   vim.g.neovide_floating_blur_amount_x = 2.0
   vim.g.neovide_floating_blur_amount_y = 2.0
