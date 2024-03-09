@@ -11,6 +11,7 @@ return {
       json5 = { "prettierd" },
       lua = { "stylua" },
       php = { "pint" },
+      blade = { "blade-formatter" },
       vue = { "prettierd" },
       typescript = { "prettierd" },
       yaml = { "prettierd" },
