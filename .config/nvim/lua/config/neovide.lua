@@ -1,6 +1,6 @@
 if vim.g.neovide then
   -- Set up font
-  vim.opt.guifont = { "JetBrainsMono Nerd Font", ":h18" }
+  vim.opt.guifont = { "JetBrainsMono Nerd Font Mono", ":h18" }
   -- vim.opt.linespace = 4
 
   -- vim.g.neovide_transparency = 0.0
