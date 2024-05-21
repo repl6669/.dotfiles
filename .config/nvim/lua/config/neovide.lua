@@ -1,13 +1,9 @@
 if vim.g.neovide then
   -- Set up font
   vim.opt.guifont = { "JetBrainsMono Nerd Font Mono", ":h18" }
-  -- vim.opt.linespace = 4
+  -- vim.opt.linespace = 6
 
-  -- vim.g.neovide_transparency = 0.0
-  -- vim.g.transparency = 0.90
-  -- vim.g.neovide_background_color = "#191723" .. alpha()
-
-  -- The transparency rendering on macOS has been changed, and a full fix is work in progress.
+  -- Transparency
   vim.g.neovide_transparency = 0.85
   vim.g.neovide_window_blurred = true
 
