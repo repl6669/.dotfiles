@@ -48,6 +48,9 @@ alias push="git push"                                       # Git push
 alias unstage="git restore --staged ."                      # Git unstage
 alias wip="commit wip"                                      # Git commit wip
 
+## Github
+eval "$(gh copilot alias -- zsh)"
+
 ## Python
 # alias pip="pip3"                                          # Use pip3
 # alias python="python3"                                    # Use python3
@@ -56,9 +59,9 @@ alias wip="commit wip"                                      # Git commit wip
 alias ll="eza -la"                                          # Better file listing
 
 ## Vim
-alias vim="nvim"                                                    # Use nvim
-alias neo="neovide --no-tabs --frame buttonless --title-hidden"     # Use neovide
-alias vimr="vimr"                                                   # Use vimr
+alias vim="nvim"                                            # Use nvim
+alias neo="neovide"                                         # Use neovide
+alias vimr="vimr"                                           # Use vimr
 
 ## ZSH
 alias zshconfig="vim ~/.zshrc"                              # Open zsh config in vim
