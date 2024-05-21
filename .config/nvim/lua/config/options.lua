@@ -15,3 +15,7 @@ vim.opt.number = false -- together with relativenumber set to true, it is aligne
 vim.opt.winblend = 20 -- global transparency for floating windows
 vim.opt.conceallevel = 2 -- level of text hiding
 vim.opt.scrolloff = 16 -- minimum number of screen lines to keep above and below the cursor
+
+vim.opt.backupdir = vim.fn.stdpath("data") .. "/backup" -- where to store backup files
+vim.opt.directory = vim.fn.stdpath("data") .. "/swap" -- where to store swap files
+vim.opt.undodir = vim.fn.stdpath("data") .. "/undo" -- where to store undo files
