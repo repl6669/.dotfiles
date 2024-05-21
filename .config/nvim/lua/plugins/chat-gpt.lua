@@ -10,6 +10,7 @@ return {
   },
   config = function()
     require("chatgpt").setup({
+      api_key_cmd = 'op read "op://Private/op54pbs2bcvrdekea3uqg4p62a/API key" --no-newline',
       -- edit_with_instructions = {
       --   keymaps = {
       --     close = "<C-c>",
@@ -89,7 +90,7 @@ return {
         },
       },
       openai_params = {
-        model = "gpt-4-turbo",
+        model = "gpt-4-o",
         frequency_penalty = 0,
         presence_penalty = 0,
         max_tokens = 300,
@@ -98,7 +99,7 @@ return {
         n = 1,
       },
       openai_edit_params = {
-        model = "gpt-4-turbo",
+        model = "gpt-4o",
         frequency_penalty = 0,
         presence_penalty = 0,
         temperature = 0,
