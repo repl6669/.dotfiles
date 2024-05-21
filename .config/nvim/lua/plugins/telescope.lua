@@ -1,6 +1,6 @@
 local Util = require("lazyvim.util")
 local actions = require("telescope.actions")
-local trouble = require("trouble.providers.telescope")
+local trouble = require("trouble.sources.telescope")
 
 local find_files_no_ignore = function()
   local action_state = require("telescope.actions.state")
@@ -37,7 +37,7 @@ return {
         },
         n = {
           ["?"] = actions.which_key,
-          ["t"] = trouble.open_selected_with_trouble,
+          ["t"] = trouble.open,
         },
       },
     },
