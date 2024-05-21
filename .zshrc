@@ -9,6 +9,12 @@ export PATH="./vendor/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
+# Neovide settings
+export NEOVIDE_FRAME=transparent
+export NEOVIDE_TITLE_HIDDEN=0
+export NEOVIDE_TABS=0
+export NEOVIDE_FORK=1
+
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
