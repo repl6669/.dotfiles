@@ -39,11 +39,14 @@ return {
       --   },
       -- },
       phpactor = {},
+      ---@type lspconfig.options.tsserver
       tsserver = {
         on_attach = function(client)
           -- disable formatting, since we use prettier
-          client.resolved_capabilities.document_formatting = false
+          client.server_capabilities.documentFormattingProvider = false
         end,
+        ---@diagnostic disable-next-line: missing-fields
+        settings = {},
       },
       tailwindcss = {
         -- exclude a filetype from the default_config
@@ -56,7 +59,7 @@ return {
       volar = {
         on_attach = function(client)
           -- disable formatting, since we use prettier
-          client.resolved_capabilities.document_formatting = false
+          client.server_capabilities.documentFormattingProvider = false
         end,
       },
       sqlls = {},
