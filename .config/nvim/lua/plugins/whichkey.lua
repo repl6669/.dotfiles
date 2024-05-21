@@ -9,6 +9,7 @@ return {
       ["<leader>o"] = { name = "+obsidian" },
       ["<leader>a"] = { name = "+annotations/docblocks" },
       ["<leader>p"] = { name = "+pomodoro" },
+      ["<leader>g"] = { name = "+github" },
     },
   },
 }
