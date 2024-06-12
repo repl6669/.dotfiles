@@ -39,8 +39,7 @@ return {
       --   },
       -- },
       phpactor = {},
-      ---@type lspconfig.options.tsserver
-      tsserver = {
+      vtsls = {
         on_attach = function(client)
           -- disable formatting, since we use prettier
           client.server_capabilities.documentFormattingProvider = false
