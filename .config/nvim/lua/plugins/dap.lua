@@ -19,9 +19,12 @@ return {
     local dap = require("dap")
 
     if not dap.adapters["php"] then
-      require("dap").adapters["php"] = {
+      dap.adapters.php = {
         type = "executable",
-        command = "php-debug-adapter",
+        command = "node",
+        args = {
+          require("mason-registry").get_package("php-debug-adapter"):get_install_path() .. "/extension/out/phpDebug.js",
+        },
       }
     end
     if not dap.adapters["pwa-node"] then
