@@ -42,7 +42,11 @@ else
 export EDITOR='nvim'
 fi
 
+if [[ $KITTY_WINDOW_ID ]]; then
+export TERM=xterm-kitty
+else
 export TERM=xterm-256color
+fi
 
 # FZF
 source <(fzf --zsh)
