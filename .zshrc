@@ -22,7 +22,7 @@ export ZSH=$HOME/.oh-my-zsh
 HIST_STAMPS="dd.mm.yyyy"
 
 # Plugins definition
-plugins=(1password composer copypath fzf git zsh-autosuggestions zsh-completions zsh-syntax-highlighting)
+plugins=(1password copypath fzf git zsh-autosuggestions zsh-completions zsh-syntax-highlighting)
 
 # OMZ settings
 zstyle ':omz:update' mode auto
