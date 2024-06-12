@@ -22,8 +22,10 @@ export ZSH=$HOME/.oh-my-zsh
 HIST_STAMPS="dd.mm.yyyy"
 
 # Plugins definition
-plugins=(git laravel zsh-syntax-highlighting zsh-autosuggestions node artisan zsh-completions)
+plugins=(1password composer copypath fzf git zsh-autosuggestions zsh-completions zsh-syntax-highlighting)
 
+# OMZ settings
+zstyle ':omz:update' mode auto
 source $ZSH/oh-my-zsh.sh
 
 # Welcome screen
@@ -40,7 +42,10 @@ else
 export EDITOR='nvim'
 fi
 
-export TERM=xterm
+export TERM=xterm-256color
+
+# FZF
+source <(fzf --zsh)
 
 # Source aliases
 source $DOTFILES/aliases.zsh
@@ -49,22 +54,18 @@ source $DOTFILES/aliases-docker.zsh
 # Source commands
 source $DOTFILES/commands.zsh
 
-# OpenAI
-source ~/.config/.openai
-
-# Python
-module_init
-if command -v pyenv 1>/dev/null 2>&1; then
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init --path)"
-eval "$(pyenv init -)"
-fi
+## Python
+# module_init
+# if command -v pyenv 1>/dev/null 2>&1; then
+# export PYENV_ROOT="$HOME/.pyenv"
+# export PATH="$PYENV_ROOT/bin:$PATH"
+# eval "$(pyenv init --path)"
+# eval "$(pyenv init -)"
+# fi
 
 # Ripgrep
-RIPGREP_CONFIG_PATH="~/.config/.ripgreprc"
+export RIPGREP_CONFIG_PATH="~/.config/.ripgreprc"
 
+# Starship
 eval "$(starship init zsh)"
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
