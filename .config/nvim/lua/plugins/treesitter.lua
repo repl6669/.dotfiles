@@ -20,6 +20,7 @@ return {
       "html",
       "javascript",
       "jsdoc",
+      "kdl",
       "lua",
       "luadoc",
       "luap",
