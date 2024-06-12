@@ -5,9 +5,9 @@ return {
       "nvim-lua/plenary.nvim", -- required to update phpactor
       "neovim/nvim-lspconfig", -- required to automaticly register lsp server
     },
-    ft = "php",
-    build = function(plugin)
-      plugin.handler.update()
+    ft = { "php", "blade" },
+    build = function()
+      require("phpactor.handler.update")()
     end,
     keys = {
       { "<leader>cpic", ":PhpActor import_class<CR>", mode = { "n" }, desc = "Import Class" },
