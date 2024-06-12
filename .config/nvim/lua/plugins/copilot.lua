@@ -32,5 +32,6 @@ return {
       markdown = true,
       help = true,
     },
+    copilot_node_command = "/opt/homebrew/bin/node",
   },
 }
