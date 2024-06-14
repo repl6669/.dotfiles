@@ -9,6 +9,7 @@ alias c="clear"
 
 # Directories
 alias dot="cd $DOTFILES"                                    # Go to .dotfiles directory
+alias conf="cd $DOTFILES/.config"                           # Go to .dotfiles/.config directory
 alias obs="cd $OBSIDIAN"                                    # Go to obsidian root directory
 alias repos="cd ~/Developer"                                # Open default projects directory
 alias ppd="cd ~/Developer/php"                              # Open root php projects directory
