@@ -14,6 +14,6 @@ vim.keymap.set("n", "<Leader>C", ":edit /Users/theimer/.config/nvim/init.lua<CR>
 
 -- Lazydocker
 -- stylua: ignore
-vim.keymap.set("n", "<leader>gd", function() require("lazyvim.util").float_term({ "lazydocker" }, { cwd = require("lazyvim.util").get_root(), esc_esc = false }) end, { desc = "Lazydocker (root dir)" })
+vim.keymap.set("n", "<leader>gd", function() require("lazyvim.util").terminal.open({ "lazydocker" }, { cwd = require("lazyvim.util").get_root(), esc_esc = false }) end, { desc = "Lazydocker (root dir)" })
 -- stylua: ignore
-vim.keymap.set("n", "<leader>gD", function() require("lazyvim.util").float_term({ "lazydocker" }, {esc_esc = false}) end, { desc = "Lazydocker (cwd)" })
+vim.keymap.set("n", "<leader>gD", function() require("lazyvim.util").terminal.open({ "lazydocker" }, {esc_esc = false}) end, { desc = "Lazydocker (cwd)" })
