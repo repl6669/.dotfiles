@@ -25,7 +25,7 @@ return {
       install = {
         -- path = vim.fn.stdpath("data") .. "/opt/",
         -- branch = "master",
-        -- bin = vim.fn.stdpath("data") .. "/opt/phpactor/bin/phpactor",
+        bin = vim.fn.stdpath("data") .. "/mason/packages/phpactor/bin/phpactor",
         -- php_bin = "php",
         -- composer_bin = "composer",
         -- git_bin = "git",
