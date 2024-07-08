@@ -3,11 +3,13 @@ export DOTFILES=$HOME/.dotfiles
 export OBSIDIAN="${HOME}/Library/Mobile\ Documents/iCloud\~md\~obsidian/Documents/obsidian"
 
 # PATH definition
-export PATH=/opt/homebrew/bin:$PATH
-export PATH=$PATH:~/.composer/vendor/bin
+export PATH="/opt/homebrew/bin:$PATH"
+export PATH="/opt/homebrew/sbin:$PATH"
+export PATH="$PATH:~/.composer/vendor/bin"
 export PATH="./vendor/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/share/nvim/mason/bin:$PATH"
 
 # Neovide settings
 export NEOVIDE_FRAME=transparent
@@ -42,6 +44,8 @@ else
 export EDITOR='nvim'
 fi
 
+
+export TERM=xterm-256color
 # if [[ $KITTY_WINDOW_ID ]]; then
 # export TERM=xterm-kitty
 # else
@@ -49,7 +53,9 @@ fi
 # fi
 
 # FZF
-source <(fzf --zsh)
+# NOTE: 
+# Commented out until I find time to learn how to use it
+# source <(fzf --zsh)
 
 # Source aliases
 source $DOTFILES/aliases.zsh
@@ -58,14 +64,10 @@ source $DOTFILES/aliases-docker.zsh
 # Source commands
 source $DOTFILES/commands.zsh
 
-## Python
-# module_init
-# if command -v pyenv 1>/dev/null 2>&1; then
-# export PYENV_ROOT="$HOME/.pyenv"
-# export PATH="$PYENV_ROOT/bin:$PATH"
-# eval "$(pyenv init --path)"
-# eval "$(pyenv init -)"
-# fi
+# Pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
 
 # Ripgrep
 export RIPGREP_CONFIG_PATH="~/.config/.ripgreprc"
