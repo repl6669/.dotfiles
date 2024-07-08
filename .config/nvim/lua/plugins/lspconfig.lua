@@ -1,34 +1,23 @@
 return {
   "neovim/nvim-lspconfig",
   dependencies = {
-    { "antosha417/nvim-lsp-file-operations", config = true },
+    {
+      "antosha417/nvim-lsp-file-operations",
+      dependencies = {
+        "nvim-lua/plenary.nvim",
+        "nvim-neo-tree/neo-tree.nvim",
+      },
+      config = function()
+        require("lsp-file-operations").setup()
+      end,
+    },
   },
   opts = {
     -- make sure mason installs the server
     servers = {
       docker_compose_language_service = {},
       dockerls = {},
-      lua_ls = {
-        -- mason = false, -- set to false if you don't want this server to be installed with mason
-        -- Use this to add any additional keymaps
-        -- for specific lsp servers
-        ---@type LazyKeysSpec[]
-        -- keys = {},
-        settings = {
-          Lua = {
-            workspace = {
-              checkThirdParty = false,
-            },
-            completion = {
-              callSnippet = "Replace",
-            },
-            diagnostics = {
-              -- Get the language server to recognize the `vim` global
-              globals = { "vim" },
-            },
-          },
-        },
-      },
+      lua_ls = {},
       -- intelephense = {
       --   ---@type lspconfig.options.intelephense
       --   init_options = {
@@ -38,7 +27,27 @@ return {
       --     },
       --   },
       -- },
-      phpactor = {},
+      -- WARNING: Managed by phpactor.lua ?
+      -- phpactor = {},
+      emmet_language_server = {
+        filetypes = {
+          "css",
+          "html",
+          "xhtml",
+          "xml",
+          "javascript",
+          "javascript.jsx",
+          "javascriptreact",
+          "json",
+          "typescript",
+          "typescript.tsx",
+          "typescriptreact",
+          "vue",
+        },
+        init_options = {
+          showSuggestionsAsSnippets = true,
+        },
+      },
       vtsls = {
         on_attach = function(client)
           -- disable formatting, since we use prettier
@@ -56,6 +65,23 @@ return {
         -- filetypes = {}
       },
       volar = {
+        filetypes = {
+          "javascript",
+          "javascript.jsx",
+          "javascriptreact",
+          "json",
+          "typescript",
+          "typescript.tsx",
+          "typescriptreact",
+          "vue",
+        },
+        capabilities = {
+          workspace = {
+            didChangeWatchedFiles = {
+              dynamicRegistration = true,
+            },
+          },
+        },
         on_attach = function(client)
           -- disable formatting, since we use prettier
           client.server_capabilities.documentFormattingProvider = false
