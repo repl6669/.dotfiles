@@ -53,7 +53,7 @@ format = '[ $user ]($style)'
 [directory]
 style = "fg:color_yellow"
 format = "[ $path ]($style)"
-truncation_length = 5
+truncation_length = 20
 truncation_symbol = "…/"
 
 [directory.substitutions]
