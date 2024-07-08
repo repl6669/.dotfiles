@@ -9,18 +9,23 @@ return {
       variant = "auto",
       --- @usage 'main'|'moon'|'dawn'
       dark_variant = "main",
+
+      extend_background_behind_borders = true,
+
       enable = {
         legacy_highlights = false,
         migrations = false,
         terminal = true,
       },
+
       styles = {
         bold = true,
         italic = true,
         transparency = false,
       },
+
       highlight_groups = {
-        --
+        DashboardHeader = { fg = "love" },
       },
     },
   },
