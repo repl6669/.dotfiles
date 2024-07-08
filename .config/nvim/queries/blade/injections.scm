@@ -1,16 +1,15 @@
 ((text) @injection.content
-    (#not-has-ancestor? @injection.content "envoy")
-    (#set! injection.combined)
-    (#set! injection.language php))
+        (#not-has-ancestor? @injection.content "envoy")
+        (#set! injection.combined)
+        (#set! injection.language php))
 
 ((text) @injection.content
-    (#has-ancestor? @injection.content "envoy")
-    (#set! injection.combined)
-    (#set! injection.language bash))
+        (#has-ancestor? @injection.content "envoy")
+        (#set! injection.combined)
+        (#set! injection.language zsh))
+
 
 ((php_only) @injection.content
-    (#set! injection.combined)
-    (#set! injection.language php_only))
-
+            (#set! injection.language php_only))
 ((parameter) @injection.content
-    (#set! injection.language php_only))
+             (#set! injection.language php_only))
