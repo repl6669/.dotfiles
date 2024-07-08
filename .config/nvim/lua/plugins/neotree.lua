@@ -3,6 +3,7 @@ return {
   opts = {
     filesystem = {
       hijack_netrw_behavior = "open_current", -- "open_default" or "open_current" or "disabled",
+      follow_current_file = { enabled = false },
     },
   },
   config = function()
