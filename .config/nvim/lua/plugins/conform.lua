@@ -4,16 +4,18 @@ return {
   event = { "BufReadPre", "BufNewFile" }, -- to disable, comment this out
   opts = {
     formatters_by_ft = {
+      blade = { "blade-formatter" },
       css = { "prettierd" },
       html = { "prettierd" },
       javascript = { "prettierd" },
       json = { "prettierd" },
+      jsonc = { "prettierd" },
       json5 = { "prettierd" },
       lua = { "stylua" },
+      markdown = { "prettierd" },
       php = { "pint" },
-      blade = { "blade-formatter" },
-      vue = { "prettierd" },
       typescript = { "prettierd" },
+      vue = { "prettierd" },
       yaml = { "prettierd" },
     },
   },
