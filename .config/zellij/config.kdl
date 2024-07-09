@@ -1,7 +1,26 @@
 // If you'd like to override the default keybindings completely, be sure to change "keybinds" to "keybinds clear-defaults=true"
 keybinds {
+    shared {
+        bind "PageUp" { GoToPreviousTab; }
+        bind "PageDown" { GoToNextTab; }
+        bind "Home" { ToggleFloatingPanes; }
+    }
     locked {
-        bind "PageUp" { SwitchToMode "Normal"; }
+        bind "End" "Ctrl g" { SwitchToMode "Normal"; }
+    }
+    normal {
+        bind "End" "Ctrl g" { SwitchToMode "Locked"; }
+
+        // bind "Enter" {  // Intercept `Enter`.
+        //     WriteChars "\u{000D}";  // Passthru `Enter`.
+        //     MessagePlugin "autolock" {};  // Activate the autolock plugin.
+        // }
+        // Note: You may want to bind/intercept/relay other keys to activate this plugin,
+        // like `Ctrl+r` which opens shell history in Atuin / FZF. For example:
+        // bind "Ctrl r" {  // Intercept `Ctrl+r`.
+        //     WriteChars "\u{0012}";  // Passthru `Ctrl+r`
+        //     MessagePlugin "autolock" {};  // Activate the autolock plugin.
+        // }
     }
     resize {
         bind "Ctrl n" { SwitchToMode "Normal"; }
@@ -117,31 +136,11 @@ keybinds {
             SwitchToMode "Normal"
         }
     }
-    tmux {
-        bind "[" { SwitchToMode "Scroll"; }
-        bind "Ctrl b" { Write 2; SwitchToMode "Normal"; }
-        bind "\"" { NewPane "Down"; SwitchToMode "Normal"; }
-        bind "%" { NewPane "Right"; SwitchToMode "Normal"; }
-        bind "z" { ToggleFocusFullscreen; SwitchToMode "Normal"; }
-        bind "c" { NewTab; SwitchToMode "Normal"; }
-        bind "," { SwitchToMode "RenameTab"; }
-        bind "p" { GoToPreviousTab; SwitchToMode "Normal"; }
-        bind "n" { GoToNextTab; SwitchToMode "Normal"; }
-        bind "Left" { MoveFocus "Left"; SwitchToMode "Normal"; }
-        bind "Right" { MoveFocus "Right"; SwitchToMode "Normal"; }
-        bind "Down" { MoveFocus "Down"; SwitchToMode "Normal"; }
-        bind "Up" { MoveFocus "Up"; SwitchToMode "Normal"; }
-        bind "h" { MoveFocus "Left"; SwitchToMode "Normal"; }
-        bind "l" { MoveFocus "Right"; SwitchToMode "Normal"; }
-        bind "j" { MoveFocus "Down"; SwitchToMode "Normal"; }
-        bind "k" { MoveFocus "Up"; SwitchToMode "Normal"; }
-        bind "o" { FocusNextPane; }
-        bind "d" { Detach; }
-        bind "Space" { NextSwapLayout; }
-        bind "x" { CloseFocus; SwitchToMode "Normal"; }
-    }
     shared_except "locked" {
-        bind "PageUp" { SwitchToMode "Locked"; }
+        bind "Ctrl h" { MoveFocus "Left"; }
+        bind "Ctrl l" { MoveFocus "Right"; }
+        bind "Ctrl j" { MoveFocus "Down"; }
+        bind "Ctrl k" { MoveFocus "Up"; }
         bind "Ctrl q" { Quit; }
         bind "Alt n" { NewPane; }
         bind "Alt i" { MoveTab "Left"; }
@@ -154,6 +153,13 @@ keybinds {
         bind "Alt -" { Resize "Decrease"; }
         bind "Alt [" { PreviousSwapLayout; }
         bind "Alt ]" { NextSwapLayout; }
+
+        bind "Ctrl y" {
+            LaunchOrFocusPlugin "tab-bar" {
+                floating true
+                ignore_case true
+            }
+        }
     }
     shared_except "normal" "locked" {
         bind "Enter" "Esc" { SwitchToMode "Normal"; }
@@ -183,15 +189,157 @@ keybinds {
 
 plugins {
     tab-bar location="zellij:tab-bar"
+
     status-bar location="zellij:status-bar"
+
     strider location="zellij:strider"
+
     compact-bar location="zellij:compact-bar"
+
     session-manager location="zellij:session-manager"
+
     welcome-screen location="zellij:session-manager" {
         welcome_screen true
     }
+
     filepicker location="zellij:strider" {
         cwd "/"
+    }
+
+    //
+    // Community plugins
+    //
+
+    tab-finder location="file:~/.config/zellij/plugins/room.wasm" {
+        floating true
+        ignore_case true
+    }
+
+    // Define the "autolock" plugin.
+    autolock location="file:~/.config/zellij/plugins/zellij-autolock.wasm" {
+        triggers "nvim|vim"  // Lock when any open these programs open. They are expected to unlock themselves when closed (e.g., using zellij.vim plugin).
+        watch_triggers "fzf|zoxide|atuin"  // Lock when any of these open and monitor until closed.
+        watch_interval "1.0"  // When monitoring, check every X seconds.
+    }
+
+    zjstatus location="file:~/.config/zellij/plugins/zjstatus.wasm" {
+        // Theme: Catppuccin Mocha
+        format_left   "#[bg=#313244,fg=#eba0ac]#[bg=#eba0ac,fg=#181926,bold] {session} {mode}#[bg=#282828] {tabs}"
+        format_center "{notifications}"
+        format_right  "#[fg=#89dceb]#[fg=#11111b,bg=#89dceb] #[fg=#89dceb,bg=#313244] {command_user}@{command_host}#[fg=#313244]#[fg=#74c7ec]#[fg=#11111b,bg=#74c7ec]󰃭 #[fg=#74c7ec,bg=#313244] {datetime}#[fg=#313244] "
+        format_space  "#[bg=#282828]"
+        format_hide_on_overlength "true"
+        format_precedence "lrc"
+
+        border_enabled  "true"
+        border_char     "─"
+        border_format   "#[fg=#313244]{char}"
+        border_position "top"
+
+        hide_frame_for_single_pane "true"
+
+        mode_normal        "#[bg=#a6da95,fg=#181926,bold] NORMAL#[bg=#181926,fg=#a6da95]"
+        mode_tmux          "#[bg=#cba6f7,fg=#181926,bold] TMUX#[bg=#181926,fg=#cba6f7]"
+        mode_locked        "#[bg=#f38ba8,fg=#181926,bold] LOCKED#[bg=#181926,fg=#f38ba8]"
+        mode_pane          "#[bg=#94e2d5,fg=#181926,bold] PANE#[bg=#181926,fg=#94e2d5]"
+        mode_tab           "#[bg=#94e2d5,fg=#181926,bold] TAB#[bg=#181926,fg=#94e2d5]"
+        mode_scroll        "#[bg=#f2cdcd,fg=#181926,bold] SCROLL#[bg=#181926,fg=#f2cdcd]"
+        mode_enter_search  "#[bg=#f2cdcd,fg=#181926,bold] ENT-SEARCH#[bg=#181926,fg=#f2cdcd]"
+        mode_search        "#[bg=#f2cdcd,fg=#181926,bold] SEARCHARCH#[bg=#181926,fg=#f2cdcd]"
+        mode_resize        "#[bg=#f9e2af,fg=#181926,bold] RESIZE#[bg=#181926,     fg=#f9e2af]"
+        mode_rename_tab    "#[bg=#f9e2af,fg=#181926,bold] RENAME-TAB#[bg=#181926, fg=#f9e2af]"
+        mode_rename_pane   "#[bg=#f9e2af,fg=#181926,bold] RENAME-PANE#[bg=#181926,fg=#f9e2af]"
+        mode_move          "#[bg=#f9e2af,fg=#181926,bold] MOVE#[bg=#181926,fg=#f9e2af]"
+        mode_session       "#[bg=#f5c2e7,fg=#181926,bold] SESSION#[bg=#181926,fg=#f5c2e7]"
+        mode_prompt        "#[bg=#f5c2e7,fg=#181926,bold] PROMPT#[bg=#181926,fg=#f5c2e7]"
+
+        tab_normal              "#[bg=#313244,fg=#89b4fa]#[bg=#89b4fa,fg=#1e2030,bold]{index} #[bg=#363a4f,fg=#89b4fa,bold] {name}{floating_indicator}#[bg=#313244,fg=#363a4f,bold]"
+        tab_normal_fullscreen   "#[bg=#313244,fg=#89b4fa]#[bg=#89b4fa,fg=#1e2030,bold]{index} #[bg=#363a4f,fg=#89b4fa,bold] {name}{fullscreen_indicator}#[bg=#313244,fg=#363a4f,bold]"
+        tab_normal_sync         "#[bg=#313244,fg=#89b4fa]#[bg=#89b4fa,fg=#1e2030,bold]{index} #[bg=#363a4f,fg=#89b4fa,bold] {name}{sync_indicator}#[bg=#313244,fg=#363a4f,bold]"
+        tab_active              "#[bg=#313244,fg=#fab387]#[bg=#fab387,fg=#1e2030,bold]{index} #[bg=#363a4f,fg=#fab387,bold] {name}{floating_indicator}#[bg=#313244,fg=#363a4f,bold]"
+        tab_active_fullscreen   "#[bg=#313244,fg=#fab387]#[bg=#fab387,fg=#1e2030,bold]{index} #[bg=#363a4f,fg=#fab387,bold] {name}{fullscreen_indicator}#[bg=#313244,fg=#363a4f,bold]"
+        tab_active_sync         "#[bg=#313244,fg=#fab387]#[bg=#fab387,fg=#1e2030,bold]{index} #[bg=#363a4f,fg=#fab387,bold] {name}{sync_indicator}#[bg=#313244,fg=#363a4f,bold]"
+        tab_separator           "#[bg=#313244] "
+
+        tab_sync_indicator       " "
+        tab_fullscreen_indicator " 󰊓"
+        tab_floating_indicator   " 󰹙"
+
+        notification_format_unread "#[fg=#f9e2af]#[fg=#11111b,bg=#f9e2af] #[fg=#cdd6f4,bg=#313244] {message}#[fg=#313244]"
+        notification_format_no_notifications ""
+        notification_show_interval "10"
+
+        command_host_command    "uname -n"
+        command_host_format     "{stdout}"
+        command_host_interval   "0"
+        command_host_rendermode "static"
+
+        command_user_command    "whoami"
+        command_user_format     "{stdout}"
+        command_user_interval   "10"
+        command_user_rendermode "static"
+
+        datetime          "{format}"
+        datetime_format   "%Y-%m-%d 󰅐 %H:%M"
+        datetime_timezone "Europe/Stockholm"
+    }
+
+    zjstatus-new location="file:~/.config/zellij/plugins/zjstatus.wasm" {
+        format_left   "{mode}#[bg=#181926] {tabs}"
+        format_center "#[bg=#181926,fg=#494d64] Zellij: #[bg=#181926,fg=#494d64]{session}"
+        format_right  "{swap_layout}"
+        format_space  "#[bg=#181926]"
+        format_hide_on_overlength "true"
+        format_precedence "crl"
+
+        border_enabled  "false"
+        border_char     "─"
+        border_format   "#[fg=#6C7086]{char}"
+        border_position "top"
+
+        hide_frame_for_single_pane "true"
+
+        mode_normal        "#[bg=#a6da95,fg=#181926,bold] NORMAL#[bg=#181926,fg=#a6da95]"
+        mode_locked        "#[bg=#6e738d,fg=#181926,bold] LOCKED #[bg=#181926,fg=#6e738d]"
+        mode_resize        "#[bg=#8aadf4,fg=#181926,bold] RESIZE#[bg=#181926,fg=#8aadf4]"
+        mode_pane          "#[bg=#8aadf4,fg=#181926,bold] PANE#[bg=#181926,fg=#8aadf4]"
+        mode_tab           "#[bg=#8aadf4,fg=#181926,bold] TAB#[bg=#181926,fg=#8aadf4]"
+        mode_scroll        "#[bg=#8aadf4,fg=#181926,bold] SCROLL#[bg=#181926,fg=#8aadf4]"
+        mode_enter_search  "#[bg=#8aadf4,fg=#181926,bold] ENT-SEARCH#[bg=#181926,fg=#8aadf4]"
+        mode_search        "#[bg=#8aadf4,fg=#181926,bold] SEARCHARCH#[bg=#181926,fg=#8aadf4]"
+        mode_rename_tab    "#[bg=#8aadf4,fg=#181926,bold] RENAME-TAB#[bg=#181926,fg=#8aadf4]"
+        mode_rename_pane   "#[bg=#8aadf4,fg=#181926,bold] RENAME-PANE#[bg=#181926,fg=#8aadf4]"
+        mode_session       "#[bg=#8aadf4,fg=#181926,bold] SESSION#[bg=#181926,fg=#8aadf4]"
+        mode_move          "#[bg=#8aadf4,fg=#181926,bold] MOVE#[bg=#181926,fg=#8aadf4]"
+        mode_prompt        "#[bg=#8aadf4,fg=#181926,bold] PROMPT#[bg=#181926,fg=#8aadf4]"
+        mode_tmux          "#[bg=#f5a97f,fg=#181926,bold] TMUX#[bg=#181926,fg=#f5a97f]"
+
+        // formatting for inactive tabs
+        tab_normal              "#[bg=#181926,fg=#8bd5ca]#[bg=#8bd5ca,fg=#1e2030,bold]{index} #[bg=#363a4f,fg=#8bd5ca,bold] {name}{floating_indicator}#[bg=#181926,fg=#363a4f,bold]"
+        tab_normal_fullscreen   "#[bg=#181926,fg=#8bd5ca]#[bg=#8bd5ca,fg=#1e2030,bold]{index} #[bg=#363a4f,fg=#8bd5ca,bold] {name}{fullscreen_indicator}#[bg=#181926,fg=#363a4f,bold]"
+        tab_normal_sync         "#[bg=#181926,fg=#8bd5ca]#[bg=#8bd5ca,fg=#1e2030,bold]{index} #[bg=#363a4f,fg=#8bd5ca,bold] {name}{sync_indicator}#[bg=#181926,fg=#363a4f,bold]"
+
+        // formatting for the current active tab
+        tab_active              "#[bg=#181926,fg=#eed49f]#[bg=#eed49f,fg=#1e2030,bold]{index} #[bg=#363a4f,fg=#eed49f,bold] {name}{floating_indicator}#[bg=#181926,fg=#363a4f,bold]"
+        tab_active_fullscreen   "#[bg=#181926,fg=#eed49f]#[bg=#eed49f,fg=#1e2030,bold]{index} #[bg=#363a4f,fg=#eed49f,bold] {name}{fullscreen_indicator}#[bg=#181926,fg=#363a4f,bold]"
+        tab_active_sync         "#[bg=#181926,fg=#eed49f]#[bg=#eed49f,fg=#1e2030,bold]{index} #[bg=#363a4f,fg=#eed49f,bold] {name}{sync_indicator}#[bg=#181926,fg=#363a4f,bold]"
+
+        // separator between the tabs
+        tab_separator           "#[bg=#181926] "
+
+        // indicators
+        tab_sync_indicator       " "
+        tab_fullscreen_indicator " 󰊓"
+        tab_floating_indicator   " 󰹙"
+
+        command_git_branch_command     "git rev-parse --abbrev-ref HEAD"
+        command_git_branch_format      "#[fg=blue] {stdout} "
+        command_git_branch_interval    "10"
+        command_git_branch_rendermode  "static"
+
+        datetime        "#[fg=#6C7086,bold] {format} "
+        datetime_format "%A, %d %b %Y %H:%M"
+        datetime_timezone "Europe/Berlin"
     }
 }
 
@@ -224,7 +372,7 @@ simplified_ui true
 //   - true (default)
 //   - false
 //
-// pane_frames false
+pane_frames false
 
 // Toggle between having Zellij lay out panes according to a predefined set of layouts whenever possible
 // Options:
@@ -301,7 +449,8 @@ themes {
 // Choose the theme that is specified in the themes section.
 // Default: default
 //
-theme "rose-pine"
+// theme "rose-pine"
+theme "catppuccin-mocha"
 
 // The name of the default layout to load on startup
 // Default: "default"
@@ -357,7 +506,7 @@ default_mode "locked"
 // Path to the default editor to use to edit pane scrollbuffer
 // Default: $EDITOR or $VISUAL
 //
-// scrollback_editor "/usr/bin/vim"
+scrollback_editor "/opt/homebrew/bin/nvim"
 
 // When attaching to an existing session with other users,
 // should the session be mirrored (true)
