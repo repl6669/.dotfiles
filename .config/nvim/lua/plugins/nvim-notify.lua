@@ -1,7 +1,6 @@
 return {
   "rcarriga/nvim-notify",
   opts = {
-    background_colour = "TelescopeNormal",
     fps = 60,
     stages = "fade",
     timeout = 3000,

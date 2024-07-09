@@ -4,20 +4,22 @@ return {
     "nvim-lua/plenary.nvim", -- Required for v0.4.0+
   },
   config = function()
-    local get_hex = require("cokeline.hlgroups").get_hl_attr
+    local colors = require("catppuccin.palettes").get_palette("mocha")
     local mappings = require("cokeline.mappings")
 
-    local comments_fg = get_hex("Comment", "fg")
-    local errors_fg = get_hex("DiagnosticError", "fg")
-    local warnings_fg = get_hex("DiagnosticWarn", "fg")
-    local info_fg = get_hex("DiagnosticInfo", "fg")
-    local hints_fg = get_hex("DiagnosticHint", "fg")
+    local comments_fg = colors.overlay0
+    local errors_fg = colors.red
+    local warnings_fg = colors.yellow
+    local info_fg = colors.sky
+    local hints_fg = colors.teal
 
-    local transparent = get_hex("Normal", "bg")
-    local background = get_hex("BufferCurrent", "bg")
+    local text = colors.subtext0
+    local highligted_text = colors.peach
+    local transparent = colors.base
+    local background = colors.mantle
 
-    local red = vim.g.terminal_color_1
-    local yellow = vim.g.terminal_color_3
+    local red = colors.red
+    local yellow = colors.yellow
 
     local components = {
       space = {
@@ -123,7 +125,7 @@ return {
       },
       default_hl = {
         fg = function(buffer)
-          return buffer.is_focused and get_hex("BufferCurrentMod", "fg") or get_hex("BufferInactive", "fg")
+          return buffer.is_focused and highligted_text or text
         end,
         bg = background,
       },
