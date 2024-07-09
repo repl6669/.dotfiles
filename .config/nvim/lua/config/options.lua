@@ -12,8 +12,7 @@ vim.opt.softtabstop = 4 -- On insert use 4 spaces for tab
 vim.opt.numberwidth = 4 -- Set the width of the line numbers
 vim.opt.signcolumn = "yes" -- Always show the sign column, otherwise it would shift the text each time
 vim.opt.number = false -- Together with relativenumber set to true, it is aligned to the right, which is nicer
-vim.opt.winblend = 20 -- Global transparency for floating windows
-vim.opt.pumblend = 20 -- Popup blend
+vim.opt.winblend = 0 -- Global transparency for floating windows (has to be 20 for rose-pine, 0 for catppuccin)
 vim.opt.conceallevel = 2 -- Level of text hiding
 vim.opt.scrolloff = 16 -- Minimum number of screen lines to keep above and below the cursor
 
