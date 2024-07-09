@@ -1,0 +1,8 @@
+# Global ignore
+--glob
+!*.cache
+!.cache/
+!node_modules/
+!vendor/
+!public/
+!storage/
