@@ -27,7 +27,7 @@ return {
       prompt_prefix = " ",
       selection_caret = " ",
       path_display = { "smart" },
-      winblend = 20,
+      winblend = 0,
       mappings = {
         i = {
           ["<c-n>"] = actions.cycle_history_next,
