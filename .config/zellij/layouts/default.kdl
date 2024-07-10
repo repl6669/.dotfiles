@@ -3,10 +3,9 @@ layout {
         children
         pane size=1 borderless=true {
             plugin location="zellij:compact-bar"
-            plugin location="tab-finder"
             // plugin location="zjstatus"
             // plugin location="zjstatus-new"
-            // plugin location="autolock"
+            plugin location="autolock"
         }
     }
 

@@ -155,9 +155,13 @@ keybinds {
         bind "Alt ]" { NextSwapLayout; }
 
         bind "Ctrl y" {
-            LaunchOrFocusPlugin "tab-bar" {
+            LaunchOrFocusPlugin "file:~/.config/zellij/plugins/zellij_forgot.wasm" {
+                "LOAD_ZELLIJ_BINDINGS" "false"
+                "lock"                  "ctrl + g"
+                "unlock"                "ctrl + g"
+                "new pane"              "ctrl + p + n"
+                "..."                   "..."
                 floating true
-                ignore_case true
             }
         }
     }
@@ -210,12 +214,13 @@ plugins {
     // Community plugins
     //
 
+    // Tab switcher plugin
     tab-finder location="file:~/.config/zellij/plugins/room.wasm" {
         floating true
         ignore_case true
     }
 
-    // Define the "autolock" plugin.
+    // Autolock plugin
     autolock location="file:~/.config/zellij/plugins/zellij-autolock.wasm" {
         triggers "nvim|vim"  // Lock when any open these programs open. They are expected to unlock themselves when closed (e.g., using zellij.vim plugin).
         watch_triggers "fzf|zoxide|atuin"  // Lock when any of these open and monitor until closed.
