@@ -68,14 +68,14 @@ ctrl + lalt - j : yabai -m window --resize bottom:0:100 2> /dev/null || yabai -m
 ctrl + lalt - k : yabai -m window --resize bottom:0:-100 2> /dev/null || yabai -m window --resize top:0:-100 2> /dev/null
 ctrl + lalt - l : yabai -m window --resize right:100:0 2> /dev/null || yabai -m window --resize left:100:0 2> /dev/null
 
-# Equalize size of windows: ctrl + lalt - e
-ctrl + lalt - e             : "$HOME"/.config/yabai/scripts/layout_reset_balance.sh
+# Equalize size of windows: shift + lalt - e
+shift + lalt - e            : "$HOME"/.config/yabai/scripts/layout_reset_balance.sh
 
 # Apply ultrawide layout on demand
-ctrl + lalt - c             : "$HOME"/.config/yabai/scripts/layout_ultrawide_center.sh
+shift + lalt - c            : "$HOME"/.config/yabai/scripts/layout_ultrawide_center.sh
 
 # Enable / Disable gaps in current workspace: ctrl + lalt - g
-ctrl + lalt - g             : yabai -m space --toggle padding; yabai -m space --toggle gap
+shift + lalt - g            : yabai -m space --toggle padding; yabai -m space --toggle gap
 
 ## Insertion (shift + ctrl + lalt - ...)
 # Set insertion point for focused container: shift + ctrl + lalt - {h, j, k, l, s}
@@ -86,8 +86,8 @@ shift + ctrl + lalt - l     : yabai -m window --insert east
 shift + ctrl + lalt - s     : yabai -m window --insert stack
 
 # New window in hor./ vert. splits for all applications with yabai
-lalt - s : yabai -m window --insert east;  skhd -k "cmd - n"
-lalt - v : yabai -m window --insert south; skhd -k "cmd - n"
+lalt - s                    : yabai -m window --insert east;  skhd -k "cmd - n"
+lalt - v                    : yabai -m window --insert south; skhd -k "cmd - n"
 
 # Toggle sketchybar
 shift + lalt - space        : sketchybar --bar hidden=toggle
