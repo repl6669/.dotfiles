@@ -52,22 +52,22 @@ alias wip="commit wip"                                      # Git commit wip
 ## Github
 eval "$(gh copilot alias -- zsh)"
 
+# Copilot CLI
+eval "$(github-copilot-cli alias -- "$0")"
+
 ## Python
 # alias pip="pip3"                                          # Use pip3
 # alias python="python3"                                    # Use python3
 
 ## Files
-alias ll="eza -la"                                          # Better file listing
+alias ls="eza"                                              # Better file listing
+alias ll="eza -la"
 
 ## Vim
 alias vim="nvim"                                            # Use nvim
-alias neo="neovide"                                         # Use neovide
-alias vimr="vimr"                                           # Use vimr
 
 ## ZSH
 alias zshconfig="vim ~/.zshrc"                              # Open zsh config in vim
 alias ohmyzsh="vim ~/.oh-my-zsh"                            # Open oh my zsh config in vim
 
-# Copilot CLI
-eval "$(github-copilot-cli alias -- "$0")"
 
