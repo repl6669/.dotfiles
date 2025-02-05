@@ -1,0 +1,27 @@
+theme = catppuccin-mocha
+
+background-opacity = 0.85
+background-blur-radius = 15
+
+font-family = JetBrainsMono Nerd Font Mono
+font-style = medium
+font-size = 18
+
+cursor-style = block
+cursor-opacity = 0.5
+
+mouse-hide-while-typing = true
+mouse-scroll-multiplier = 2
+
+window-padding-balance = true
+window-save-state = always
+window-colorspace = display-p3
+
+macos-titlebar-style = transparent
+macos-option-as-alt = true
+
+shell-integration-features = no-cursor,sudo,no-title
+
+copy-on-select = clipboard
+
+keybind = global:cmd+shift+/=toggle_quick_terminal
