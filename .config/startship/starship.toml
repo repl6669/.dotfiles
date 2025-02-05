@@ -61,7 +61,7 @@ Redhat = "󱄛"
 RedHatEnterprise = "󱄛"
 
 [username]
-show_always = true
+show_always = false
 style_user = "fg:peach"
 style_root = "fg:peach"
 format = '[ $user ]($style)'
@@ -113,21 +113,6 @@ symbol = ""
 style = "fg:sky"
 format = '[[ $symbol( $version) ](fg:sky)]($style)'
 
-[java]
-symbol = " "
-style = "fg:sky"
-format = '[[ $symbol( $version) ](fg:sky)]($style)'
-
-[kotlin]
-symbol = ""
-style = "fg:sky"
-format = '[[ $symbol( $version) ](fg:sky)]($style)'
-
-[haskell]
-symbol = ""
-style = "fg:sky"
-format = '[[ $symbol( $version) ](fg:sky)]($style)'
-
 [python]
 symbol = ""
 style = "fg:sky"
@@ -138,10 +123,6 @@ symbol = ""
 style = "fg:overlay1"
 format = '[[ $symbol( $context) ](fg:overlay1)]($style)'
 
-[conda]
-style = "fg:overlay1"
-format = '[[ $symbol( $environment) ](fg:overlay1)]($style)'
-
 [time]
 disabled = true
 time_format = "%R"
@@ -149,7 +130,7 @@ style = "fg:overlay2"
 format = '[[  $time ](fg:overlay2)]($style)'
 
 [line_break]
-disabled = false
+disabled = true
 
 [character]
 disabled = false
