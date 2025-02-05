@@ -31,6 +31,9 @@ require("lazy").setup({
     version = false, -- always use the latest git commit
     -- version = "*", -- try installing the latest stable version for plugins that support semver
   },
+  ui = {
+    border = "rounded",
+  },
   dev = {
     -- directory where you store your local plugin projects
     path = "~/Developer/lua/neovim",
