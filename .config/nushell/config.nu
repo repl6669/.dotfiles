@@ -58,6 +58,9 @@ alias lt = eza --tree --level=2 --long --icons --git
 alias v = nvim
 alias vim = nvim
 
+## Lazygit
+alias lg = lazygit
+
 ## Aerospace
 def ff [] {
     aerospace list-windows --all | fzf --bind 'enter:execute(bash -c "aerospace focus --window-id {1}")+abort'
