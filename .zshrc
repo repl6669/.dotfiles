@@ -1,3 +1,5 @@
+export XDG_CONFIG_HOME="/Users/theimer/.config"
+
 # Path to dotfiles
 export DOTFILES=$HOME/.dotfiles
 export OBSIDIAN="${HOME}/Library/Mobile\ Documents/iCloud\~md\~obsidian/Documents/obsidian"
@@ -5,7 +7,7 @@ export OBSIDIAN="${HOME}/Library/Mobile\ Documents/iCloud\~md\~obsidian/Document
 # PATH definition
 export PATH="/opt/homebrew/bin:$PATH"
 export PATH="/opt/homebrew/sbin:$PATH"
-export PATH="$PATH:~/.composer/vendor/bin"
+export PATH="$PATH:$HOME/.composer/vendor/bin"
 export PATH="./vendor/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
@@ -39,18 +41,10 @@ export LC_ALL=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
-export EDITOR='nvim'
+export EDITOR='vim'
 else
 export EDITOR='nvim'
 fi
-
-
-export TERM=xterm-256color
-# if [[ $KITTY_WINDOW_ID ]]; then
-# export TERM=xterm-kitty
-# else
-# export TERM=xterm-256color
-# fi
 
 # FZF
 source <(fzf --zsh)
@@ -78,4 +72,3 @@ export RIPGREP_CONFIG_PATH="~/.config/.ripgreprc"
 
 # Starship
 eval "$(starship init zsh)"
-
