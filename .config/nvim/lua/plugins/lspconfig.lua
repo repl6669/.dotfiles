@@ -1,3 +1,8 @@
+local float = { style = "minimal", border = "rounded" }
+
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, float)
+vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, float)
+
 return {
   "neovim/nvim-lspconfig",
   dependencies = {
@@ -27,8 +32,7 @@ return {
       --     },
       --   },
       -- },
-      -- WARNING: Managed by phpactor.lua ?
-      -- phpactor = {},
+      phpactor = {},
       emmet_language_server = {
         filetypes = {
           "css",
