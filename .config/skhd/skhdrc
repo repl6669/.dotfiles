@@ -43,9 +43,6 @@ shift + lalt - 3            : SPACES=($(yabai -m query --displays --display | jq
 shift + lalt - 4            : SPACES=($(yabai -m query --displays --display | jq '.spaces[]')) && [[ -n $SPACES[4] ]] \
                             && yabai -m window --space $SPACES[4]
 
-shift + lalt - p            : yabai -m window --space prev && yabai -m space --focus prev
-shift + lalt - n            : yabai -m window --space next && yabai -m space --focus next
-
 # Mirror Space on X and Y Axis: shift + lalt - {x, y}
 shift + lalt - x            : yabai -m space --mirror x-axis
 shift + lalt - y            : yabai -m space --mirror y-axis
@@ -68,11 +65,17 @@ ctrl + lalt - j : yabai -m window --resize bottom:0:100 2> /dev/null || yabai -m
 ctrl + lalt - k : yabai -m window --resize bottom:0:-100 2> /dev/null || yabai -m window --resize top:0:-100 2> /dev/null
 ctrl + lalt - l : yabai -m window --resize right:100:0 2> /dev/null || yabai -m window --resize left:100:0 2> /dev/null
 
-# Equalize size of windows: shift + lalt - e
-shift + lalt - e            : "$HOME"/.config/yabai/scripts/layout_reset_balance.sh
+# Equalize size of windows: ctrl + lalt - e
+shift + ctrl + lalt - e     : yabai -m space --balance
+
+# Reset to bsp layout and balance windows: shift + ctrl + lalt - e
+shift + lalt - e            : "$HOME"/.config/yabai/scripts/set_layout.sh default
 
 # Apply ultrawide layout on demand
-shift + lalt - c            : "$HOME"/.config/yabai/scripts/layout_ultrawide_center.sh
+shift + lalt - u            : "$HOME"/.config/yabai/scripts/set_layout.sh ultrawide
+
+# Apply ultrawide center layout on demand
+shift + lalt - c            : "$HOME"/.config/yabai/scripts/set_layout.sh ultrawide_center
 
 # Enable / Disable gaps in current workspace: ctrl + lalt - g
 shift + lalt - g            : yabai -m space --toggle padding; yabai -m space --toggle gap
@@ -98,8 +101,8 @@ ctrl + alt - s              : yabai --start-service
 ctrl + alt - r              : yabai --restart-service
 
 # Flash highlight to identify focused window
-shift + ctrl + alt - return : yabai -m window --opacity 0.1 && sleep $(yabai -m config window_opacity_duration) && yabai -m window --opacity 0.0
+shift + ctrl + alt - return : yabai -m window --opacity 0.2 && sleep $(yabai -m config window_opacity_duration) && yabai -m window --opacity 0.0
 
 # Open new kitty window
-cmd - return                : /Applications/kitty.app/Contents/MacOS/kitty --single-instance -d ~
+# cmd - return                : /Applications/kitty.app/Contents/MacOS/kitty --single-instance -d ~
 
