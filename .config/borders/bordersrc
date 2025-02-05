@@ -1,6 +1,7 @@
 #!/bin/bash
 
 options=(
+    ax_focus=on
     style=round
     width=2.0
     hidpi=off
