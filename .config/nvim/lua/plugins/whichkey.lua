@@ -1,7 +1,7 @@
 return {
   "folke/which-key.nvim",
   opts = {
-    defaults = {
+    spec = {
       ["<leader>t"] = { name = "+test" },
       ["<leader>d"] = { name = "+debug" },
       ["<leader>cp"] = { name = "+php" },
