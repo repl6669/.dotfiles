@@ -17,6 +17,40 @@
 # You can remove these comments if you want or leave
 # them for future reference.
 
+# Env variables
+
+# The prompt indicators are environmental variables that represent
+# the state of the prompt
+$env.PROMPT_INDICATOR = {|| "> " }
+$env.PROMPT_INDICATOR_VI_INSERT = {|| ": " }
+$env.PROMPT_INDICATOR_VI_NORMAL = {|| "> " }
+$env.PROMPT_MULTILINE_INDICATOR = {|| "::: " }
+
+# Directories
+$env.DOTFILES = ($env.HOME | path join '.dotfiles')
+$env.OBSIDIAN = ($env.HOME | path join 'Library/Mobile\ Documents/iCloud\~md\~obsidian/Documents/obsidian')
+
+# FZF
+$env.FZF_DEFAULT_OPTS = '--color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8'
+
+# Config
+$env.config = {
+    show_banner: false
+
+    rm: {
+        always_trash: false # always act as if -t was given. Can be overridden with -p
+    }
+
+    edit_mode: vi
+
+    # block, underscore, line, blink_block, blink_underscore, blink_line, inherit to skip setting cursor shape (line is the default)
+    cursor_shape: {
+        emacs: block
+        vi_insert: blink_block
+        vi_normal: block
+    }
+}
+
 # Aliases
 
 ## Shortcuts
@@ -28,7 +62,7 @@ alias .. = cd ..
 
 ## Directories
 alias dot = cd $env.DOTFILES
-# alias conf = cd ($env.DOTFILES | path join '/.config')
+alias conf = cd ($env.DOTFILES | path join '.config')
 alias obs = cd $env.OBSIDIAN
 alias repos = cd ~/Developer
 alias ppd = cd ~/Developer/php
@@ -68,4 +102,6 @@ def ff [] {
 
 source ~/.config/nushell/env.nu
 source ~/.zoxide.nu
+source ~/.cache/carapace/init.nu
+
 use ~/.cache/starship/init.nu
