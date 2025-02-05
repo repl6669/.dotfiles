@@ -6,9 +6,6 @@ return {
       "neovim/nvim-lspconfig", -- required to automaticly register lsp server
     },
     ft = { "php", "blade" },
-    build = function()
-      require("phpactor.handler.update")()
-    end,
     keys = {
       { "<leader>cpic", ":PhpActor import_class<CR>", mode = { "n" }, desc = "Import Class" },
       { "<leader>cpn", ":PhpActor class_new<CR>", desc = "New Class" },
@@ -25,7 +22,7 @@ return {
       install = {
         -- path = vim.fn.stdpath("data") .. "/opt/",
         -- branch = "master",
-        bin = vim.fn.stdpath("data") .. "/mason/packages/phpactor/bin/phpactor",
+        bin = vim.fn.stdpath("data") .. "/mason/bin/phpactor",
         -- php_bin = "php",
         -- composer_bin = "composer",
         -- git_bin = "git",
