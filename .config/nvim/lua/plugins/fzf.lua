@@ -4,6 +4,11 @@ return {
     local actions = require("fzf-lua").actions
 
     return vim.tbl_deep_extend("force", opts, {
+      fzf_colors = {
+        true,
+        bg = "-1",
+        gutter = "-1", -- I like this one too, try with and without
+      },
       oldfiles = {
         include_current_session = true,
       },
