@@ -1,3 +1,4 @@
+# Default config path
 export XDG_CONFIG_HOME="/Users/theimer/.config"
 
 # Path to dotfiles
@@ -69,6 +70,11 @@ eval "$(pyenv init -)"
 
 # Ripgrep
 export RIPGREP_CONFIG_PATH="~/.config/.ripgreprc"
+
+# Carapace
+export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
+zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
+source <(carapace _carapace)
 
 # Starship
 eval "$(starship init zsh)"
