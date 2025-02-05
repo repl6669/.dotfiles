@@ -6,6 +6,7 @@ alias reloadshell="source $HOME/.zshrc"
 alias reloaddns="dscacheutil -flushcache && sudo killall -HUP mDNSResponder"
 alias shrug="echo '¯\_(ツ)_/¯' | pbcopy"
 alias c="clear"
+alias ".."="cd .."
 
 # Directories
 alias dot="cd $DOTFILES"                                    # Go to .dotfiles directory
