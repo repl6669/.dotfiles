@@ -1,24 +1,20 @@
-if true then
-  return {}
-end
-
 return {
   "zbirenbaum/copilot.lua",
   cmd = "Copilot",
   event = "InsertEnter",
   build = ":Copilot auth",
   opts = {
-    -- panel = {
-    --   enabled = false,
-    --   auto_refresh = false,
-    --   keymap = {
-    --     jump_prev = "[[",
-    --     jump_next = "]]",
-    --     accept = "<CR>",
-    --     refresh = "gr",
-    --     open = "<D-CR>",
-    --   },
-    -- },
+    panel = {
+      enabled = false,
+      auto_refresh = false,
+      keymap = {
+        jump_prev = "[[",
+        jump_next = "]]",
+        accept = "<CR>",
+        refresh = "gr",
+        open = "<D-CR>",
+      },
+    },
     suggestion = {
       enabled = true,
       auto_trigger = true,
