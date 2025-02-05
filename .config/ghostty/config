@@ -8,6 +8,7 @@ font-style = medium
 font-size = 18
 
 cursor-style = block
+cursor-style-blink = false
 cursor-opacity = 0.5
 
 mouse-hide-while-typing = true
