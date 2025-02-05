@@ -1,3 +1,7 @@
+if true then
+  return {}
+end
+
 return {
   "https://github.com/fresh2dev/zellij.vim.git",
   lazy = false,
