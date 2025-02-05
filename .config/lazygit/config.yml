@@ -77,7 +77,7 @@ gui:
   # Nerd fonts version to use.
   # One of: '2' | '3' | empty string (default)
   # If empty, do not show icons.
-  nerdFontsVersion: ""
+  nerdFontsVersion: "3"
   # If true (default), file icons are shown in the file views. Only relevant if NerdFontsVersion is not empty.
   showFileIcons: true
   # Length of commit hash in commits view. 0 shows '*' if NF icons aren't on.
@@ -204,10 +204,10 @@ os:
   openDirInEditor: ""
   # A built-in preset that sets all of the above settings. Supported presets
   # are defined in the getPreset function in editor_presets.go.
-  editPreset: "nvim-remote"
+  editPreset: "nvim"
   # Command for opening a file, as if the file is double-clicked. Should
   # contain "{{filename}}", but doesn't support "{{line}}".
-  open: ""
+  open: "open {{filename}}"
   # Command for opening a link. Should contain "{{link}}".
   openLink: ""
   # EditCommand is the command for editing a file.
