@@ -76,5 +76,8 @@ export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
 zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
 source <(carapace _carapace)
 
+# Zoxide
+eval "$(zoxide init zsh)"
+
 # Starship
 eval "$(starship init zsh)"
