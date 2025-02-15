@@ -10,10 +10,10 @@ return {
       },
     },
 
-    {
-      "nvim-telescope/telescope-dap.nvim",
-      opts = {},
-    },
+    -- {
+    --   "nvim-telescope/telescope-dap.nvim",
+    --   opts = {},
+    -- },
   },
   opts = function()
     local dap = require("dap")
