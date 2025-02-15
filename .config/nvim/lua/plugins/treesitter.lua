@@ -27,6 +27,7 @@ return {
       "luap",
       "markdown",
       "markdown_inline",
+      "nu",
       "php",
       "php_only",
       "phpdoc",
