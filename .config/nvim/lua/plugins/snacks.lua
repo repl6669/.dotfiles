@@ -95,7 +95,8 @@ return {
         end,
         {
           section = "terminal",
-          cmd = "pokemon-colorscripts -n haunter --no-title; sleep .1",
+          -- cmd = "pokemon-colorscripts -n haunter --no-title; sleep .1",
+          cmd = "pokemon-colorscripts -r --no-title; sleep .1",
           random = 10,
           height = 19,
         },
