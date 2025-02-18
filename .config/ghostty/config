@@ -26,3 +26,4 @@ shell-integration-features = no-cursor,sudo,no-title
 copy-on-select = clipboard
 
 keybind = global:cmd+shift+/=toggle_quick_terminal
+keybind = super+enter=unbind
