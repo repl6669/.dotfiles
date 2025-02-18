@@ -4,11 +4,11 @@ add_newline = false
 format = """$directory$character"""
 right_format = """$all"""
 command_timeout = 1000
-palette = 'catppuccin_mocha'
+palette = 'rose-pine-moon'
 
 [os]
 disabled = true
-style = "fg:peach"
+style = "fg:gold"
 
 [os.symbols]
 Windows = "󰍲"
@@ -33,12 +33,12 @@ RedHatEnterprise = "󱄛"
 
 [username]
 show_always = false
-style_user = "fg:peach"
-style_root = "fg:peach"
+style_user = "fg:gold"
+style_root = "fg:gold"
 format = '[ $user ]($style)'
 
 [directory]
-style = "fg:yellow"
+style = "fg:rose"
 format = "[ $path ]($style)"
 truncation_length = 4
 truncation_symbol = "…/"
@@ -52,42 +52,64 @@ truncation_symbol = "…/"
 
 [git_branch]
 symbol = ""
-style = "fg:lavender"
-format = '[[ $symbol $branch (:$remote_branch)](fg:lavender)]($style)'
+style = "fg:iris"
+format = '[[ $symbol $branch (:$remote_branch)](fg:iris)]($style)'
 
 [git_status]
-style = "fg:lavender"
-format = '[[($all_status$ahead_behind )](fg:lavender)]($style)'
+disabled = false
+style = "fg:love"
+format = '[[($all_status$ahead_behind )](fg:iris)]($style)'
+ahead = '[⇡${count}](fg:foam) '
+behind = '[⇣${count}](fg:rose) '
+conflicted = '[≠${count}](fg:gold) '
+deleted = '[✘${count}](style) '
+diverged = '[⇕ ⇡${ahead_count}⇣${behind_count}](fg:iris) '
+modified = '[!${count}](fg:rose) '
+renamed = '[»${count}](fg:iris) '
+staged = '[+${count}](fg:gold) '
+stashed = '[${count}](fg:iris) '
+untracked = '[?${count}](fg:rose) '
+up_to_date = '[✓](fg:iris) '
+
+[git_state]
+format = '\([$state( $progress_current/$progress_total)]($style)\) '
+style = "fg:foam"
+cherry_pick = '[🍒PICKING](fg:rose)'
+
+[git_metrics]
+disabled = false
+format = '[+$added](fg:foam)|[-$deleted](fg:love) '
+only_nonzero_diffs = true
 
 [nodejs]
 symbol = ""
-style = "fg:sky"
-format = '[[ $symbol( $version) ](fg:sky)]($style)'
+style = "fg:pine"
+format = '[[ $symbol( $version) ](fg:pine)]($style)'
 
 [c]
 symbol = " "
-style = "fg:sky"
-format = '[[ $symbol( $version) ](fg:sky)]($style)'
+style = "fg:pine"
+format = '[[ $symbol( $version) ](fg:pine)]($style)'
 
 [rust]
 symbol = ""
-style = "fg:sky"
-format = '[[ $symbol( $version) ](fg:sky)]($style)'
+style = "fg:pine"
+format = '[[ $symbol( $version) ](fg:pine)]($style)'
 
 [golang]
 symbol = ""
-style = "fg:sky"
-format = '[[ $symbol( $version) ](fg:sky)]($style)'
+style = "fg:pine"
+format = '[[ $symbol( $version) ](fg:pine)]($style)'
 
 [php]
 symbol = ""
-style = "fg:sky"
-format = '[[ $symbol( $version) ](fg:sky)]($style)'
+style = "fg:pine"
+format = '[[ $symbol( $version) ](fg:pine)]($style)'
 
 [python]
 symbol = ""
-style = "fg:sky"
-format = '[[ $symbol( $version) ](fg:sky)]($style)'
+style = "fg:pine"
+format = '[[ $symbol( $version) ](fg:pine)]($style)'
 
 [docker_context]
 symbol = ""
@@ -105,37 +127,36 @@ disabled = true
 
 [character]
 disabled = true
-success_symbol = '[](bold fg:green)'
-error_symbol = '[](bold fg:red)'
-vimcmd_symbol = '[](bold fg:green)'
-vimcmd_replace_one_symbol = '[](bold fg:lavender)'
-vimcmd_replace_symbol = '[](bold fg:lavender)'
-vimcmd_visual_symbol = '[](bold fg:yellow)'
+success_symbol = '[](bold fg:foam)'
+error_symbol = '[](bold fg:love)'
+vimcmd_symbol = '[](bold fg:pine)'
+vimcmd_replace_one_symbol = '[](bold fg:iris)'
+vimcmd_replace_symbol = '[](bold fg:love)'
+vimcmd_visual_symbol = '[](bold fg:gold)'
 
-[palettes.catppuccin_mocha]
-rosewater = "#f5e0dc"
-flamingo = "#f2cdcd"
-pink = "#f5c2e7"
-mauve = "#cba6f7"
-red = "#f38ba8"
-maroon = "#eba0ac"
-peach = "#fab387"
-yellow = "#f9e2af"
-green = "#a6e3a1"
-teal = "#94e2d5"
-sky = "#89dceb"
-sapphire = "#74c7ec"
-blue = "#89b4fa"
-lavender = "#b4befe"
-text = "#cdd6f4"
-subtext1 = "#bac2de"
-subtext0 = "#a6adc8"
-overlay2 = "#9399b2"
-overlay1 = "#7f849c"
-overlay0 = "#6c7086"
-surface2 = "#585b70"
-surface1 = "#45475a"
-surface0 = "#313244"
-base = "#1e1e2e"
-mantle = "#181825"
-crust = "#11111b"
+[palettes.rose-pine]
+overlay = '#26233a'
+love = '#eb6f92'
+gold = '#f6c177'
+rose = '#ebbcba'
+pine = '#31748f'
+foam = '#9ccfd8'
+iris = '#c4a7e7'
+
+[palettes.rose-pine-moon]
+overlay = '#393552'
+love = '#eb6f92'
+gold = '#f6c177'
+rose = '#ea9a97'
+pine = '#3e8fb0'
+foam = '#9ccfd8'
+iris = '#c4a7e7'
+
+[palettes.rose-pine-dawn]
+overlay = '#f2e9e1'
+love = '#b4637a'
+gold = '#ea9d34'
+rose = '#d7827e'
+pine = '#286983'
+foam = '#56949f'
+iris = '#907aa9'
