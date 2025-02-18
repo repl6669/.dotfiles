@@ -3,7 +3,8 @@ return {
   event = "VeryLazy",
   opts = {
     options = {
-      theme = "catppuccin",
+      -- theme = "catppuccin",
+      theme = "rose-pine",
       globalstatus = true,
       disabled_filetypes = { statusline = { "dashboard", "lazy", "alpha" } },
       component_separators = "",
