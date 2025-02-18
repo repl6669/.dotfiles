@@ -1,5 +1,6 @@
 -- Ollama for Avante
 -- Ollama API Documentation https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-completion
+
 local role_map = {
   user = "user",
   assistant = "assistant",
@@ -40,6 +41,7 @@ local parse_messages = function(self, opts)
   return messages
 end
 
+---@type fun(opts: AvanteProvider, code_opts: AvantePromptOptions): AvanteCurlOutput
 local function parse_curl_args(self, code_opts)
   -- Create the messages array starting with the system message
   local messages = {
@@ -65,12 +67,13 @@ local function parse_curl_args(self, code_opts)
       model = self.model,
       messages = messages,
       options = options,
-      tools = tools, -- Optional tool support
+      -- tools = tools, -- Optional tool support
       stream = true, -- Keep streaming enabled
     },
   }
 end
 
+---@type fun(data: string, handler_opts: AvanteHandlerOptions): nil
 local function parse_stream_data(data, handler_opts)
   local json_data = vim.fn.json_decode(data)
   if json_data then
@@ -93,16 +96,6 @@ local function parse_stream_data(data, handler_opts)
   end
 end
 
----@type AvanteProvider
-local ollama = {
-  api_key_name = "",
-  endpoint = "http://127.0.0.1:11434",
-  model = "qwen2.5-coder:14b", -- Specify your model here
-  parse_messages = parse_messages,
-  parse_curl_args = parse_curl_args,
-  parse_stream_data = parse_stream_data,
-}
-
 return {
   "yetone/avante.nvim",
   event = "VeryLazy",
@@ -111,10 +104,30 @@ return {
   opts = {
     provider = "claude", -- ollama | claude | openai
     auto_suggestions_provider = "copilot", -- ollama | claude | openai | copilot
-    cursor_applying_provider = "fastapply", -- fastapply
+    cursor_applying_provider = nil, -- groq | fastapply
 
     web_search_engine = {
       provider = "tavily", -- tavily, serpapi, searchapi or google
+    },
+
+    behaviour = {
+      auto_suggestions = false, -- Experimental stage
+      auto_set_highlight_group = true,
+      auto_set_keymaps = true,
+      auto_apply_diff_after_generation = false,
+      support_paste_from_clipboard = false,
+      minimize_diff = true, -- Whether to remove unchanged lines when applying a code block
+      enable_token_counting = true, -- Whether to enable token counting. Default to true.
+      enable_cursor_planning_mode = true,
+    },
+
+    -- Experimental
+    dual_boost = {
+      enabled = false,
+      first_provider = "openai",
+      second_provider = "claude",
+      prompt = "Based on the two reference outputs below, generate a response that incorporates elements from both but reflects your own judgment and unique perspective. Do not provide any explanation, just give the response directly. Reference Output 1: [{{provider1_output}}], Reference Output 2: [{{provider2_output}}]",
+      timeout = 60000, -- Timeout in milliseconds
     },
 
     claude = {
@@ -133,7 +146,15 @@ return {
     },
 
     vendors = {
-      ollama = ollama,
+      ---@type AvanteProvider
+      ollama = {
+        api_key_name = "",
+        endpoint = "http://127.0.0.1:11434",
+        model = "qwen2.5-coder:14b", -- Specify your model here
+        parse_messages = parse_messages,
+        parse_curl_args = parse_curl_args,
+        parse_stream_data = parse_stream_data,
+      },
 
       fastapply = {
         __inherited_from = "openai",
@@ -141,6 +162,14 @@ return {
         endpoint = "http://localhost:11434/v1",
         model = "hf.co/Kortix/FastApply-7B-v1.0_GGUF:Q4_K_M",
       },
+
+      groq = {
+        __inherited_from = "openai",
+        api_key_name = "GROQ_API_KEY",
+        endpoint = "https://api.groq.com/openai/v1/",
+        model = "qwen-2.5-coder-32b",
+      },
+
       --   deepseek = {
       --     __inherited_from = "openai",
       --     api_key_name = "DEEPSEEK_API_KEY",
@@ -155,25 +184,6 @@ return {
       provider_opts = {},
     },
 
-    dual_boost = {
-      enabled = false,
-      first_provider = "openai",
-      second_provider = "claude",
-      prompt = "Based on the two reference outputs below, generate a response that incorporates elements from both but reflects your own judgment and unique perspective. Do not provide any explanation, just give the response directly. Reference Output 1: [{{provider1_output}}], Reference Output 2: [{{provider2_output}}]",
-      timeout = 60000, -- Timeout in milliseconds
-    },
-
-    behaviour = {
-      auto_suggestions = false, -- Experimental stage
-      auto_set_highlight_group = true,
-      auto_set_keymaps = true,
-      auto_apply_diff_after_generation = false,
-      support_paste_from_clipboard = false,
-      minimize_diff = true, -- Whether to remove unchanged lines when applying a code block
-      enable_token_counting = true, -- Whether to enable token counting. Default to true.
-      enable_cursor_planning_mode = true, -- For FastApply model
-    },
-
     mappings = {
       --- @class AvanteConflictMappings
       diff = {
@@ -186,9 +196,9 @@ return {
         prev = "[x",
       },
       suggestion = {
-        accept = "<M-l>",
-        next = "<M-]>",
-        prev = "<M-[>",
+        accept = "<D-l>",
+        next = "<D-]>",
+        prev = "<D-[>",
         dismiss = "<C-]>",
       },
       jump = {
@@ -197,7 +207,7 @@ return {
       },
       submit = {
         normal = "<CR>",
-        insert = "<C-s>",
+        insert = "<D-Enter>",
       },
       sidebar = {
         apply_all = "A",
@@ -219,29 +229,31 @@ return {
       },
     },
   },
-  -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
+
+  -- If you want to build from source then do `make BUILD_FROM_SOURCE=true`
   build = "make",
+
   dependencies = {
     "stevearc/dressing.nvim",
     "nvim-lua/plenary.nvim",
     "MunifTanjim/nui.nvim",
     "echasnovski/mini.icons",
-    "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
-    "ibhagwan/fzf-lua", -- for file_selector provider fzf
-    "zbirenbaum/copilot.lua", -- for providers='copilot'
+    "hrsh7th/nvim-cmp", -- Autocompletion for avante commands and mentions
+    "ibhagwan/fzf-lua", -- For file_selector provider fzf
+    "zbirenbaum/copilot.lua", -- For providers='copilot'
     {
-      -- support for image pasting
+      -- Support for image pasting
       "HakonHarnes/img-clip.nvim",
       event = "VeryLazy",
       opts = {
-        -- recommended settings
+        -- Recommended settings
         default = {
           embed_image_as_base64 = false,
           prompt_for_file_name = false,
           drag_and_drop = {
             insert_mode = true,
           },
-          -- required for Windows users
+          -- Required for Windows users
           use_absolute_path = true,
         },
       },
