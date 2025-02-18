@@ -153,8 +153,8 @@ return {
       extend_background_behind_borders = true,
 
       enable = {
-        legacy_highlights = false,
-        migrations = false,
+        legacy_highlights = true,
+        migrations = true,
         terminal = true,
       },
 
@@ -167,11 +167,27 @@ return {
       palette = {
         -- Override the builtin palette per variant
         moon = {
+          base = "#191724",
+          surface = "#1f1d2e",
           overlay = "#26233a",
+          muted = "#6e6a86",
+          subtle = "#908caa",
+          text = "#e0def4",
+          -- leaf = "#95b1ac",
+          -- pine = "#31748f",
+          highlight_low = "#21202e",
+          highlight_med = "#403d52",
+          highlight_high = "#524f67",
         },
       },
 
       highlight_groups = {
+
+        -- Treesitter
+        -- ["@type"] = { fg = "rose" },
+        ["@module"] = { fg = "subtle" },
+
+        -- Dashboard
         SnacksDashboardHeader = { fg = "love" },
         SnacksDashboardIcon = { fg = "gold" },
         SnacksDashboardDesc = { fg = "rose" },
