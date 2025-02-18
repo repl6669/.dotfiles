@@ -4,22 +4,22 @@ return {
     "nvim-lua/plenary.nvim", -- Required for v0.4.0+
   },
   config = function()
-    local colors = require("catppuccin.palettes").get_palette("mocha")
+    local colors = require("rose-pine.palette")
     local mappings = require("cokeline.mappings")
 
-    local comments_fg = colors.overlay0
-    local errors_fg = colors.red
-    local warnings_fg = colors.yellow
-    local info_fg = colors.sky
-    local hints_fg = colors.teal
+    local comments_fg = colors.highlight_med
+    local errors_fg = colors.love
+    local warnings_fg = colors.gold
+    local info_fg = colors.iris
+    local hints_fg = colors.foam
 
-    local text = colors.subtext0
-    local highligted_text = colors.peach
-    local transparent = colors.base
-    local background = colors.mantle
+    local text = colors.subtle
+    local highligted_text = colors.gold
+    local transparent = colors.none
+    local background = colors.base
 
-    local red = colors.red
-    local yellow = colors.yellow
+    local red = colors.love
+    local yellow = colors.gold
 
     local components = {
       space = {
