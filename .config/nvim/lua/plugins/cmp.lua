@@ -10,12 +10,18 @@ return {
       table.insert(opts.sources, { name = "nvim_lsp_signature_help" })
     end
 
-    table.insert(opts.sources, { name = "dotenv" })
+    table.insert(opts.sources, {
+      name = "dotenv",
+    })
 
     table.insert(opts.sources, {
       name = "rg",
       -- Try it when you feel cmp performance is poor
       -- keyword_length = 3,
+    })
+
+    table.insert(opts.sources, {
+      name = "render-markdown",
     })
 
     opts.window = {
