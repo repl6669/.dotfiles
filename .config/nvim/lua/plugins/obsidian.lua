@@ -2,6 +2,7 @@ return {
   "epwalsh/obsidian.nvim",
   ft = "markdown",
   version = "*",
+  ui = { enable = false },
   event = {
     -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
     -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
@@ -22,7 +23,7 @@ return {
     },
     templates = {
       subdir = "Templates",
-      date_format = "%Y-%m-%d-%a",
+      date_format = "%Y%m%d",
       time_format = "%H:%M",
     },
     completion = {
