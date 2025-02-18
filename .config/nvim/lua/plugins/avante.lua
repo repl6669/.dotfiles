@@ -111,6 +111,11 @@ return {
   opts = {
     provider = "claude", -- ollama | claude | openai
     auto_suggestions_provider = "copilot", -- ollama | claude | openai | copilot
+    cursor_applying_provider = "fastapply", -- fastapply
+
+    web_search_engine = {
+      provider = "tavily", -- tavily, serpapi, searchapi or google
+    },
 
     claude = {
       endpoint = "https://api.anthropic.com",
@@ -129,6 +134,13 @@ return {
 
     vendors = {
       ollama = ollama,
+
+      fastapply = {
+        __inherited_from = "openai",
+        api_key_name = "",
+        endpoint = "http://localhost:11434/v1",
+        model = "hf.co/Kortix/FastApply-7B-v1.0_GGUF:Q4_K_M",
+      },
       --   deepseek = {
       --     __inherited_from = "openai",
       --     api_key_name = "DEEPSEEK_API_KEY",
@@ -159,6 +171,7 @@ return {
       support_paste_from_clipboard = false,
       minimize_diff = true, -- Whether to remove unchanged lines when applying a code block
       enable_token_counting = true, -- Whether to enable token counting. Default to true.
+      enable_cursor_planning_mode = true, -- For FastApply model
     },
 
     mappings = {
