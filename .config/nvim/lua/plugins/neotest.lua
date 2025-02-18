@@ -8,7 +8,6 @@ return {
     },
     opts = {
       adapters = {
-        -- "neotest-plenary",
         ["neotest-pest"] = {
           -- Root files
           root_files = { "tests/Pest.php" },
@@ -22,21 +21,22 @@ return {
           -- Specify suffixes for files that should be considered tests
           test_file_suffixes = { "Test.php" },
 
-          -- Enable Docker support
+          -- vim.fn.fnamemodify(require("lazyvim.util").root.get({ normalize = true }), ":h:t") .. "-api-fpm-1",
+
           sail_enabled = function()
             return true
           end,
 
-          -- vim.fn.fnamemodify(require("lazyvim.util").root.get({ normalize = true }), ":h:t") .. "-api-fpm-1",
+          sail_project_path = "/app",
 
           -- Set custom docker command
           pest_cmd = {
             "docker",
             "compose",
             "-f",
-            "../docker-compose.dev.yml",
+            "../compose.local.yml",
             "exec",
-            "api-fpm",
+            "api",
             "vendor/bin/pest",
           },
 
@@ -50,10 +50,13 @@ return {
             return "storage/app/tests/" .. os.date("pest-%Y%m%d-%H%M%S")
           end,
         },
+        ["neotest-plenary"] = {
+          --
+        },
       },
       discovery = {
         enabled = true,
-        concurrent = 2,
+        concurrent = 1,
         -- filter_dir = function(name, rel_path, root)
         --   return name ~= "vendor"
         -- end,
@@ -72,7 +75,7 @@ return {
         enabled = true,
         open = "botright split | resize 30",
       },
-      log_level = vim.log.levels.INFO,
+      log_level = vim.log.levels.DEBUG,
     },
   },
 }
