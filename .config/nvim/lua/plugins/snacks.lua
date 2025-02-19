@@ -1,7 +1,20 @@
 return {
   "snacks.nvim",
   opts = {
+    notifier = {
+      enabled = true,
+      style = "compact",
+      timeout = 5000,
+      icons = {
+        error = " ",
+        warn = " ",
+        info = " ",
+        debug = " ",
+        trace = " ",
+      },
+    },
     dashboard = {
+      enabled = true,
       width = 60,
       sections = {
         {
