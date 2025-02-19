@@ -179,11 +179,13 @@ return {
               local error = table.concat(data)
 
               if error:match("^Note: Using configuration file") then
-                vim.notify(error, "warn", {
-                  id = "phpstan_config",
-                  title = "PHPStan",
-                })
+                -- -- Config file message
+                -- vim.notify(error, "warn", {
+                --   id = "phpstan_config",
+                --   title = "PHPStan",
+                -- })
               else
+                -- PHPStan error before analysis
                 failed = true
                 vim.notify(error, "error", {
                   title = "PHPStan",
@@ -217,6 +219,7 @@ return {
                 local qf_entries = {}
                 local root = require("lazyvim.util").root.get({ normalize = true })
 
+                -- Parse JSON output
                 if #stdout_data > 0 then
                   local json_str = table.concat(stdout_data)
                   local ok, parsed = pcall(vim.json.decode, json_str)
@@ -236,22 +239,11 @@ return {
                   end
                 end
 
-                vim.fn.setqflist(qf_entries, "r")
+                if #qf_entries > 0 then
+                  -- Set issues to quickfix list
+                  vim.fn.setqflist(qf_entries, "r")
 
-                if #qf_entries == 0 then
-                  vim.notify(
-                    table.concat({
-                      "No issues found",
-                      "Duration: " .. duration .. "s",
-                    }, "\n"),
-                    "info",
-                    {
-                      id = "phpstan_progress",
-                      title = "PHPStan",
-                      replace = true,
-                    }
-                  )
-                else
+                  -- Success with issues
                   vim.notify(
                     table.concat({
                       "Added " .. #qf_entries .. " to quickfix list",
@@ -264,8 +256,25 @@ return {
                       replace = true,
                     }
                   )
+
+                  -- Open quickfix list
                   require("trouble").open("quickfix")
+                  return
                 end
+
+                -- Success with no issues
+                vim.notify(
+                  table.concat({
+                    "No issues found",
+                    "Duration: " .. duration .. "s",
+                  }, "\n"),
+                  "info",
+                  {
+                    id = "phpstan_progress",
+                    title = "PHPStan",
+                    replace = true,
+                  }
+                )
               end)
             end,
           })
