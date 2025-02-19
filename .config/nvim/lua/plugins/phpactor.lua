@@ -117,11 +117,28 @@ return {
         "<leader>cppq",
         function()
           if not require("utils.docker").docker_enabled() then
-            vim.notify("🔍 PHPStan\n\nDocker is not enabled", vim.log.levels.WARN)
+            vim.notify("Docker is not enabled", "error", {
+              id = "phpstan_docker_check",
+              title = "PHPStan",
+            })
             return
           end
 
-          vim.notify("🔍 PHPStan\n\nRunning analysis...", vim.log.levels.INFO)
+          local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
+          local start_time = vim.uv.hrtime()
+
+          vim.schedule(function()
+            vim.notify("Analyzing files...", "info", {
+              id = "phpstan_progress",
+              title = "PHPStan",
+              opts = function(notif)
+                notif.icon = spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
+              end,
+              keep = function()
+                return true
+              end,
+            })
+          end)
 
           local command = table.concat({
             "docker",
@@ -133,67 +150,124 @@ return {
             "vendor/bin/phpstan",
             "analyse",
             "--no-progress",
-            "--error-format=raw",
+            "--error-format=json",
+            "--memory-limit=2G",
           }, " ")
 
+          local stdout_data = {}
+          local failed = false
+
           vim.fn.jobstart(command, {
+
             on_stdout = function(_, data)
               if not data or #data == 0 or (data[1] == "" and #data == 1) then
-                vim.notify("🔍 PHPStan\n\nNo errors found", vim.log.levels.INFO)
                 return
               end
 
-              local qf_entries = {}
-              local root = require("lazyvim.util").root.get({ normalize = true })
-
               for _, line in ipairs(data) do
                 if line and line ~= "" then
-                  -- Parse the line into filename, lnum, and text
-                  local filename, lnum, text = line:match("([^:]+):(%d+):(.+)")
-                  if filename and lnum and text then
-                    -- Replace /app/ with project root
-                    filename = filename:gsub("^/app/", root .. "/")
-                    table.insert(qf_entries, {
-                      filename = filename,
-                      lnum = tonumber(lnum),
-                      text = text:gsub("^%s*(.-)%s*$", "%1"), -- trim whitespace
-                      type = "E",
-                    })
-                  end
+                  table.insert(stdout_data, line)
                 end
+              end
+            end,
+
+            on_stderr = function(_, data)
+              if not data or #data == 0 or (data[1] == "" and #data == 1) then
+                return
               end
 
-              if #qf_entries > 0 then
-                vim.schedule(function()
-                  vim.fn.setqflist(qf_entries, "r")
-                  vim.notify("🔍 PHPStan\n\nFound " .. #qf_entries .. " issues", vim.log.levels.WARN)
-                  require("trouble").open("quickfix")
-                end)
+              local error = table.concat(data)
+
+              if error:match("^Note: Using configuration file") then
+                vim.notify(error, "warn", {
+                  id = "phpstan_config",
+                  title = "PHPStan",
+                })
+              else
+                failed = true
+                vim.notify(error, "error", {
+                  title = "PHPStan",
+                  id = "phpstan_error",
+                })
               end
             end,
-            on_stderr = function(_, data)
-              if data and #data > 1 then
-                vim.schedule(function()
-                  if data[1]:match("^Note: Using configuration file") then
-                    vim.notify("🔍 PHPStan\n\n" .. data[1], vim.log.levels.INFO)
-                  else
-                    vim.notify("🔍 PHPStan\n\nError: " .. table.concat(data, "\n"), vim.log.levels.ERROR)
-                  end
-                end)
-              end
-            end,
-            on_exit = function(_, code)
-              if code == 0 then
-                local qf_list = vim.fn.getqflist()
-                if #qf_list == 0 then
-                  vim.schedule(function()
-                    vim.notify("🔍 PHPStan\n\nNo issues found", vim.log.levels.INFO)
-                  end)
+
+            on_exit = function(_, data)
+              local end_time = vim.uv.hrtime()
+              local duration = string.format("%.2f", (end_time - start_time) / 1e9)
+
+              vim.schedule(function()
+                if failed then
+                  vim.notify(
+                    table.concat({
+                      "PHPStan failed",
+                      "Please run phpstan in terminal and fix the errors",
+                      "Duration: " .. duration .. "s",
+                    }, "\n"),
+                    "error",
+                    {
+                      id = "phpstan_progress",
+                      title = "PHPStan",
+                      replace = true,
+                    }
+                  )
+                  return
                 end
-              end
+
+                local qf_entries = {}
+                local root = require("lazyvim.util").root.get({ normalize = true })
+
+                if #stdout_data > 0 then
+                  local json_str = table.concat(stdout_data)
+                  local ok, parsed = pcall(vim.json.decode, json_str)
+
+                  if ok and parsed and parsed.files then
+                    for file_path, file_data in pairs(parsed.files) do
+                      for _, message in ipairs(file_data.messages) do
+                        local filename = file_path:gsub("^/app/", root .. "/")
+                        table.insert(qf_entries, {
+                          filename = filename,
+                          lnum = message.line,
+                          text = message.message,
+                          type = "E",
+                        })
+                      end
+                    end
+                  end
+                end
+
+                vim.fn.setqflist(qf_entries, "r")
+
+                if #qf_entries == 0 then
+                  vim.notify(
+                    table.concat({
+                      "No issues found",
+                      "Duration: " .. duration .. "s",
+                    }, "\n"),
+                    "info",
+                    {
+                      id = "phpstan_progress",
+                      title = "PHPStan",
+                      replace = true,
+                    }
+                  )
+                else
+                  vim.notify(
+                    table.concat({
+                      "Added " .. #qf_entries .. " to quickfix list",
+                      "Duration: " .. duration .. "s",
+                    }, "\n"),
+                    "error",
+                    {
+                      id = "phpstan_progress",
+                      title = "PHPStan",
+                      replace = true,
+                    }
+                  )
+                  require("trouble").open("quickfix")
+                end
+              end)
             end,
-            stdout_buffered = true,
-            stderr_buffered = true,
           })
         end,
         desc = "Add phpstan errors to quickfix list",
