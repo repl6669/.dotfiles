@@ -122,7 +122,7 @@ return {
         support_paste_from_clipboard = false,
         minimize_diff = true, -- Whether to remove unchanged lines when applying a code block
         enable_token_counting = true, -- Whether to enable token counting. Default to true.
-        enable_cursor_planning_mode = true,
+        enable_cursor_planning_mode = false,
       },
 
       -- Experimental
@@ -172,6 +172,7 @@ return {
           api_key_name = "GROQ_API_KEY",
           endpoint = "https://api.groq.com/openai/v1/",
           model = "qwen-2.5-coder-32b",
+          max_tokens = 8192, -- increase this value, otherwise it will stop generating halfway
         },
 
         --   deepseek = {
