@@ -42,10 +42,12 @@ vim.api.nvim_create_autocmd("LspProgress", {
     vim.notify(table.concat(msg, "\n"), "info", {
       id = "lsp_progress",
       title = client.name,
-      timeout = 10000,
       opts = function(notif)
         notif.icon = #progress[client.id] == 0 and " "
           or spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
+      end,
+      keep = function()
+        return #progress[client.id] > 0
       end,
     })
   end,
