@@ -185,7 +185,7 @@ return {
 
         -- Treesitter
         -- ["@type"] = { fg = "rose" },
-        ["@module"] = { fg = "subtle" },
+        -- ["@module"] = { fg = "subtle" },
 
         -- Dashboard
         SnacksDashboardHeader = { fg = "love" },
