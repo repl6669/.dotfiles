@@ -13,8 +13,6 @@ return {
     },
     code = {
       border = "none",
-      -- highlight = "NormalFloat",
-      -- highlight_inline = "NormalFloat",
     },
     overrides = {
       buftype = {

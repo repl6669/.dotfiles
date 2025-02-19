@@ -106,7 +106,7 @@ return {
     end
 
     return {
-      provider = "claude", -- ollama | claude | openai
+      provider = "claude", -- ollama | claude | openai | copilot
       auto_suggestions_provider = "copilot", -- ollama | claude | openai | copilot
       cursor_applying_provider = nil, -- groq | fastapply
 
@@ -138,7 +138,13 @@ return {
         endpoint = "https://api.anthropic.com",
         model = "claude-3-5-sonnet-20241022",
         temperature = 0,
-        max_tokens = 4096,
+        max_tokens = 8192,
+      },
+
+      copilot = {
+        model = "claude-3.5-sonnet",
+        temperature = 0,
+        max_tokens = 8192,
       },
 
       openai = {
@@ -237,7 +243,14 @@ return {
   end,
 
   dependencies = {
-    "stevearc/dressing.nvim",
+    {
+      "stevearc/dressing.nvim",
+      lazy = true,
+      opts = {
+        input = { enabled = false },
+        select = { enabled = false },
+      },
+    },
     "nvim-lua/plenary.nvim",
     "MunifTanjim/nui.nvim",
     "echasnovski/mini.icons",
