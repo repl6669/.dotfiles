@@ -2,6 +2,7 @@ return {
   "folke/which-key.nvim",
   opts = {
     spec = {
+      { "<leader>a", group = "+ai" },
       ["<leader>t"] = { name = "+test" },
       ["<leader>d"] = { name = "+debug" },
       ["<leader>cp"] = { name = "+php" },

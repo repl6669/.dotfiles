@@ -5,13 +5,6 @@ return {
       enabled = true,
       style = "compact",
       timeout = 5000,
-      icons = {
-        error = " ",
-        warn = " ",
-        info = " ",
-        debug = " ",
-        trace = " ",
-      },
     },
     dashboard = {
       enabled = true,

@@ -69,7 +69,7 @@
   "rose-pine": { "branch": "main", "commit": "20c7940da844aa4f162a64e552ae3c7e9fdc3b93" },
   "rust-tools.nvim": { "branch": "master", "commit": "676187908a1ce35ffcd727c654ed68d851299d3e" },
   "rustaceanvim": { "branch": "master", "commit": "0c79344c3bd9696d5f0e6d78b71e5c18b3842c82" },
-  "snacks.nvim": { "branch": "main", "commit": "a3b47e5202d924e6a6d4386bb5f94cc5857c4f8c" },
+  "snacks.nvim": { "branch": "main", "commit": "65f89e2d6f3790b0687f09ebe2811d953bd09e0c" },
   "tailwindcss-colorizer-cmp.nvim": { "branch": "main", "commit": "3d3cd95e4a4135c250faf83dd5ed61b8e5502b86" },
   "todo-comments.nvim": { "branch": "main", "commit": "304a8d204ee787d2544d8bc23cd38d2f929e7cc5" },
   "tokyonight.nvim": { "branch": "main", "commit": "057ef5d260c1931f1dffd0f052c685dcd14100a3" },
