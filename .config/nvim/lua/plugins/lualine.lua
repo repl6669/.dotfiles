@@ -6,7 +6,14 @@ return {
       -- theme = "catppuccin",
       theme = "rose-pine",
       globalstatus = true,
-      disabled_filetypes = { statusline = { "dashboard", "lazy", "alpha" } },
+      disabled_filetypes = {
+        statusline = {
+          "dashboard",
+          "lazy",
+          "alpha",
+          "snacks_dashboard",
+        },
+      },
       component_separators = "",
       section_separators = { left = "", right = "" },
     },
@@ -23,6 +30,11 @@ return {
           left_padding = 2,
         },
       },
+    },
+    extensions = {
+      "neo-tree",
+      "lazy",
+      "fzf",
     },
   },
 }
