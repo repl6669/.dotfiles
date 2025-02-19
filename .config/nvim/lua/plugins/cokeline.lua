@@ -7,6 +7,13 @@ return {
     local colors = require("rose-pine.palette")
     local mappings = require("cokeline.mappings")
 
+    local icons = {
+      error = LazyVim.config.icons.diagnostics.Error,
+      warn = LazyVim.config.icons.diagnostics.Warn,
+      hint = LazyVim.config.icons.diagnostics.Hint,
+      info = LazyVim.config.icons.diagnostics.Info,
+    }
+
     local comments_fg = colors.highlight_med
     local errors_fg = colors.love
     local warnings_fg = colors.gold
@@ -82,10 +89,10 @@ return {
       },
       diagnostics = {
         text = function(buffer)
-          return (buffer.diagnostics.errors ~= 0 and "  " .. buffer.diagnostics.errors)
-            or (buffer.diagnostics.warnings ~= 0 and "  " .. buffer.diagnostics.warnings)
-            or (buffer.diagnostics.infos ~= 0 and "  " .. buffer.diagnostics.infos)
-            or (buffer.diagnostics.hints ~= 0 and " 󰌵 " .. buffer.diagnostics.hints)
+          return (buffer.diagnostics.errors ~= 0 and " " .. icons.error .. " " .. buffer.diagnostics.errors)
+            or (buffer.diagnostics.warnings ~= 0 and " " .. icons.warn .. " " .. buffer.diagnostics.warnings)
+            or (buffer.diagnostics.infos ~= 0 and " " .. icons.info .. " " .. buffer.diagnostics.infos)
+            or (buffer.diagnostics.hints ~= 0 and " " .. icons.hint .. " " .. buffer.diagnostics.hints)
             or ""
         end,
         fg = function(buffer)
