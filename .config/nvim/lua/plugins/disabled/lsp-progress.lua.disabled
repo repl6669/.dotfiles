@@ -7,8 +7,8 @@ return {
         local api = require("lsp-progress.api")
 
         require("lsp-progress").setup({
+          spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" },
           format = function(client_messages)
-            -- icon: nf-fa-gear \uf013
             local sign = " LSP"
             if #client_messages > 0 then
               return sign .. " " .. table.concat(client_messages, " ")
