@@ -188,10 +188,10 @@ return {
         -- ["@module"] = { fg = "subtle" },
 
         -- Dashboard
-        SnacksDashboardHeader = { fg = "love" },
+        SnacksDashboardHeader = { fg = "iris" },
         SnacksDashboardIcon = { fg = "gold" },
-        SnacksDashboardDesc = { fg = "rose" },
-        SnacksDashboardTitle = { fg = "rose" },
+        SnacksDashboardDesc = { fg = "iris" },
+        SnacksDashboardTitle = { fg = "iris" },
         SnacksDashboardSpecial = { fg = "iris" },
 
         -- DashboardHeader = { fg = "love" },
