@@ -10,15 +10,17 @@ return {
     opts = {
       install = {
         -- path = vim.fn.stdpath("data") .. "/opt/",
-        -- branch = "master",
-        bin = vim.fn.stdpath("data") .. "/mason/bin/phpactor",
-        -- php_bin = "php",
-        -- composer_bin = "composer",
-        -- git_bin = "git",
-        check_on_startup = "daily",
+        branch = "master",
+        bin = vim.fn.stdpath("data") .. "/mason/packages/phpactor/phpactor.phar",
+        php_bin = "php",
+        -- php_bin = "docker compose -f ../compose.local.yml exec api php",
+        composer_bin = "composer",
+        git_bin = "git",
+        check_on_startup = "none",
       },
       lspconfig = {
         options = {
+          cmd = { vim.fn.stdpath("data") .. "/mason/bin/phpactor", "language-server" },
           language_server_diagnostics_on_update = false,
         },
       },
