@@ -108,7 +108,7 @@ return {
     return {
       provider = "claude", -- ollama | claude | openai | copilot
       auto_suggestions_provider = "copilot", -- ollama | claude | openai | copilot
-      cursor_applying_provider = nil, -- groq | fastapply
+      cursor_applying_provider = "groq", -- groq | fastapply
 
       web_search_engine = {
         provider = "tavily", -- tavily, serpapi, searchapi or google
@@ -136,13 +136,13 @@ return {
 
       claude = {
         endpoint = "https://api.anthropic.com",
-        model = "claude-3-5-sonnet-20241022",
+        model = "claude-3-7-sonnet-latest",
         temperature = 0,
         max_tokens = 8192,
       },
 
       copilot = {
-        model = "claude-3.5-sonnet",
+        model = "claude-3.7-sonnet",
         temperature = 0,
         max_tokens = 8192,
       },
@@ -177,8 +177,8 @@ return {
           __inherited_from = "openai",
           api_key_name = "GROQ_API_KEY",
           endpoint = "https://api.groq.com/openai/v1/",
-          model = "qwen-2.5-coder-32b",
-          max_tokens = 8192, -- increase this value, otherwise it will stop generating halfway
+          model = "llama-3.3-70b-versatile",
+          max_tokens = 32768, -- increase this value, otherwise it will stop generating halfway
         },
 
         --   deepseek = {
