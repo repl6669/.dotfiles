@@ -11,9 +11,3 @@ vim.keymap.set("n", "<Leader>.", ":bd<CR>", { desc = "Close Buffer" })
 
 -- Quick settings access
 vim.keymap.set("n", "<Leader>C", ":edit /Users/theimer/.config/nvim/init.lua<CR>", { desc = "Edit Configuration" })
-
--- Lazydocker
--- stylua: ignore
-vim.keymap.set("n", "<leader>gd", function() require("lazyvim.util").terminal.open({ "lazydocker" }, { cwd = require("lazyvim.util").get_root(), esc_esc = false }) end, { desc = "Lazydocker (root dir)" })
--- stylua: ignore
-vim.keymap.set("n", "<leader>gD", function() require("lazyvim.util").terminal.open({ "lazydocker" }, {esc_esc = false}) end, { desc = "Lazydocker (cwd)" })
