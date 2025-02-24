@@ -46,9 +46,9 @@ vim.api.nvim_create_autocmd("LspProgress", {
         notif.icon = #progress[client.id] == 0 and " "
           or spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
       end,
-      keep = function()
-        return #progress[client.id] > 0
-      end,
+      -- keep = function()
+      --   return #progress[client.id] > 0
+      -- end,
     })
   end,
 })
