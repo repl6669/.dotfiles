@@ -16,6 +16,8 @@ vim.opt.conceallevel = 2 -- Level of text hiding
 vim.opt.scrolloff = 16 -- Minimum number of screen lines to keep above and below the cursor
 vim.opt.laststatus = 3
 
+vim.opt.spelllang = {} -- Set spell checking languages { "en", "cs" }
+
 -- Transparency
 vim.opt.winblend = 0 -- Global transparency for floating windows (has to be 20 for rose-pine, 0 for catppuccin)
 vim.opt.pumblend = 0 -- Popup transparency
@@ -24,7 +26,7 @@ vim.opt.pumblend = 0 -- Popup transparency
 -- Only vim syntax will be enabled (with the correct filetype)
 -- LSP, treesitter and other ft plugins will be disabled.
 -- mini.animate will also be disabled.
-vim.g.bigfile_size = 1024 * 1024 * 5 -- 5 MB
+vim.g.bigfile_size = 1024 * 1024 * 10 -- 10 MB
 vim.opt.redrawtime = 10000 -- Allow more time for loading syntax on large files
 
 -- vim.opt.backup = true -- Automatically save a backup file
