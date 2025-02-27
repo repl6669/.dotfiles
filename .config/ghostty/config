@@ -3,13 +3,12 @@ theme = rose-pine
 background-opacity = 0.85
 background-blur-radius = 15
 
-font-family = PragmataPro Nerd Font Mono
-font-feature = -dlig
+font-family = TX02 Nerd Font Mono
 font-size = 18
 font-thicken
 font-thicken-strength = 10
 
-adjust-cell-height = 20%
+adjust-cell-height = 10%
 
 cursor-style = block
 cursor-style-blink = false
