@@ -106,7 +106,7 @@ return {
     end
 
     return {
-      provider = "claude", -- ollama | claude | openai | copilot
+      provider = "openai", -- ollama | claude | openai | copilot
       auto_suggestions_provider = "copilot", -- ollama | claude | openai | copilot
       cursor_applying_provider = "groq", -- groq | fastapply
 
@@ -190,6 +190,7 @@ return {
       },
 
       file_selector = {
+        --- @alias FileSelectorProvider "native" | "fzf" | "mini.pick" | "snacks" | "telescope" | string | fun(params: avante.file_selector.IParams|nil): nil
         provider = "fzf",
         -- Options override for custom providers
         provider_opts = {},
