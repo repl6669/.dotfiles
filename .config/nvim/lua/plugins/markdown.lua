@@ -35,4 +35,15 @@ return {
     "Avante",
     "markdown",
   },
+
+  keys = {
+    {
+      "<leader>mt",
+      function()
+        require("utils.markdown").update_markdown_toc("## Table of Contents")
+      end,
+      mode = { "n" },
+      desc = "Upsert Markdown TOC",
+    },
+  },
 }
