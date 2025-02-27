@@ -13,6 +13,7 @@ return {
       ["<leader>a"] = { name = "+annotations/docblocks" },
       ["<leader>p"] = { name = "+pomodoro" },
       ["<leader>g"] = { name = "+github" },
+      ["<leader>m"] = { name = "+markdown" },
     },
   },
 }
