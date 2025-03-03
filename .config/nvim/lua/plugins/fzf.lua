@@ -4,6 +4,9 @@ return {
     local actions = require("fzf-lua").actions
 
     return vim.tbl_deep_extend("force", opts, {
+      fzf_opts = {
+        ["--history"] = vim.fn.stdpath("data") .. "/fzf-lua-history",
+      },
       fzf_colors = {
         true,
         bg = "-1",
@@ -15,7 +18,7 @@ return {
       previewers = {
         builtin = {
           -- With this change, the previewer will not add syntax highlighting to files larger than 100KB
-          syntax_limit_b = 1024 * 100, -- 100KB
+          syntax_limit_b = 1024 * 1000, -- 1MB
         },
       },
       files = {
@@ -29,6 +32,10 @@ return {
         actions = {
           ["ctrl-i"] = { actions.toggle_ignore },
           ["ctrl-h"] = { actions.toggle_hidden },
+          ["ctrl-q"] = {
+            fn = actions.file_edit_or_qf,
+            prefix = "select-all+",
+          },
         },
       },
     })
