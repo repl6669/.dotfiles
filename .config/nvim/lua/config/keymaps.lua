@@ -8,6 +8,3 @@ vim.keymap.set("n", "<D-v>", '"+p', { desc = "Paste from System Clipboard" })
 
 -- Manage buffers
 vim.keymap.set("n", "<Leader>.", ":bd<CR>", { desc = "Close Buffer" })
-
--- Quick settings access
-vim.keymap.set("n", "<Leader>C", ":edit /Users/theimer/.config/nvim/init.lua<CR>", { desc = "Edit Configuration" })
