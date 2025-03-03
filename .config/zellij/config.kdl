@@ -250,7 +250,7 @@ simplified_ui true
 // Choose the theme that is specified in the themes section.
 // Default: default
 //
-theme "rose-pine"
+theme "repl6669"
 
 // Choose the base input mode of zellij.
 // Default: normal

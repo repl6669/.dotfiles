@@ -1,0 +1,15 @@
+themes {
+	repl6669 {
+	    bg "#000000"
+		fg "#eeeeee"
+		red "#4e4e4e"
+		green "#d75f00"
+		blue "#a8a8a8"
+		yellow "#808080"
+		magenta "#949494"
+		orange "#c6c6c6"
+		cyan "#666666"
+		black "#000000"
+		white "#eeeeee"
+	};
+}
