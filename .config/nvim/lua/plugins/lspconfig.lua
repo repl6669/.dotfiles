@@ -39,7 +39,7 @@ vim.api.nvim_create_autocmd("LspProgress", {
     end, p)
 
     local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
-    vim.notify(table.concat(msg, "\n"), "info", {
+    vim.notify(table.concat(msg, "\n"), vim.log.levels.INFO, {
       id = "lsp_progress",
       title = client.name,
       opts = function(notif)
@@ -72,17 +72,6 @@ return {
     servers = {
       docker_compose_language_service = {},
       dockerls = {},
-      lua_ls = {},
-      -- intelephense = {
-      --   ---@type lspconfig.options.intelephense
-      --   init_options = {
-      --     licenseKey = "00TJPX959XHH6KQ",
-      --     files = {
-      --       maxSize = 10000000,
-      --     },
-      --   },
-      -- },
-      phpactor = {},
       emmet_language_server = {
         filetypes = {
           "css",
