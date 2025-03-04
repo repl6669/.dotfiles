@@ -5,6 +5,7 @@ return {
 
     return vim.tbl_deep_extend("force", opts, {
       fzf_opts = {
+        ["--no-scrollbar"] = true,
         ["--history"] = vim.fn.stdpath("data") .. "/fzf-lua-history",
       },
       fzf_colors = {
