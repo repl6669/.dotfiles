@@ -2,7 +2,29 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "rose-pine",
+      colorscheme = "repl69",
+    },
+  },
+
+  {
+    "repl6669/repl69",
+    dir = "~/Developer/lua/neovim/repl69",
+    name = "repl69",
+    lazy = false,
+    priority = 1000,
+    opts = {
+
+      styles = {
+        bold = true,
+        italic = true,
+        transparency = true,
+      },
+
+      highlight_groups = {
+
+        -- Dashboard
+        SnacksDashboardHeader = { fg = "orange" },
+      },
     },
   },
 
