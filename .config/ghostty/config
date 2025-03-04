@@ -1,7 +1,7 @@
 theme = repl69
 
-background-opacity = 0.85
-background-blur-radius = 15
+background-opacity = 0.80
+background-blur-radius = 25
 
 font-family = TX02 Nerd Font Mono
 font-size = 18
@@ -21,7 +21,7 @@ window-padding-balance = true
 window-save-state = always
 window-colorspace = display-p3
 
-macos-titlebar-style = transparent
+macos-titlebar-style = tabs
 macos-option-as-alt = true
 
 shell-integration-features = no-cursor,sudo,no-title
