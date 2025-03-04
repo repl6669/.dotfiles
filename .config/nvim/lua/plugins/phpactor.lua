@@ -119,7 +119,7 @@ return {
         "<leader>cppq",
         function()
           if not require("utils.docker").docker_enabled() then
-            vim.notify("Docker is not enabled", "error", {
+            vim.notify("Docker is not enabled", vim.log.levels.ERROR, {
               id = "phpstan_docker_check",
               title = "PHPStan",
             })
@@ -130,7 +130,7 @@ return {
           local start_time = vim.uv.hrtime()
 
           vim.schedule(function()
-            vim.notify("Analyzing files...", "info", {
+            vim.notify("Analyzing files...", vim.log.levels.INFO, {
               id = "phpstan_progress",
               title = "PHPStan",
               opts = function(notif)
@@ -182,14 +182,14 @@ return {
 
               if error:match("^Note: Using configuration file") then
                 -- -- Config file message
-                -- vim.notify(error, "warn", {
+                -- vim.notify(error, vim.log.levels.WARN, {
                 --   id = "phpstan_config",
                 --   title = "PHPStan",
                 -- })
               else
                 -- PHPStan error before analysis
                 failed = true
-                vim.notify(error, "error", {
+                vim.notify(error, vim.log.levels.ERROR, {
                   title = "PHPStan",
                   id = "phpstan_error",
                 })
@@ -208,7 +208,7 @@ return {
                       "Please run phpstan in terminal and fix the errors",
                       "Duration: " .. duration .. "s",
                     }, "\n"),
-                    "error",
+                    vim.log.levels.ERROR,
                     {
                       id = "phpstan_progress",
                       title = "PHPStan",
@@ -251,7 +251,7 @@ return {
                       "Added " .. #qf_entries .. " to quickfix list",
                       "Duration: " .. duration .. "s",
                     }, "\n"),
-                    "error",
+                    vim.log.levels.ERROR,
                     {
                       id = "phpstan_progress",
                       title = "PHPStan",
@@ -270,7 +270,7 @@ return {
                     "No issues found",
                     "Duration: " .. duration .. "s",
                   }, "\n"),
-                  "info",
+                  vim.log.levels.INFO,
                   {
                     id = "phpstan_progress",
                     title = "PHPStan",
