@@ -4,7 +4,7 @@ return {
     "nvim-lua/plenary.nvim", -- Required for v0.4.0+
   },
   config = function()
-    local colors = require("rose-pine.palette")
+    local palette = require("repl69.palette")
     local mappings = require("cokeline.mappings")
 
     local icons = {
@@ -14,30 +14,28 @@ return {
       info = LazyVim.config.icons.diagnostics.Info,
     }
 
-    local comments_fg = colors.highlight_med
-    local errors_fg = colors.love
-    local warnings_fg = colors.gold
-    local info_fg = colors.iris
-    local hints_fg = colors.foam
-
-    local text = colors.subtle
-    local highligted_text = colors.gold
-    local transparent = colors.none
-    local background = colors.base
-
-    local red = colors.love
-    local yellow = colors.gold
+    local colors = {
+      text = palette.gray09,
+      dimmed = palette.gray07,
+      highlight = palette.gray17,
+      error = palette.red,
+      warning = palette.orange,
+      info = palette.cyan,
+      hint = palette.cyan,
+      background = palette.gray02,
+      transparent = palette.none,
+    }
 
     local components = {
       space = {
         text = " ",
-        bg = transparent,
+        bg = colors.transparent,
         truncation = { priority = 1 },
       },
       left_separator = {
         text = "",
-        fg = background,
-        bg = transparent,
+        fg = colors.background,
+        bg = colors.transparent,
         truncation = { priority = 1 },
       },
       icon = {
@@ -46,8 +44,8 @@ return {
             or buffer.devicon.icon
         end,
         fg = function(buffer)
-          return (mappings.is_picking_focus() and yellow)
-            or (mappings.is_picking_close() and red)
+          return (mappings.is_picking_focus() and colors.warning)
+            or (mappings.is_picking_close() and colors.error)
             or buffer.devicon.color
         end,
         style = function(_)
@@ -65,7 +63,7 @@ return {
         text = function(buffer)
           return buffer.unique_prefix
         end,
-        fg = comments_fg,
+        fg = colors.dimmed,
         style = "italic",
         truncation = {
           priority = 3,
@@ -89,17 +87,17 @@ return {
       },
       diagnostics = {
         text = function(buffer)
-          return (buffer.diagnostics.errors ~= 0 and " " .. icons.error .. " " .. buffer.diagnostics.errors)
-            or (buffer.diagnostics.warnings ~= 0 and " " .. icons.warn .. " " .. buffer.diagnostics.warnings)
-            or (buffer.diagnostics.infos ~= 0 and " " .. icons.info .. " " .. buffer.diagnostics.infos)
-            or (buffer.diagnostics.hints ~= 0 and " " .. icons.hint .. " " .. buffer.diagnostics.hints)
+          return (buffer.diagnostics.errors ~= 0 and " " .. icons.error .. buffer.diagnostics.errors)
+            or (buffer.diagnostics.warnings ~= 0 and " " .. icons.warn .. buffer.diagnostics.warnings)
+            or (buffer.diagnostics.infos ~= 0 and " " .. icons.info .. buffer.diagnostics.infos)
+            or (buffer.diagnostics.hints ~= 0 and " " .. icons.hint .. buffer.diagnostics.hints)
             or ""
         end,
         fg = function(buffer)
-          return (buffer.diagnostics.errors ~= 0 and errors_fg)
-            or (buffer.diagnostics.warnings ~= 0 and warnings_fg)
-            or (buffer.diagnostics.infos ~= 0 and info_fg)
-            or (buffer.diagnostics.hints ~= 0 and hints_fg)
+          return (buffer.diagnostics.errors ~= 0 and colors.error)
+            or (buffer.diagnostics.warnings ~= 0 and colors.warning)
+            or (buffer.diagnostics.infos ~= 0 and colors.info)
+            or (buffer.diagnostics.hints ~= 0 and colors.hint)
             or nil
         end,
         truncation = { priority = 1 },
@@ -109,14 +107,14 @@ return {
           return buffer.is_modified and " ●" or ""
         end,
         fg = function(buffer)
-          return buffer.is_modified and yellow
+          return buffer.is_modified and colors.warning
         end,
         truncation = { priority = 1 },
       },
       right_separator = {
         text = "",
-        fg = background,
-        bg = transparent,
+        fg = colors.background,
+        bg = colors.transparent,
         truncation = { priority = 1 },
       },
     }
@@ -132,9 +130,9 @@ return {
       },
       default_hl = {
         fg = function(buffer)
-          return buffer.is_focused and highligted_text or text
+          return buffer.is_focused and colors.highlight or colors.text
         end,
-        bg = background,
+        bg = colors.background,
       },
       fill_hl = "Normal",
       sidebar = {
@@ -144,7 +142,7 @@ return {
             text = function(buf)
               return " Neotree"
             end,
-            bg = transparent,
+            bg = colors.transparent,
             bold = true,
           },
         },
