@@ -4,7 +4,7 @@ return {
   version = "*",
   ui = {
     enable = false,
-    hl_groups = require("rose-pine.plugins.obsidian"),
+    -- hl_groups = require("repl69.plugins.obsidian"),
   },
   event = {
     -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
