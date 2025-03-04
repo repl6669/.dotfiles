@@ -15,15 +15,15 @@ return {
     }
 
     local colors = {
-      text = palette.gray09,
-      dimmed = palette.gray07,
-      highlight = palette.gray17,
+      text = palette.gray550,
+      dimmed = palette.gray700,
+      highlight = palette.gray150,
       error = palette.red,
       warning = palette.orange,
       info = palette.cyan,
       hint = palette.cyan,
-      background = palette.gray02,
-      transparent = palette.none,
+      background = palette.gray950,
+      transparent = palette.background,
     }
 
     local components = {
