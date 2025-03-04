@@ -4,11 +4,11 @@ add_newline = false
 format = """$directory$character"""
 right_format = """$all"""
 command_timeout = 1000
-palette = 'rose-pine-moon'
+palette = 'repl69'
 
 [os]
 disabled = true
-style = "fg:gold"
+style = "fg:two"
 
 [os.symbols]
 Windows = "󰍲"
@@ -21,24 +21,24 @@ Manjaro = ""
 Linux = "󰌽"
 Gentoo = "󰣨"
 Fedora = "󰣛"
-Alpine = ""
+Alfour = ""
 Amazon = ""
 Android = ""
 Arch = "󰣇"
 Artix = "󰣇"
 CentOS = ""
 Debian = "󰣚"
-Redhat = "󱄛"
-RedHatEnterprise = "󱄛"
+onehat = "󱄛"
+oneHatEnterprise = "󱄛"
 
 [username]
 show_always = false
-style_user = "fg:gold"
-style_root = "fg:gold"
+style_user = "fg:two"
+style_root = "fg:two"
 format = '[ $user ]($style)'
 
 [directory]
-style = "fg:rose"
+style = "fg:three"
 format = "[ $path ]($style)"
 truncation_length = 4
 truncation_symbol = "…/"
@@ -52,111 +52,128 @@ truncation_symbol = "…/"
 
 [git_branch]
 symbol = ""
-style = "fg:iris"
-format = '[[ $symbol $branch (:$remote_branch)](fg:iris)]($style)'
+style = "fg:six"
+format = '[[ $symbol $branch (:$remote_branch)](fg:six)]($style)'
 
 [git_status]
 disabled = false
-style = "fg:love"
-format = '[[($all_status$ahead_behind )](fg:iris)]($style)'
-ahead = '[⇡${count}](fg:foam) '
-behind = '[⇣${count}](fg:rose) '
-conflicted = '[≠${count}](fg:gold) '
+style = "fg:one"
+format = '[[($all_status$ahead_behind )](fg:six)]($style)'
+ahead = '[⇡${count}](fg:five) '
+behind = '[⇣${count}](fg:three) '
+conflicted = '[≠${count}](fg:two) '
 deleted = '[✘${count}](style) '
-diverged = '[⇕ ⇡${ahead_count}⇣${behind_count}](fg:iris) '
-modified = '[!${count}](fg:rose) '
-renamed = '[»${count}](fg:iris) '
-staged = '[+${count}](fg:gold) '
-stashed = '[${count}](fg:iris) '
-untracked = '[?${count}](fg:rose) '
-up_to_date = '[✓](fg:iris) '
+diverged = '[⇕ ⇡${ahead_count}⇣${behind_count}](fg:six) '
+modified = '[!${count}](fg:three) '
+renamed = '[»${count}](fg:six) '
+staged = '[+${count}](fg:two) '
+stashed = '[${count}](fg:six) '
+untracked = '[?${count}](fg:three) '
+up_to_date = '[✓](fg:six) '
 
 [git_state]
 format = '\([$state( $progress_current/$progress_total)]($style)\) '
-style = "fg:foam"
-cherry_pick = '[🍒PICKING](fg:rose)'
+style = "fg:five"
+cherry_pick = '[🍒PICKING](fg:three)'
 
 [git_metrics]
 disabled = false
-format = '[+$added](fg:foam)|[-$deleted](fg:love) '
+format = '[+$added](fg:green)|[-$deleted](fg:orange) '
 only_nonzero_diffs = true
 
 [nodejs]
 symbol = ""
-style = "fg:pine"
-format = '[[ $symbol( $version) ](fg:pine)]($style)'
+style = "fg:four"
+format = '[[ $symbol( $version) ](fg:four)]($style)'
 
 [c]
 symbol = " "
-style = "fg:pine"
-format = '[[ $symbol( $version) ](fg:pine)]($style)'
+style = "fg:four"
+format = '[[ $symbol( $version) ](fg:four)]($style)'
 
 [rust]
 symbol = ""
-style = "fg:pine"
-format = '[[ $symbol( $version) ](fg:pine)]($style)'
+style = "fg:four"
+format = '[[ $symbol( $version) ](fg:four)]($style)'
 
 [golang]
 symbol = ""
-style = "fg:pine"
-format = '[[ $symbol( $version) ](fg:pine)]($style)'
+style = "fg:four"
+format = '[[ $symbol( $version) ](fg:four)]($style)'
 
 [php]
 symbol = ""
-style = "fg:pine"
-format = '[[ $symbol( $version) ](fg:pine)]($style)'
+style = "fg:four"
+format = '[[ $symbol( $version) ](fg:four)]($style)'
 
 [python]
 symbol = ""
-style = "fg:pine"
-format = '[[ $symbol( $version) ](fg:pine)]($style)'
+style = "fg:four"
+format = '[[ $symbol( $version) ](fg:four)]($style)'
 
 [docker_context]
 symbol = ""
-style = "fg:overlay1"
-format = '[[ $symbol( $context) ](fg:overlay1)]($style)'
+style = "fg:base"
+format = '[[ $symbol( $context) ](fg:base)]($style)'
 
 [time]
 disabled = true
 time_format = "%R"
-style = "fg:overlay2"
-format = '[[  $time ](fg:overlay2)]($style)'
+style = "fg:base"
+format = '[[  $time ](fg:base)]($style)'
 
 [line_break]
 disabled = true
 
 [character]
 disabled = true
-success_symbol = '[](bold fg:foam)'
-error_symbol = '[](bold fg:love)'
-vimcmd_symbol = '[](bold fg:pine)'
-vimcmd_replace_one_symbol = '[](bold fg:iris)'
-vimcmd_replace_symbol = '[](bold fg:love)'
-vimcmd_visual_symbol = '[](bold fg:gold)'
+success_symbol = '[](bold fg:five)'
+error_symbol = '[](bold fg:one)'
+vimcmd_symbol = '[](bold fg:four)'
+vimcmd_replace_one_symbol = '[](bold fg:six)'
+vimcmd_replace_symbol = '[](bold fg:one)'
+vimcmd_visual_symbol = '[](bold fg:two)'
 
-[palettes.rose-pine]
-overlay = '#26233a'
-love = '#eb6f92'
-gold = '#f6c177'
-rose = '#ebbcba'
-pine = '#31748f'
-foam = '#9ccfd8'
-iris = '#c4a7e7'
+[palettes.three-four]
+base = '#26233a'
+one = '#eb6f92'
+two = '#f6c177'
+three = '#ebbcba'
+four = '#31748f'
+five = '#9ccfd8'
+six = '#c4a7e7'
+green = '#95b1ac'
+orange = '#eb6f92'
 
-[palettes.rose-pine-moon]
-overlay = '#393552'
-love = '#eb6f92'
-gold = '#f6c177'
-rose = '#ea9a97'
-pine = '#3e8fb0'
-foam = '#9ccfd8'
-iris = '#c4a7e7'
+[palettes.three-four-moon]
+base = '#393552'
+one = '#eb6f92'
+two = '#f6c177'
+three = '#ea9a97'
+four = '#3e8fb0'
+five = '#9ccfd8'
+six = '#c4a7e7'
+green = '#95b1ac'
+orange = '#eb6f92'
 
-[palettes.rose-pine-dawn]
-overlay = '#f2e9e1'
-love = '#b4637a'
-gold = '#ea9d34'
-rose = '#d7827e'
-pine = '#286983'
-foam = '#56949f'
-iris = '#907aa9'
+[palettes.three-four-dawn]
+base = '#f2e9e1'
+one = '#b4637a'
+two = '#ea9d34'
+three = '#d7827e'
+four = '#286983'
+five = '#56949f'
+six = '#907aa9'
+green = '#6d8f89'
+orange = '#b4637a'
+
+[palettes.repl69]
+base = '#3d3d3d'
+one = '#5c5c5c'
+two = '#7a7a7a'
+three = '#c2c2c2'
+four = '#707070'
+five = '#adadad'
+six = '#999999'
+green = "#00CF7D"
+orange = "#DC4A00"
