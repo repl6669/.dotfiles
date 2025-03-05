@@ -51,12 +51,29 @@ fi
 source <(fzf --zsh)
 
 # Repl69 FZF Theme
-export FZF_DEFAULT_OPTS="
-	--color=fg:#474747,bg:#0a0a0a,hl:#333333
-	--color=fg+:#3d3d3d,bg+:#141414,hl+:#0bcb85
-	--color=border:#1f1f1f,header:#a3a3a3,gutter:#191724
-	--color=spinner:#858585,info:#adadad
-	--color=pointer:#666666,marker:#525252,prompt:#474747"
+export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
+  --highlight-line \
+  --info=inline-right \
+  --ansi \
+  --layout=reverse \
+  --border=none \
+  --color=bg+:#141414 \
+  --color=bg:#0a0a0a \
+  --color=border:#1f1f1f \
+  --color=fg:#3d3d3d \
+  --color=gutter:#101724 \
+  --color=header:#292929 \
+  --color=hl+:#7a7a7a \
+  --color=hl:#c2c2c2 \
+  --color=info:#adadad \
+  --color=marker:#666666 \
+  --color=pointer:#666666 \
+  --color=prompt:#474747 \
+  --color=query:#c2c2c2:regular \
+  --color=scrollbar:#7a7a7a \
+  --color=separator:#a3a3a3 \
+  --color=spinner:#666666 \
+"
 
 # Source env secrets
 op  inject --in-file "${DOTFILES}/secrets.zsh" | while read -r line; do
