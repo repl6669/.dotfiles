@@ -36,10 +36,10 @@ gui:
   # Config relating to colors and styles.
   # See https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md#color-attributes
   authorColors:
-    "*": "#0df29e"
+    "*": "#09aa6f"
   theme:
     unstagedChangesColor:
-      - "#FF5C00"
+      - "#c04100"
     selectedLineBgColor:
       - "#1f1f1f"
     searchingActiveBorderColor:
