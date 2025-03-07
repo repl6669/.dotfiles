@@ -1,15 +1,33 @@
+// Repl69 Zellij Colors
+// Add this file to your `CONFIG_DIR/themes` directory as described here:
+// https://zellij.dev/documentation/themes#getting-zellij-to-pick-up-the-theme
+
 themes {
 	repl69 {
+		fg "#a3a3a3"
 	    bg "#000000"
-		fg "#eeeeee"
-		red "#4e4e4e"
-		green "#808080"
-		blue "#a8a8a8"
-		yellow "#c6c6c6"
-		magenta "#949494"
-		orange "#d75f00"
-		cyan "#c6c6c6"
 		black "#000000"
-		white "#eeeeee"
+		red "#4e4e4e"
+		green "#c6c6c6"
+		yellow "#666666"
+		blue "#525252"
+		magenta "#3d3d3d"
+		cyan "#3d3d3d"
+		white "#c2c2c2"
+		orange "#dc4a00"
+	};
+
+	repl69-color {
+		fg "#a3a3a3"
+	    bg "#000000"
+		black "#000000"
+		red "#4e4e4e"
+		green "#09aa6f"
+		yellow "#666666"
+		blue "#525252"
+		magenta "#3d3d3d"
+		cyan "#3d3d3d"
+		white "#c2c2c2"
+		orange "#dc4a00"
 	};
 }
