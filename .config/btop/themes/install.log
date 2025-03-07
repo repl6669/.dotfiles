@@ -1,8 +1,0 @@
-[00:00:53 2024-03-09] FETCHING Version 2.33.2
-[00:00:53 2024-03-09] DOWNLOADING https://github.com/spicetify/spicetify-cli/releases/download/v2.33.2/spicetify-2.33.2-darwin-arm64.tar.gz
-[00:00:55 2024-03-09] EXTRACTING /Users/theimer/.spicetify/spicetify.tar.gz
-[00:00:55 2024-03-09] SETTING EXECUTABLE PERMISSIONS TO /Users/theimer/.spicetify/spicetify
-[00:00:55 2024-03-09] REMOVING /Users/theimer/.spicetify/spicetify.tar.gz
-[00:00:55 2024-03-09] spicetify path already set in /Users/theimer/.zshrc, continuing...
-[00:00:55 2024-03-09] spicetify v2.33.2 was installed successfully to /Users/theimer/.spicetify
-[00:00:55 2024-03-09] Run 'spicetify --help' to get started
