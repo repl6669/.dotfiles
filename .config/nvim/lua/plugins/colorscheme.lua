@@ -17,7 +17,7 @@ return {
       styles = {
         bold = true,
         italic = true,
-        transparency = false,
+        transparency = true,
       },
 
       highlight_groups = {
