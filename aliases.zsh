@@ -30,12 +30,6 @@ alias t="./vendor/bin/pest"                                 # Run Pest tests
 alias pt="./vendor/bin/phpunit"                             # Run PHPUnit tests
 alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'   # Run Laravel Sail
 
-## JavaScript aliases
-alias yn="yarn nuxt"                                        # Run nuxt
-alias yrp="yarn run production"                             # Run production
-alias yrp="yarn run watch"                                  # Run watch
-alias y="yarn"                                              # Run yarn
-
 ## Git
 alias grs="git reset --soft HEAD~1"                         # Git reset soft
 alias gst="git status"                                      # Git status
