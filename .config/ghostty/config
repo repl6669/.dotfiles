@@ -1,7 +1,7 @@
 theme = repl69
 
-background-opacity = 0.75
-background-blur-radius = 15
+background-opacity = 0.80
+background-blur-radius = 20
 
 font-family = TX02 Nerd Font Mono
 font-size = 18
