@@ -22,7 +22,7 @@ return {
       warning = palette.orange,
       info = palette.cyan,
       hint = palette.cyan,
-      background = palette.gray950,
+      background = palette.gray925,
       transparent = palette.background,
     }
 
