@@ -1,5 +1,12 @@
 # Commands
 
+# Source env secrets
+secrets() {
+    op  inject --in-file "${DOTFILES}/secrets.zsh" | while read -r line; do
+        eval "$line"
+    done
+}
+
 # Lazygit
 lg() {
     export LAZYGIT_NEW_DIR_FILE=~/.lazygit/newdir
@@ -7,8 +14,8 @@ lg() {
     lazygit "$@"
 
     if [ -f $LAZYGIT_NEW_DIR_FILE ]; then
-            cd "$(cat $LAZYGIT_NEW_DIR_FILE)"
-            rm -f $LAZYGIT_NEW_DIR_FILE > /dev/null
+        cd "$(cat $LAZYGIT_NEW_DIR_FILE)"
+        rm -f $LAZYGIT_NEW_DIR_FILE > /dev/null
     fi
 }
 
