@@ -3,7 +3,7 @@ return {
     "yetone/avante.nvim",
     event = "VeryLazy",
     lazy = false,
-    version = false, -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
+    version = "*", -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
     build = "make", -- If you want to build from source then do `make BUILD_FROM_SOURCE=true`
     opts = function(_, opts)
       return {
@@ -37,12 +37,12 @@ return {
           timeout = 60000, -- Timeout in milliseconds
         },
 
-        claude = {
-          endpoint = "https://api.anthropic.com",
-          model = "claude-3-7-sonnet-latest",
-          temperature = 0,
-          max_tokens = 8192,
-        },
+        -- claude = {
+        --   endpoint = "https://api.anthropic.com",
+        --   model = "claude-3-5-sonnet-latest",
+        --   temperature = 0,
+        --   max_tokens = 8192,
+        -- },
 
         copilot = {
           model = "claude-3.7-sonnet",
