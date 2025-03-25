@@ -20,8 +20,8 @@ return {
           nofile = {
             code = {
               style = "normal",
-              highlight = "NormalFloat",
-              highlight_inline = "NormalFloat",
+              -- highlight = "NormalFloat",
+              -- highlight_inline = "NormalFloat",
             },
           },
         },
