@@ -38,7 +38,7 @@ yabai -m rule --add app=".*" manage=off
 
 # Manage only specific apps by default
 # Set sub-layer to normal
-yabai -m rule --add app="^(kitty|Tinkerwell|Table Plus)$" manage=on
+yabai -m rule --add app="^(Ghostty|Linear|Obsidian|Discord|Tinkerwell|Table Plus)$" manage=on
 
 # Set default sub-layer for all apps
 # yabai -m rule --add app=".*" sub-layer=normal
