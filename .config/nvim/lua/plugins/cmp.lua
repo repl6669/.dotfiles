@@ -6,6 +6,8 @@ return {
     "lukas-reineke/cmp-rg",
   },
   opts = function(_, opts)
+    local cmp = require("cmp")
+
     if LazyVim.has("nvim-snippets") then
       table.insert(opts.sources, { name = "nvim_lsp_signature_help" })
     end
@@ -25,14 +27,8 @@ return {
     })
 
     opts.window = {
-      completion = {
-        border = "rounded",
-        -- winhighlight = "Normal:CmpPmenu,FloatBorder:CmpBorder,CursorLine:PmenuSel,Search:None",
-      },
-      documentation = {
-        border = "rounded",
-        -- winhighlight = "Normal:CmpPmenu,FloatBorder:CmpBorder,CursorLine:PmenuSel,Search:None",
-      },
+      completion = cmp.config.window.bordered(opts),
+      documentation = cmp.config.window.bordered(opts),
     }
   end,
 }
