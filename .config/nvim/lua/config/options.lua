@@ -22,11 +22,14 @@ vim.opt.spelllang = {} -- Set spell checking languages { "en", "cs" }
 vim.opt.winblend = 0 -- Global transparency for floating windows (has to be 20 for rose-pine, 0 for catppuccin)
 vim.opt.pumblend = 0 -- Popup transparency
 
+-- Floating windows
+vim.o.winborder = "rounded"
+
 -- Set filetype to `bigfile` for files larger than 1.5 MB
 -- Only vim syntax will be enabled (with the correct filetype)
 -- LSP, treesitter and other ft plugins will be disabled.
 -- mini.animate will also be disabled.
-vim.g.bigfile_size = 1024 * 1024 * 10 -- 10 MB
+vim.g.bigfile_size = 1024 * 1024 * 4 -- 4 MB
 vim.opt.redrawtime = 10000 -- Allow more time for loading syntax on large files
 
 -- vim.opt.backup = true -- Automatically save a backup file
@@ -46,6 +49,6 @@ vim.g.ai_cmp = false
 -- set to `true` to follow the main branch
 -- you need to have a working rust toolchain to build the plugin
 -- in this case.
-vim.g.lazyvim_blink_main = true
+vim.g.lazyvim_blink_main = false
 
 LazyVim.terminal.setup("/bin/zsh")
