@@ -90,7 +90,7 @@ outer.right = 16
 # You can uncomment the following lines to open up terminal with alt + enter shortcut
 # (like in i3)
 # alt-enter = '''exec-and-forget osascript -e '
-# tell application "Terminal"
+# tell application "Ghostty"
 #     do script
 #     activate
 # end tell'
@@ -128,6 +128,8 @@ ctrl-shift-l = 'join-with right'
 # Smart resize windows
 alt-minus = 'resize smart -50'
 alt-equal = 'resize smart +50'
+ctrl-alt-minus = 'resize width 640'
+ctrl-alt-equal = 'resize height 640'
 
 # Focus monitors
 ctrl-alt-h = 'focus-monitor --wrap-around left'
@@ -198,5 +200,49 @@ shift-down = ['volume set 0', 'mode main']
 
 # Float all new windows by default
 [[on-window-detected]]
-check-further-callbacks = true
+if.app-id = 'com.1password.1password'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.ActivityMonitor'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.audio.AudioMIDISetup'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.AppStore'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.calculator'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Clock'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.MobileSMS'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.FaceTime'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.findmy'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Home'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Notes'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.AddressBook'
 run = ['layout floating']
