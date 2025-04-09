@@ -20,21 +20,21 @@ return {
           nofile = {
             code = {
               style = "normal",
-              -- highlight = "NormalFloat",
-              -- highlight_inline = "NormalFloat",
+              highlight = "NormalFloat",
+              highlight_inline = "NormalFloat",
             },
           },
         },
         filetype = {},
       },
       file_types = {
-        "markdown",
+        -- "markdown",
         "Avante",
       },
     },
     ft = {
       "Avante",
-      "markdown",
+      -- "markdown",
     },
 
     keys = {
