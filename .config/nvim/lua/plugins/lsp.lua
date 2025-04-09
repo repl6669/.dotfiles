@@ -1,13 +1,6 @@
-local float = {
-  style = "minimal",
-  border = "rounded",
-}
-
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, float)
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, float)
-
 ---@type table<number, {token:lsp.ProgressToken, msg:string, done:boolean}[]>
 local progress = vim.defaulttable()
+
 vim.api.nvim_create_autocmd("LspProgress", {
   ---@param ev {data: {client_id: integer, params: lsp.ProgressParams}}
   callback = function(ev)
@@ -53,6 +46,15 @@ vim.api.nvim_create_autocmd("LspProgress", {
   end,
 })
 
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(ev)
+    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+    if client:supports_method("textDocument/completion") then
+      vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
+    end
+  end,
+})
+
 return {
   "neovim/nvim-lspconfig",
   dependencies = {
@@ -68,6 +70,12 @@ return {
     },
   },
   opts = {
+    diagnostics = {
+      virtual_text = false,
+      virtual_lines = {
+        current_line = true,
+      },
+    },
     -- make sure mason installs the server
     servers = {
       docker_compose_language_service = {},
