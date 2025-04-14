@@ -18,26 +18,26 @@ return {
           gap = 1,
           padding = 2,
         },
-        function()
-          local in_git = Snacks.git.get_root() ~= nil
-          local cmds = {
-            {
-              -- icon = " ",
-              -- title = "Git Status",
-              cmd = "git --no-pager diff --stat -B -M -C",
-              height = 8,
-            },
-          }
-          return vim.tbl_map(function(cmd)
-            return vim.tbl_extend("force", {
-              section = "terminal",
-              enabled = in_git,
-              padding = 1,
-              ttl = 5 * 60,
-              indent = 0,
-            }, cmd)
-          end, cmds)
-        end,
+        -- function()
+        --   local in_git = Snacks.git.get_root() ~= nil
+        --   local cmds = {
+        --     {
+        --       -- icon = " ",
+        --       -- title = "Git Status",
+        --       cmd = "git --no-pager diff --stat -B -M -C",
+        --       height = 8,
+        --     },
+        --   }
+        --   return vim.tbl_map(function(cmd)
+        --     return vim.tbl_extend("force", {
+        --       section = "terminal",
+        --       enabled = in_git,
+        --       padding = 1,
+        --       ttl = 5 * 60,
+        --       indent = 0,
+        --     }, cmd)
+        --   end, cmds)
+        -- end,
         -- {
         --   section = "terminal",
         --   -- cmd = "pokemon-colorscripts -n haunter --no-title; sleep .1",
