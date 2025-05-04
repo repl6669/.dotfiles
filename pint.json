@@ -14,10 +14,10 @@
       "import_constants": true
     },
     "new_with_parentheses": false,
-    "no_superflous_else": true,
+    "no_superfluous_elseif": true,
     "no_useless_else": true,
     "no_multiple_statements_per_line": true,
-    "order_class_elements": {
+    "ordered_class_elements": {
       "order": [
         "use_trait",
         "case",
