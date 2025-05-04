@@ -20,6 +20,11 @@ return {
       lualine_a = {
         { "mode", separator = { left = "" } },
       },
+      lualine_x = {
+        {
+          require("mcphub.extensions.lualine"),
+        },
+      },
       lualine_z = {
         {
           function()
