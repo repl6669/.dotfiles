@@ -7,8 +7,7 @@ return {
     build = "make", -- If you want to build from source then do `make BUILD_FROM_SOURCE=true`
     opts = function(_, opts)
       return {
-        ---@type ProviderName
-        provider = "claude",
+        provider = "claude_3_5_sonnet",
         auto_suggestions_provider = "copilot", -- ollama | claude | openai | copilot
         cursor_applying_provider = "groq", -- groq
 
@@ -25,6 +24,7 @@ return {
           minimize_diff = true, -- Whether to remove unchanged lines when applying a code block
           enable_token_counting = true, -- Whether to enable token counting. Default to true.
           enable_cursor_planning_mode = false,
+          enable_claude_text_editor_tool_mode = true,
           use_cwd_as_project_root = true,
         },
 
@@ -37,12 +37,13 @@ return {
           timeout = 60000, -- Timeout in milliseconds
         },
 
-        -- claude = {
-        --   endpoint = "https://api.anthropic.com",
-        --   model = "claude-3-5-sonnet-latest",
-        --   temperature = 0,
-        --   max_tokens = 8192,
-        -- },
+        claude = {
+          endpoint = "https://api.anthropic.com",
+          model = "claude-3-7-sonnet-20250219",
+          timeout = 30000, -- Timeout in milliseconds
+          temperature = 0,
+          max_tokens = 8192,
+        },
 
         copilot = {
           model = "claude-3.7-sonnet",
@@ -52,10 +53,10 @@ return {
 
         openai = {
           endpoint = "https://api.openai.com/v1",
-          model = "gpt-4o", -- your desired model (or use gpt-4o, etc.)
+          model = "gpt-4.1", -- your desired model (or use gpt-4o, etc.)
           timeout = 30000, -- timeout in milliseconds
           temperature = 0, -- adjust if needed
-          max_tokens = 4096,
+          max_tokens = 8192,
         },
 
         vendors = {
@@ -65,6 +66,25 @@ return {
             endpoint = "https://api.groq.com/openai/v1/",
             model = "llama-3.3-70b-versatile",
             max_tokens = 32768, -- increase this value, otherwise it will stop generating halfway
+          },
+
+          claude_3_7_sonnet = {
+            __inherited_from = "claude",
+            model = "claude-3-7-sonnet-20250219",
+            max_tokens = 8192,
+            temperature = 1,
+            -- stop_reason = "end_turn",
+            -- stop_sequence = nil,
+            thinking = {
+              type = "enabled",
+              budget_tokens = 4096, -- Must be ≥1024 and less than max_tokens
+            },
+          },
+
+          claude_3_5_sonnet = {
+            __inherited_from = "claude",
+            model = "claude-3-5-sonnet-20241022",
+            max_tokens = 4096,
           },
 
           --   deepseek = {
@@ -126,6 +146,19 @@ return {
             rounded = false,
           },
         },
+
+        -- The system_prompt type supports both a string and a function that returns a string. Using a function here allows dynamically updating the prompt with mcphub
+        system_prompt = function()
+          local hub = require("mcphub").get_hub_instance()
+          return hub:get_active_servers_prompt()
+        end,
+
+        -- The custom_tools type supports both a list and a function that returns a list. Using a function here prevents requiring mcphub before it's loaded
+        custom_tools = function()
+          return {
+            require("mcphub.extensions.avante").mcp_tool(),
+          }
+        end,
       }
     end,
 
@@ -198,7 +231,28 @@ return {
         markdown = true,
         help = true,
       },
+      copilot_model = "gpt-4o-copilot",
       copilot_node_command = "/opt/homebrew/bin/node",
     },
+  },
+
+  {
+    "ravitemer/mcphub.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim", -- Required for Job and HTTP requests
+    },
+    cmd = "MCPHub", -- lazy load by default
+    build = "npm install -g mcp-hub@latest", -- Installs required mcp-hub npm module
+    -- uncomment this if you don't want mcp-hub to be available globally or can't use -g
+    -- build = "bundled_build.lua",  -- Use this and set use_bundled_binary = true in opts  (see Advanced configuration)
+    config = function()
+      require("mcphub").setup({
+        extensions = {
+          avante = {
+            make_slash_commands = true, -- make /slash commands from MCP server prompts
+          },
+        },
+      })
+    end,
   },
 }
