@@ -7,7 +7,7 @@ return {
     build = "make", -- If you want to build from source then do `make BUILD_FROM_SOURCE=true`
     opts = function(_, opts)
       return {
-        provider = "claude_3_5_sonnet",
+        provider = "claude",
         auto_suggestions_provider = "copilot", -- ollama | claude | openai | copilot
         cursor_applying_provider = "groq", -- groq
 
@@ -39,10 +39,9 @@ return {
 
         claude = {
           endpoint = "https://api.anthropic.com",
-          model = "claude-3-7-sonnet-20250219",
-          timeout = 30000, -- Timeout in milliseconds
+          model = "claude-3-5-sonnet-20241022",
           temperature = 0,
-          max_tokens = 8192,
+          max_tokens = 4096,
         },
 
         copilot = {
