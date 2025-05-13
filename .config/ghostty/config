@@ -3,10 +3,9 @@ theme = repl69
 background-opacity = 0.80
 background-blur-radius = 20
 
-font-family = TX02 Nerd Font Mono
+font-family = Symbols Nerd Font Mono
+font-family = TX02
 font-size = 18
-font-thicken
-font-thicken-strength = 10
 
 adjust-cell-height = 10%
 
