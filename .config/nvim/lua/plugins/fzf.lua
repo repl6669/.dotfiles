@@ -39,6 +39,13 @@ return {
           },
         },
       },
+      winopts = {
+        preview = {
+          layout = "vertical",
+          vertical = "down:50%",
+          flip_columns = 120,
+        },
+      },
     })
   end,
 }
