@@ -13,7 +13,12 @@ return {
         branch = "master",
         bin = vim.fn.stdpath("data") .. "/mason/packages/phpactor/phpactor.phar",
         php_bin = "php",
-        -- php_bin = "docker compose -f ../compose.local.yml exec api php",
+        -- php_bin = (
+        --   require("utils.docker").docker_enabled()
+        --   and "docker compose -f"
+        --     .. require("lazyvim.util").root.get({ normalize = true })
+        --     .. "/compose.local.yml exec api php"
+        -- ) or "php",
         composer_bin = "composer",
         git_bin = "git",
         check_on_startup = "none",
@@ -22,6 +27,9 @@ return {
         options = {
           cmd = { vim.fn.stdpath("data") .. "/mason/bin/phpactor", "language-server" },
           language_server_diagnostics_on_update = false,
+          -- root_dir = function(pattern)
+          --   return require("lazyvim.util").root.get({ normalize = true }) .. "/api"
+          -- end,
         },
       },
     },
