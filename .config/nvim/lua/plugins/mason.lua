@@ -1,6 +1,6 @@
 return {
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     opts = {
       ui = {
         border = "rounded",
@@ -11,6 +11,9 @@ return {
         "marksman",
       },
     },
+  },
+  {
+    "mason-org/mason-lspconfig.nvim",
   },
   {
     "jay-babu/mason-nvim-dap.nvim",
