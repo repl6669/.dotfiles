@@ -161,8 +161,6 @@ git:
   fetchAll: true
   # Command used when displaying the current branch git log in the main window
   branchLogCmd: git log --graph --color=always --abbrev-commit --decorate --date=relative --pretty=medium {{branchName}} --
-  # Command used to display git log of all branches in the main window
-  allBranchesLogCmd: git log --graph --all --color=always --abbrev-commit --decorate --date=relative  --pretty=medium
   # See https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md#predefined-commit-message-prefix
   commitPrefix:
     - # pattern to match on. E.g. for 'feature/AB-123' to match on the AB-123 use "^\\w+\\/(\\w+-\\w+).*"
@@ -185,6 +183,8 @@ git:
   # When copying commit hashes to the clipboard, truncate them to this
   # length. Set to 40 to disable truncation.
   truncateCopiedCommitHashesTo: 12
+  allBranchesLogCmds:
+    - git log --graph --all --color=always --abbrev-commit --decorate --date=relative  --pretty=medium
 # Periodic update checks
 update:
   # One of: 'prompt' (default) | 'background' | 'never'
