@@ -80,25 +80,6 @@ return {
     servers = {
       docker_compose_language_service = {},
       dockerls = {},
-      emmet_language_server = {
-        filetypes = {
-          "css",
-          "html",
-          "xhtml",
-          "xml",
-          "javascript",
-          "javascript.jsx",
-          "javascriptreact",
-          "json",
-          "typescript",
-          "typescript.tsx",
-          "typescriptreact",
-          "vue",
-        },
-        init_options = {
-          showSuggestionsAsSnippets = true,
-        },
-      },
       vtsls = {
         on_attach = function(client)
           -- disable formatting, since we use prettier
