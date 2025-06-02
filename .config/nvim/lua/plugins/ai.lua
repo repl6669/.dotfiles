@@ -7,25 +7,29 @@ return {
     build = "make", -- If you want to build from source then do `make BUILD_FROM_SOURCE=true`
     opts = function(_, opts)
       return {
-        provider = "claude",
+        provider = "copilot",
         auto_suggestions_provider = "copilot", -- ollama | claude | openai | copilot
-        cursor_applying_provider = "groq", -- groq
+        cursor_applying_provider = nil, -- "groq", -- groq
 
         web_search_engine = {
           provider = "tavily", -- tavily, serpapi, searchapi or google
         },
 
         behaviour = {
+          auto_focus_sidebar = true,
           auto_suggestions = false, -- Experimental stage
+          auto_suggestions_respect_ignore = false,
           auto_set_highlight_group = true,
           auto_set_keymaps = true,
           auto_apply_diff_after_generation = false,
+          jump_result_buffer_on_finish = false,
           support_paste_from_clipboard = false,
           minimize_diff = true, -- Whether to remove unchanged lines when applying a code block
           enable_token_counting = true, -- Whether to enable token counting. Default to true.
-          -- enable_cursor_planning_mode = false,
-          enable_claude_text_editor_tool_mode = true,
           use_cwd_as_project_root = true,
+          auto_focus_on_diff_view = false,
+          enable_cursor_planning_mode = true,
+          enable_claude_text_editor_tool_mode = true,
         },
 
         -- Experimental
@@ -37,58 +41,75 @@ return {
           timeout = 60000, -- Timeout in milliseconds
         },
 
-        claude = {
-          endpoint = "https://api.anthropic.com",
-          model = "claude-3-5-sonnet-20241022",
-          temperature = 0,
-          max_tokens = 4096,
-        },
+        ---@type {[string]: AvanteProvider}
+        providers = {
+          ---@type AvanteSupportedProvider
+          claude = {
+            endpoint = "https://api.anthropic.com",
+            model = "claude-3-7-sonnet-20250219",
+            extra_request_body = {
+              temperature = 0.75,
+              max_tokens = 20480,
+            },
+          },
+          ---@type AvanteSupportedProvider
+          copilot = {
+            endpoint = "https://api.githubcopilot.com",
+            model = "claude-3.7-sonnet",
+            allow_insecure = false,
+            timeout = 30000,
+            extra_request_body = {
+              temperature = 0.75,
+              max_tokens = 81920,
+              max_completion_tokens = 81920,
+              reasoning_effort = "high",
+            },
+          },
+          ---@type AvanteSupportedProvider
+          openai = {
+            endpoint = "https://api.openai.com/v1",
+            model = "gpt-4o", -- your desired model (or use gpt-4o, etc.)
+            timeout = 30000, -- timeout in milliseconds
+            extra_request_body = {
+              temperature = 0.75,
+              max_completion_tokens = 16384, -- Increase this to include reasoning tokens (for reasoning models)
+              reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
+            },
+          },
 
-        copilot = {
-          model = "claude-3.7-sonnet",
-          temperature = 0,
-          max_tokens = 8192,
-        },
-
-        openai = {
-          endpoint = "https://api.openai.com/v1",
-          model = "gpt-4o", -- your desired model (or use gpt-4o, etc.)
-          timeout = 30000, -- timeout in milliseconds
-          temperature = 0, -- adjust if needed
-          -- max_tokens = 8192,
-          max_completion_tokens = 8192, -- Increase this to include reasoning tokens (for reasoning models)
-          --reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
-        },
-
-        vendors = {
-          groq = {
+          ---@type AvanteSupportedProvider
+          groq = { -- define groq provider
             __inherited_from = "openai",
             api_key_name = "GROQ_API_KEY",
             endpoint = "https://api.groq.com/openai/v1/",
             model = "llama-3.3-70b-versatile",
-            max_tokens = 32768, -- increase this value, otherwise it will stop generating halfway
-          },
-
-          claude_3_7_sonnet = {
-            __inherited_from = "claude",
-            model = "claude-3-7-sonnet-20250219",
-            max_tokens = 8192,
-            temperature = 1,
-            -- stop_reason = "end_turn",
-            -- stop_sequence = nil,
-            thinking = {
-              type = "enabled",
-              budget_tokens = 4096, -- Must be ≥1024 and less than max_tokens
+            extra_request_body = {
+              max_completion_tokens = 32768, -- remember to increase this value, otherwise it will stop generating halfway
             },
           },
 
-          claude_3_5_sonnet = {
+          ---@type AvanteSupportedProvider
+          ["claude-3-7-sonnet"] = {
             __inherited_from = "claude",
-            model = "claude-3-5-sonnet-20241022",
-            max_tokens = 4096,
+            model = "claude-3-7-sonnet-20250219",
+            extra_request_body = {
+              temperature = 1,
+              max_tokens = 20480,
+            },
           },
 
-          deepseek = {
+          ---@type AvanteSupportedProvider
+          ["claude-3-5-sonnet"] = {
+            __inherited_from = "claude",
+            model = "claude-3-5-sonnet-20241022",
+            extra_request_body = {
+              temperature = 1,
+              max_tokens = 4096,
+            },
+          },
+
+          ---@type AvanteSupportedProvider
+          ["deepseek-coder"] = {
             __inherited_from = "openai",
             api_key_name = "DEEPSEEK_API_KEY",
             endpoint = "https://api.deepseek.com",
