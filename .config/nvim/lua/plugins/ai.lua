@@ -108,7 +108,6 @@ return {
             model = "claude-sonnet-4-20250514",
             extra_request_body = {
               max_tokens = 20480,
-              reasoning_effort = "high", -- low|medium|high, only used for reasoning models
             },
           },
 
@@ -196,7 +195,7 @@ return {
 
         windows = {
           position = "right",
-          width = 35, -- 35% of the width of the window
+          width = 45, -- 35% of the width of the window
           sidebar_header = {
             enabled = false, -- true, false to enable/disable the header
             align = "left", -- left, center, right for title
@@ -226,7 +225,7 @@ return {
           local rag_service = require("avante.rag_service")
 
           rag_service.launch_rag_service(function()
-            vim.notify("RAG service running...", vim.log.levels.INFO, {
+            vim.notify("Starting RAG service...", vim.log.levels.INFO, {
               title = "avante",
             })
           end)
