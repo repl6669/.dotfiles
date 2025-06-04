@@ -7,6 +7,7 @@ return {
     build = "make", -- If you want to build from source then do `make BUILD_FROM_SOURCE=true`
     opts = function(_, opts)
       local project_root = require("lazyvim.util").root.get({ normalize = true })
+      local rag_root = os.getenv("HOME")
 
       return {
         provider = "claude-4-sonnet",
@@ -37,7 +38,7 @@ return {
 
         rag_service = {
           enabled = true, -- Enables the RAG service
-          host_mount = project_root, -- Host mount path for the rag service
+          host_mount = os.getenv("HOME"), -- Host mount path for the rag service
           provider = "openai", -- The provider to use for RAG service (e.g. openai or ollama)
           llm_model = "gpt-4o", -- The LLM model to use for RAG service
           embed_model = "text-embedding-ada-002", -- The embedding model to use for RAG service
@@ -217,6 +218,36 @@ return {
         end,
       }
     end,
+
+    keys = {
+      {
+        "<leader>ags",
+        function()
+          local rag_service = require("avante.rag_service")
+
+          rag_service.launch_rag_service(function()
+            vim.notify("RAG service running...", vim.log.levels.INFO, {
+              title = "avante",
+            })
+          end)
+        end,
+        mode = { "n" },
+        desc = "avante: start RAG service",
+      },
+      {
+        "<leader>agS",
+        function()
+          local rag_service = require("avante.rag_service")
+
+          rag_service.stop_rag_service()
+          vim.notify("Stopping RAG service...", vim.log.levels.INFO, {
+            title = "avante",
+          })
+        end,
+        mode = { "n" },
+        desc = "avante: stop RAG service",
+      },
+    },
 
     dependencies = {
       -- {
