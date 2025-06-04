@@ -5,11 +5,11 @@ return {
   },
   keys = {
     -- stylua: ignore
-    { "<leader>af", function () require('neogen').generate({ type = 'func' }) end, desc = "Generate function annotations" },
+    { "<leader>Af", function () require('neogen').generate({ type = 'func' }) end, desc = "Generate function annotations" },
     -- stylua: ignore
-    { "<leader>at", function () require('neogen').generate({ type = 'type' }) end, desc = "Generate type annotations" },
+    { "<leader>At", function () require('neogen').generate({ type = 'type' }) end, desc = "Generate type annotations" },
     -- stylua: ignore
-    { "<leader>ac", function () require('neogen').generate({ type = 'class' }) end, desc = "Generate class annotations" },
+    { "<leader>Ac", function () require('neogen').generate({ type = 'class' }) end, desc = "Generate class annotations" },
   },
   config = function()
     require("neogen").setup({
