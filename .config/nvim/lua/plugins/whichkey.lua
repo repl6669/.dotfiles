@@ -3,6 +3,7 @@ return {
   opts = {
     spec = {
       { "<leader>a", group = "+ai" },
+      { "<leader>ag", group = "+ai/rag" },
       ["<leader>t"] = { name = "+test" },
       ["<leader>d"] = { name = "+debug" },
       ["<leader>cp"] = { name = "+php" },
