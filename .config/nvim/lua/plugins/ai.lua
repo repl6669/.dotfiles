@@ -6,10 +6,12 @@ return {
     version = false, -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
     build = "make", -- If you want to build from source then do `make BUILD_FROM_SOURCE=true`
     opts = function(_, opts)
+      local project_root = require("lazyvim.util").root.get({ normalize = true })
+
       return {
-        provider = "copilot",
-        auto_suggestions_provider = "copilot", -- ollama | claude | openai | copilot
-        cursor_applying_provider = nil, -- "groq", -- groq
+        provider = "claude-4-sonnet",
+        -- auto_suggestions_provider = "copilot", -- ollama | claude | openai | copilot
+        -- cursor_applying_provider = "groq", -- groq
 
         web_search_engine = {
           provider = "tavily", -- tavily, serpapi, searchapi or google
@@ -30,6 +32,17 @@ return {
           auto_focus_on_diff_view = false,
           enable_cursor_planning_mode = true,
           enable_claude_text_editor_tool_mode = true,
+          auto_approve_tool_permissions = true,
+        },
+
+        rag_service = {
+          enabled = true, -- Enables the RAG service
+          host_mount = project_root, -- Host mount path for the rag service
+          provider = "openai", -- The provider to use for RAG service (e.g. openai or ollama)
+          llm_model = "gpt-4o", -- The LLM model to use for RAG service
+          embed_model = "text-embedding-ada-002", -- The embedding model to use for RAG service
+          endpoint = "https://api.openai.com/v1", -- The API endpoint for RAG service
+          unner = "docker",
         },
 
         -- Experimental
@@ -89,11 +102,20 @@ return {
           },
 
           ---@type AvanteSupportedProvider
+          ["claude-4-sonnet"] = {
+            __inherited_from = "claude",
+            model = "claude-sonnet-4-20250514",
+            extra_request_body = {
+              max_tokens = 20480,
+              reasoning_effort = "high", -- low|medium|high, only used for reasoning models
+            },
+          },
+
+          ---@type AvanteSupportedProvider
           ["claude-3-7-sonnet"] = {
             __inherited_from = "claude",
             model = "claude-3-7-sonnet-20250219",
             extra_request_body = {
-              temperature = 1,
               max_tokens = 20480,
             },
           },
@@ -103,7 +125,6 @@ return {
             __inherited_from = "claude",
             model = "claude-3-5-sonnet-20241022",
             extra_request_body = {
-              temperature = 1,
               max_tokens = 4096,
             },
           },
