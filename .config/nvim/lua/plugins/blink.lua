@@ -8,6 +8,7 @@ return {
 
   {
     "saghen/blink.compat",
+    enabled = false,
     version = "*",
     lazy = true,
     opts = {},
