@@ -1,10 +1,5 @@
 return {
   "hrsh7th/nvim-cmp",
-  dependencies = {
-    "hrsh7th/cmp-nvim-lsp-signature-help",
-    "SergioRibera/cmp-dotenv",
-    "lukas-reineke/cmp-rg",
-  },
   opts = function(_, opts)
     local cmp = require("cmp")
 
@@ -31,4 +26,20 @@ return {
       documentation = cmp.config.window.bordered(opts),
     }
   end,
+  dependencies = {
+    "hrsh7th/cmp-nvim-lsp",
+    "hrsh7th/cmp-nvim-lsp-signature-help",
+    "SergioRibera/cmp-dotenv",
+    "lukas-reineke/cmp-rg",
+    {
+      "epwalsh/obsidian.nvim",
+      opts = function(_, opts)
+        return vim.tbl_deep_extend("force", opts, {
+          completion = {
+            nvim_cmp = true,
+          },
+        })
+      end,
+    },
+  },
 }
