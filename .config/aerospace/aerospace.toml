@@ -133,6 +133,8 @@ ctrl-shift-alt-equal = 'resize height 640'
 
 # Focus monitors
 ctrl-alt-h = 'focus-monitor --wrap-around left'
+ctrl-alt-j = 'focus-monitor --wrap-around down'
+ctrl-alt-k = 'focus-monitor --wrap-around up'
 ctrl-alt-l = 'focus-monitor --wrap-around right'
 
 ctrl-alt-q = 'focus-monitor 1'
@@ -155,6 +157,12 @@ alt-shift-a = 'move-node-to-workspace 3'
 alt-shift-s = 'move-node-to-workspace 4'
 alt-shift-z = 'move-node-to-workspace 5'
 alt-shift-x = 'move-node-to-workspace 6'
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-monitor
+ctrl-alt-shift-q = 'move-node-to-monitor 1'
+ctrl-alt-shift-w = 'move-node-to-monitor 2'
+ctrl-alt-shift-a = 'move-node-to-monitor 3'
+ctrl-alt-shift-s = 'move-node-to-monitor 4'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
 ctrl-tab = 'workspace-back-and-forth'
