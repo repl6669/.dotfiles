@@ -2,88 +2,177 @@
 ---@type LazySpec
 return {
 
+  -- Codecompanion
   {
     "olimorris/codecompanion.nvim",
-    opts = {
-      strategies = {
-        chat = {
-          adapter = "anthropic",
-        },
-        inline = {
-          adapter = "anthropic",
-        },
-        cmd = {
-          adapter = "anthropic",
-        },
-      },
-      adapters = {
-        anthropic = function()
-          return require("codecompanion.adapters").extend("anthropic", {
-            schema = {
-              model = {
-                default = "claude-sonnet-4-20250514",
+    cmd = {
+      "CodeCompanion",
+      "CodeCompanionActions",
+      "CodeCompanionChat",
+      "CodeCompanionCmd",
+      "CodeCompanionHistory",
+    },
+    opts = function(_, opts)
+      return {
+        strategies = {
+          chat = {
+            adapter = "anthropic",
+            slash_commands = {
+              ["file"] = {
+                callback = "strategies.chat.slash_commands.file",
+                description = "Select a file using FZF",
+                opts = {
+                  provider = "fzf_lua",
+                  contains_code = true,
+                },
+              },
+              ["buffer"] = {
+                callback = "strategies.chat.slash_commands.buffer",
+                description = "Select a file using FZF",
+                opts = {
+                  provider = "fzf_lua",
+                  contains_code = true,
+                },
               },
             },
-            -- env = {
-            --   api_key = "cmd:op read op://Private/Anthropic/API key --no-newline",
-            -- },
-          })
-        end,
-        openai = function()
-          return require("codecompanion.adapters").extend("openai", {
-            env = {
-              api_key = "cmd:op read op://Private/op54pbs2bcvrdekea3uqg4p62a/API key --no-newline",
+            opts = {
+              completion_provider = "cmp",
             },
-          })
-        end,
+            tools = {
+              opts = {
+                auto_submit_errors = true, -- Send any errors to the LLM automatically?
+                auto_submit_success = true, -- Send any successful output to the LLM automatically?
+              },
+            },
+            variables = {
+              ["docker_enabled"] = {
+                ---@return string|fun(): nil
+                callback = function()
+                  return tostring(require("utils.docker").docker_enabled())
+                end,
+                description = "Check if docker is enabled for current workspace",
+                opts = {
+                  contains_code = false,
+                },
+              },
+            },
+          },
+          inline = {
+            adapter = "anthropic",
+          },
+          cmd = {
+            adapter = "anthropic",
+          },
+        },
+        default_adapter = "anthropic",
+        adapters = {
+          anthropic = function()
+            return require("codecompanion.adapters").extend("anthropic", {
+              schema = {
+                model = {
+                  default = "claude-sonnet-4-20250514",
+                },
+              },
+              env = {
+                api_key = 'cmd:op read "op://Private/Anthropic/API key" --no-newline',
+              },
+            })
+          end,
+          openai = function()
+            return require("codecompanion.adapters").extend("openai", {
+              env = {
+                api_key = 'cmd:op read "op://Private/op54pbs2bcvrdekea3uqg4p62a/API key" --no-newline',
+              },
+            })
+          end,
+          tavily = function()
+            return require("codecompanion.adapters").extend("tavily", {
+              env = {
+                api_key = 'cmd:op read "op://Private/Tavily/API key" --no-newline',
+              },
+            })
+          end,
+        },
+        extensions = {
+          mcphub = {
+            callback = "mcphub.extensions.codecompanion",
+            opts = {
+              make_vars = true,
+              make_slash_commands = true,
+              show_result_in_chat = true,
+            },
+          },
+          vectorcode = {
+            opts = {
+              add_tool = true,
+              add_slash_command = true,
+              tool_opts = {},
+            },
+          },
+          history = {
+            enabled = true,
+            opts = {
+              -- Keymap to open history from chat buffer (default: gh)
+              keymap = "gh",
+              -- Keymap to save the current chat manually (when auto_save is disabled)
+              save_chat_keymap = "sc",
+              -- Save all chats by default (disable to save only manually using 'sc')
+              auto_save = true,
+              -- Number of days after which chats are automatically deleted (0 to disable)
+              expiration_days = 0,
+              -- Picker interface ("telescope" or "snacks" or "fzf-lua" or "default")
+              picker = "fzf-lua",
+              ---Automatically generate titles for new chats
+              auto_generate_title = true,
+              title_generation_opts = {
+                ---Adapter for generating titles (defaults to active chat's adapter)
+                adapter = nil, -- e.g "copilot"
+                ---Model for generating titles (defaults to active chat's model)
+                model = nil, -- e.g "gpt-4o"
+              },
+              ---On exiting and entering neovim, loads the last chat on opening chat
+              continue_last_chat = false,
+              ---When chat is cleared with `gx` delete the chat from history
+              delete_on_clearing_chat = false,
+              ---Directory path to save the chats
+              dir_to_save = vim.fn.stdpath("data") .. "/codecompanion-history",
+              ---Enable detailed logging for history extension
+              enable_logging = false,
+            },
+          },
+        },
+        window = {
+          width = 0.45,
+        },
+        display = {
+          action_palette = {
+            provider = "default",
+          },
+          diff = {
+            provider = "mini_diff",
+          },
+        },
+      }
+    end,
+
+    keys = {
+      {
+        "<Leader>ac",
+        "<cmd>CodeCompanionActions<CR>",
+        desc = "Open the action palette",
+        mode = { "n", "v" },
       },
-      extensions = {
-        mcphub = {
-          callback = "mcphub.extensions.codecompanion",
-          opts = {
-            make_vars = true,
-            make_slash_commands = true,
-            show_result_in_chat = true,
-          },
-        },
-        vectorcode = {
-          opts = {
-            add_tool = true,
-            add_slash_command = true,
-            tool_opts = {},
-          },
-        },
-        history = {
-          enabled = true,
-          opts = {
-            -- Keymap to open history from chat buffer (default: gh)
-            keymap = "gh",
-            -- Keymap to save the current chat manually (when auto_save is disabled)
-            save_chat_keymap = "sc",
-            -- Save all chats by default (disable to save only manually using 'sc')
-            auto_save = true,
-            -- Number of days after which chats are automatically deleted (0 to disable)
-            expiration_days = 0,
-            -- Picker interface ("telescope" or "snacks" or "fzf-lua" or "default")
-            picker = "fzf-lua",
-            ---Automatically generate titles for new chats
-            auto_generate_title = true,
-            title_generation_opts = {
-              ---Adapter for generating titles (defaults to active chat's adapter)
-              adapter = nil, -- e.g "copilot"
-              ---Model for generating titles (defaults to active chat's model)
-              model = nil, -- e.g "gpt-4o"
-            },
-            ---On exiting and entering neovim, loads the last chat on opening chat
-            continue_last_chat = false,
-            ---When chat is cleared with `gx` delete the chat from history
-            delete_on_clearing_chat = false,
-            ---Directory path to save the chats
-            dir_to_save = vim.fn.stdpath("data") .. "/codecompanion-history",
-            ---Enable detailed logging for history extension
-            enable_logging = false,
-          },
-        },
+      {
+        "<Leader>aa",
+        "<cmd>CodeCompanionChat Toggle<CR>",
+        desc = "Toggle a chat buffer",
+        mode = { "n", "v" },
+      },
+      {
+        "<LocalLeader>a",
+        "<cmd>CodeCompanionChat Add<CR>",
+        desc = "Add code to a chat buffer",
+        mode = { "v" },
       },
     },
 
@@ -92,8 +181,10 @@ return {
       "nvim-treesitter/nvim-treesitter",
       "ravitemer/mcphub.nvim",
       "ravitemer/codecompanion-history.nvim",
+      "echasnovski/mini.diff",
       {
         "HakonHarnes/img-clip.nvim",
+        event = "VeryLazy",
         opts = {
           filetypes = {
             codecompanion = {
@@ -107,6 +198,7 @@ return {
     },
   },
 
+  -- Avante
   {
     "yetone/avante.nvim",
     enabled = false,
@@ -416,6 +508,7 @@ return {
     end,
   },
 
+  -- VectorCode
   {
     -- Install CPU only version with [lsp,mcp] dependencies
     -- uv tool install vectorcode --index https://download.pytorch.org/whl/cpu --index-strategy unsafe-best-match --with 'pygls<2.0.0' --with  'lsprotocol' --with 'mcp<2.0.0' --with 'pydantic'
@@ -467,6 +560,7 @@ return {
     },
   },
 
+  -- MCPHub
   {
     "ravitemer/mcphub.nvim",
     dependencies = {
