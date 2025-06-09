@@ -26,10 +26,6 @@ return {
       lspconfig = {
         options = {
           cmd = { vim.fn.stdpath("data") .. "/mason/bin/phpactor", "language-server" },
-          language_server_diagnostics_on_update = false,
-          -- root_dir = function(pattern)
-          --   return require("lazyvim.util").root.get({ normalize = true }) .. "/api"
-          -- end,
         },
       },
     },
@@ -291,17 +287,6 @@ return {
         end,
         desc = "Add phpstan errors to quickfix list",
       },
-    },
-  },
-
-  {
-    "ricardoramirezr/blade-nav.nvim",
-    dependencies = {
-      "hrsh7th/nvim-cmp",
-    },
-    ft = { "blade", "php" },
-    opts = {
-      close_tag_on_complete = true,
     },
   },
 }
