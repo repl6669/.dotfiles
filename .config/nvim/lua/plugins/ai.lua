@@ -1,6 +1,115 @@
+---@module "lazy"
+---@type LazySpec
 return {
+
+  {
+    "olimorris/codecompanion.nvim",
+    opts = {
+      strategies = {
+        chat = {
+          adapter = "anthropic",
+        },
+        inline = {
+          adapter = "anthropic",
+        },
+        cmd = {
+          adapter = "anthropic",
+        },
+      },
+      adapters = {
+        anthropic = function()
+          return require("codecompanion.adapters").extend("anthropic", {
+            schema = {
+              model = {
+                default = "claude-sonnet-4-20250514",
+              },
+            },
+            -- env = {
+            --   api_key = "cmd:op read op://Private/Anthropic/API key --no-newline",
+            -- },
+          })
+        end,
+        openai = function()
+          return require("codecompanion.adapters").extend("openai", {
+            env = {
+              api_key = "cmd:op read op://Private/op54pbs2bcvrdekea3uqg4p62a/API key --no-newline",
+            },
+          })
+        end,
+      },
+      extensions = {
+        mcphub = {
+          callback = "mcphub.extensions.codecompanion",
+          opts = {
+            make_vars = true,
+            make_slash_commands = true,
+            show_result_in_chat = true,
+          },
+        },
+        vectorcode = {
+          opts = {
+            add_tool = true,
+            add_slash_command = true,
+            tool_opts = {},
+          },
+        },
+        history = {
+          enabled = true,
+          opts = {
+            -- Keymap to open history from chat buffer (default: gh)
+            keymap = "gh",
+            -- Keymap to save the current chat manually (when auto_save is disabled)
+            save_chat_keymap = "sc",
+            -- Save all chats by default (disable to save only manually using 'sc')
+            auto_save = true,
+            -- Number of days after which chats are automatically deleted (0 to disable)
+            expiration_days = 0,
+            -- Picker interface ("telescope" or "snacks" or "fzf-lua" or "default")
+            picker = "fzf-lua",
+            ---Automatically generate titles for new chats
+            auto_generate_title = true,
+            title_generation_opts = {
+              ---Adapter for generating titles (defaults to active chat's adapter)
+              adapter = nil, -- e.g "copilot"
+              ---Model for generating titles (defaults to active chat's model)
+              model = nil, -- e.g "gpt-4o"
+            },
+            ---On exiting and entering neovim, loads the last chat on opening chat
+            continue_last_chat = false,
+            ---When chat is cleared with `gx` delete the chat from history
+            delete_on_clearing_chat = false,
+            ---Directory path to save the chats
+            dir_to_save = vim.fn.stdpath("data") .. "/codecompanion-history",
+            ---Enable detailed logging for history extension
+            enable_logging = false,
+          },
+        },
+      },
+    },
+
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "ravitemer/mcphub.nvim",
+      "ravitemer/codecompanion-history.nvim",
+      {
+        "HakonHarnes/img-clip.nvim",
+        opts = {
+          filetypes = {
+            codecompanion = {
+              prompt_for_file_name = false,
+              template = "[Image]($FILE_PATH)",
+              use_absolute_path = true,
+            },
+          },
+        },
+      },
+    },
+  },
+
   {
     "yetone/avante.nvim",
+    enabled = false,
     event = "VeryLazy",
     lazy = false,
     version = false, -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
@@ -10,7 +119,7 @@ return {
       local rag_root = os.getenv("HOME")
 
       return {
-        provider = "claude-4-sonnet",
+        provider = "copilot", -- copilot | claude-4-sonnet | claude-3-7-sonnet | openai
         -- auto_suggestions_provider = "copilot", -- ollama | claude | openai | copilot
         -- cursor_applying_provider = "groq", -- groq
 
@@ -29,7 +138,7 @@ return {
           support_paste_from_clipboard = false,
           minimize_diff = true, -- Whether to remove unchanged lines when applying a code block
           enable_token_counting = true, -- Whether to enable token counting. Default to true.
-          use_cwd_as_project_root = true,
+          use_cwd_as_project_root = false,
           auto_focus_on_diff_view = false,
           enable_cursor_planning_mode = true,
           enable_claude_text_editor_tool_mode = true,
@@ -37,7 +146,7 @@ return {
         },
 
         rag_service = {
-          enabled = true, -- Enables the RAG service
+          enabled = false, -- Enables the RAG service
           host_mount = os.getenv("HOME"), -- Host mount path for the rag service
           provider = "openai", -- The provider to use for RAG service (e.g. openai or ollama)
           llm_model = "gpt-4o", -- The LLM model to use for RAG service
@@ -261,6 +370,7 @@ return {
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
       "echasnovski/mini.icons",
+      -- "Kaiser-Yang/blink-cmp-avante",
       "hrsh7th/nvim-cmp", -- Autocompletion for avante commands and mentions
       "ibhagwan/fzf-lua", -- For file_selector provider fzf
       "zbirenbaum/copilot.lua", -- For providers='copilot'
@@ -286,43 +396,74 @@ return {
 
   {
     "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "InsertEnter",
-    build = ":Copilot auth",
-    opts = {
-      panel = {
-        enabled = false,
-        auto_refresh = false,
-        keymap = {
-          jump_prev = "[[",
-          jump_next = "]]",
-          accept = "<CR>",
-          refresh = "gr",
-          open = "<D-CR>",
+    enabled = false,
+    opts = function()
+      LazyVim.cmp.actions.ai_accept = function()
+        if require("copilot.suggestion").is_visible() then
+          LazyVim.create_undo()
+          require("copilot.suggestion").accept()
+          return true
+        end
+      end
+
+      return {
+        workspace_folders = {
+          os.getenv("HOME") .. "/Developer/php",
         },
+        copilot_model = "",
+        copilot_node_command = "/opt/homebrew/bin/node",
+      }
+    end,
+  },
+
+  {
+    -- Install CPU only version with [lsp,mcp] dependencies
+    -- uv tool install vectorcode --index https://download.pytorch.org/whl/cpu --index-strategy unsafe-best-match --with 'pygls<2.0.0' --with  'lsprotocol' --with 'mcp<2.0.0' --with 'pydantic'
+    "Davidyz/VectorCode",
+    version = "*", -- optional, depending on whether you're on nightly or release
+    build = "uv tool upgrade vectorcode", -- optional but recommended. This keeps your CLI up-to-date.
+    cmd = "VectorCode",
+    opts = function(_, opts)
+      return opts
+    end,
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      {
+        "nvim-lualine/lualine.nvim",
+        opts = function(_, opts)
+          local cacher = require("vectorcode.config").get_cacher_backend()
+          vim.api.nvim_create_autocmd("LspAttach", {
+            callback = function()
+              local bufnr = vim.api.nvim_get_current_buf()
+              cacher.async_check("config", function()
+                cacher.register_buffer(bufnr, {
+                  n_query = 10,
+                })
+              end, nil)
+            end,
+            desc = "Register buffer for VectorCode",
+          })
+
+          return vim.tbl_deep_extend("force", opts, {
+            sections = {
+              lualine_y = {
+                {
+                  function()
+                    return require("vectorcode.integrations").lualine(opts)[1]()
+                  end,
+                  cond = function()
+                    if package.loaded["vectorcode"] == nil then
+                      return false
+                    else
+                      return require("vectorcode.integrations").lualine(opts).cond()
+                    end
+                  end,
+                },
+              },
+            },
+          })
+        end,
       },
-      suggestion = {
-        enabled = true,
-        auto_trigger = true,
-        debounce = 50,
-        keymap = {
-          accept = "<D-l>",
-          accept_word = false,
-          accept_line = false,
-          prev = "<D-[>",
-          next = "<D-]>",
-          dismiss = "<C-]>",
-        },
-      },
-      filetypes = {
-        markdown = true,
-        help = true,
-      },
-      workspace_folders = {
-        "/Users/theimer/Developer/php",
-      },
-      copilot_model = "",
-      copilot_node_command = "/opt/homebrew/bin/node",
     },
   },
 
