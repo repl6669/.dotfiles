@@ -1,5 +1,6 @@
 return {
   "epwalsh/obsidian.nvim",
+  enabled = false,
   ft = "markdown",
   version = "*",
   ui = {
@@ -29,9 +30,7 @@ return {
       date_format = "%Y%m%d",
       time_format = "%H:%M",
     },
-    completion = {
-      nvim_cmp = true, -- if using nvim-cmp, otherwise set to false
-    },
+    completion = {},
     note_id_func = function(title)
       -- Create note IDs in a Zettelkasten format with a timestamp and a suffix.
       local suffix = ""
