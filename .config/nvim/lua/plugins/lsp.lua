@@ -71,10 +71,11 @@ return {
   },
   opts = {
     diagnostics = {
-      virtual_text = false,
-      virtual_lines = {
-        current_line = true,
-      },
+      virtual_text = true,
+      -- virtual_text = false,
+      -- virtual_lines = {
+      --   current_line = true,
+      -- },
     },
     -- make sure mason installs the server
     servers = {
@@ -96,6 +97,7 @@ return {
         -- to fully override the default_config, change the below
         -- filetypes = {}
       },
+      vectorcode_server = {},
       volar = {
         filetypes = {
           "javascript",
