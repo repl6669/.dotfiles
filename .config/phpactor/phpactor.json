@@ -1,7 +1,19 @@
 {
   "$schema": "/Users/theimer/.config/phpactor/phpactor.schema.json",
-  "language_server_phpstan.enabled": false,
+  "composer.autoloader_path": "%project_root%/api/vendor/autoload.php",
+  "language_server.diagnostics_on_update": false,
+  "language_server.diagnostics_on_save": true,
+  "language_server.diagnostics_on_open": true,
   "language_server_worse_reflection.inlay_hints.enable": false,
   "language_server_worse_reflection.inlay_hints.params": true,
-  "language_server_worse_reflection.inlay_hints.types": false
+  "language_server_worse_reflection.inlay_hints.types": false,
+  "language_server_worse_reflection.diagnostics.enable": true,
+  "worse_reflection.enable_context_location": false,
+  "language_server_indexer.workspace_symbol_search_limit": 500,
+  "indexer.enabled_watchers": ["watchman", "inotify", "find", "php"],
+  "indexer.follow_symlinks": false,
+  "language_server_phpstan.mem_limit": "4G",
+  "language_server_phpstan.tmp_file_disabled": false,
+  "logging.enabled": false,
+  "logging.level": "debug"
 }
