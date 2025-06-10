@@ -21,25 +21,6 @@ return {
         lualine_a = {
           { "mode", separator = { left = "" } },
         },
-        lualine_x = {
-          {
-            require("mcphub.extensions.lualine"),
-          },
-        },
-        lualine_y = {
-          {
-            function()
-              return require("vectorcode.integrations").lualine(opts)[1]()
-            end,
-            cond = function()
-              if package.loaded["vectorcode"] == nil then
-                return false
-              else
-                return require("vectorcode.integrations").lualine(opts).cond()
-              end
-            end,
-          },
-        },
         lualine_z = {
           {
             function()
