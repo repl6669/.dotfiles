@@ -3,6 +3,7 @@
 return {
 
   -- Codecompanion
+  -- olimoriss's dotfiles: https://github.com/olimorris/dotfiles/blob/main/.config/nvim/lua/plugins/coding.lua
   {
     "olimorris/codecompanion.nvim",
     cmd = {
@@ -16,7 +17,13 @@ return {
       return {
         strategies = {
           chat = {
-            adapter = "anthropic",
+            adapter = {
+              name = "copilot",
+              model = "claude-sonnet-4",
+            },
+            roles = {
+              user = "repl6669",
+            },
             slash_commands = {
               ["file"] = {
                 callback = "strategies.chat.slash_commands.file",
@@ -488,7 +495,33 @@ return {
 
   {
     "zbirenbaum/copilot.lua",
-    enabled = false,
+    event = "InsertEnter",
+    keys = {
+      {
+        "<C-a>",
+        function()
+          require("copilot.suggestion").accept()
+        end,
+        desc = "Copilot: Accept suggestion",
+        mode = { "i" },
+      },
+      {
+        "<C-x>",
+        function()
+          require("copilot.suggestion").dismiss()
+        end,
+        desc = "Copilot: Dismiss suggestion",
+        mode = { "i" },
+      },
+      {
+        "<C-\\>",
+        function()
+          require("copilot.panel").open()
+        end,
+        desc = "Copilot: Show panel",
+        mode = { "n", "i" },
+      },
+    },
     opts = function()
       LazyVim.cmp.actions.ai_accept = function()
         if require("copilot.suggestion").is_visible() then
@@ -499,6 +532,14 @@ return {
       end
 
       return {
+        panel = { enabled = false },
+        suggestion = {
+          auto_trigger = false,
+          keymap = {
+            accept_word = "<C-l>",
+            accept_line = "<C-j>",
+          },
+        },
         workspace_folders = {
           os.getenv("HOME") .. "/Developer/php",
         },
