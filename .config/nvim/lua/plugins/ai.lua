@@ -310,6 +310,14 @@ return {
         config = function()
           require("mcphub").setup()
         end,
+        dependencies = {
+          {
+            "nvim-lualine/lualine.nvim",
+            opts = function(_, opts)
+              table.insert(opts.sections.lualine_x, { require("mcphub.extensions.lualine") })
+            end,
+          },
+        },
       },
 
       {
@@ -363,15 +371,31 @@ return {
     version = "*", -- optional, depending on whether you're on nightly or release
     build = "uv tool upgrade vectorcode", -- optional but recommended. This keeps your CLI up-to-date.
     cmd = "VectorCode",
-    opts = function(_, opts)
-      return vim.tbl_deep_extend("force", opts, {
-        async_backend = "lsp",
-        notify = true,
-        on_setup = { lsp = false },
-      })
-    end,
+    opts = {
+      async_backend = "lsp",
+      notify = true,
+      on_setup = { lsp = false },
+    },
     dependencies = {
       "nvim-lua/plenary.nvim",
+
+      {
+        "nvim-lualine/lualine.nvim",
+        opts = function(_, opts)
+          table.insert(opts.sections.lualine_x, {
+            function()
+              return require("vectorcode.integrations").lualine(opts)[1]()
+            end,
+            cond = function()
+              if package.loaded["vectorcode"] == nil then
+                return false
+              else
+                return require("vectorcode.integrations").lualine(opts).cond()
+              end
+            end,
+          })
+        end,
+      },
     },
   },
 }
