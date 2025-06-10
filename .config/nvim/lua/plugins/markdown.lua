@@ -1,6 +1,7 @@
 return {
   {
     "MeanderingProgrammer/render-markdown.nvim",
+    ft = { "markdown", "codecompanion" },
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
       "echasnovski/mini.icons",
@@ -8,6 +9,8 @@ return {
     ---@module 'render-markdown'
     ---@type render.md.UserConfig
     opts = {
+      render_modes = true, -- Render in all modes
+      sign = { enabled = false }, -- Turn off in the status column
       checkbox = {
         enabled = true,
         checked = { scope_highlight = "@markup.strikethrough" },
@@ -19,24 +22,15 @@ return {
         buftype = {
           nofile = {
             code = {
-              style = "normal",
-              highlight = "NormalFloat",
-              highlight_inline = "NormalFloat",
+              -- style = "normal",
+              -- highlight = "NormalFloat",
+              -- highlight_inline = "NormalFloat",
             },
           },
         },
         filetype = {},
       },
-      file_types = {
-        -- "markdown",
-        "Avante",
-      },
     },
-    ft = {
-      "Avante",
-      -- "markdown",
-    },
-
     keys = {
       {
         "<leader>mt",

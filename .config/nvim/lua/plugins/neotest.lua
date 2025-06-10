@@ -65,10 +65,24 @@ return {
         enabled = true,
         open_on_run = true,
       },
+      icons = {
+        expanded = "",
+        child_prefix = "",
+        child_indent = "",
+        final_child_prefix = "",
+        non_collapsible = "",
+        collapsed = "",
+
+        passed = "",
+        running = "",
+        failed = "",
+        unknown = "",
+        skipped = "",
+      },
       floating = {
         border = "rounded",
-        max_height = 0.6,
-        max_width = 0.6,
+        max_height = 0.8,
+        max_width = 0.8,
         options = {},
       },
       output_panel = {

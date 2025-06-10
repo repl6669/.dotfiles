@@ -1,6 +1,8 @@
 return {
   "nvim-treesitter/nvim-treesitter",
+  build = ":TSUpdate",
   dependencies = {
+
     {
       "JoosepAlviste/nvim-ts-context-commentstring",
       opts = {
@@ -11,23 +13,46 @@ return {
         end,
       },
     },
+
+    {
+      "windwp/nvim-ts-autotag",
+      event = "LazyFile",
+      opts = {},
+    },
+
+    {
+      "folke/twilight.nvim",
+      opts = {
+        dimming = {
+          alpha = 0.25, -- amount of dimming
+          color = { "Normal", "#e0e0e0" }, -- we try to get the foreground from the highlight groups or fallback color
+          term_bg = "#000000", -- if guibg=NONE, this will be used to calculate text color
+          inactive = false, -- when true, other windows will be fully dimmed (unless they contain the same buffer)
+        },
+        context = 12,
+      },
+    },
+
+    "windwp/nvim-autopairs", -- Autopair plugin
+    "rrethy/nvim-treesitter-endwise", -- Automatically add end keywords for Ruby, Lua, Python, and more
     "nvim-treesitter/nvim-treesitter-context",
     "nvim-treesitter/nvim-treesitter-textobjects",
   },
   opts = {
     ensure_installed = {
       "bash",
+      "c",
       "diff",
       "html",
       "javascript",
       "jsdoc",
-      "kdl",
+      "json",
+      "jsonc",
       "lua",
       "luadoc",
       "luap",
       "markdown",
       "markdown_inline",
-      "nu",
       "php",
       "php_only",
       "phpdoc",
@@ -54,8 +79,20 @@ return {
       enable = true,
       additional_vim_regex_highlighting = { "markdown" },
     },
-    indent = {
-      enable = true,
+    indent = { enable = true },
+    endwise = { enable = true },
+    textobjects = {
+      select = {
+        enable = true,
+        lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
+
+        keymaps = {
+          -- Use v[keymap], c[keymap], d[keymap] to perform any operation
+          ["af"] = "@function.outer",
+          ["if"] = "@function.inner",
+          ["ac"] = "@class.outer",
+        },
+      },
     },
   },
   config = function(_, opts)
