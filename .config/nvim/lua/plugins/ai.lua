@@ -193,7 +193,7 @@ return {
               },
             },
             env = {
-              api_key = 'cmd:op read "op://Private/Anthropic/API key" --no-newline',
+              api_key = 'cmd:op read "op://Private/Anthropic/API_KEY" --no-newline',
             },
           })
         end,
@@ -203,19 +203,99 @@ return {
               stream = true,
             },
             env = {
-              api_key = 'cmd:op read "op://Private/op54pbs2bcvrdekea3uqg4p62a/API key" --no-newline',
+              api_key = 'cmd:op read "op://Private/OpenAI/API_KEY" --no-newline',
             },
           })
         end,
         tavily = function()
           return require("codecompanion.adapters").extend("tavily", {
             env = {
-              api_key = 'cmd:op read "op://Private/Tavily/API key" --no-newline',
+              api_key = 'cmd:op read "op://Private/Tavily/API_KEY" --no-newline',
+            },
+          })
+        end,
+        openrouter = function()
+          local openai = require("codecompanion.adapters.openai")
+          return require("codecompanion.adapters").extend("openai_compatible", {
+            env = {
+              url = "https://openrouter.ai/api",
+              api_key = 'cmd:op read "op://Private/OpenRouter/API_KEY" --no-newline',
+              chat_url = "/v1/chat/completions",
+            },
+            handlers = {
+              form_parameters = function(self, params, messages)
+                local result = openai.handlers.form_parameters(self, params, messages)
+                return result
+              end,
+              form_messages = function(self, messages)
+                local result = openai.handlers.form_messages(self, messages)
+
+                local fun = require("utils.functions")
+                fun.map(result.messages, function(v)
+                  local ok, json_res = pcall(function()
+                    return vim.fn.json_decode(v.content)
+                  end, "not a json")
+                  if ok then
+                    v.content = json_res
+                    return v
+                  end
+                  return v
+                end)
+
+                return result
+              end,
+            },
+            schema = {
+              model = {
+                default = "qwen/qwen3-32b",
+              },
             },
           })
         end,
         ollama = function()
+          local openai = require("codecompanion.adapters.openai")
+
           return require("codecompanion.adapters").extend("ollama", {
+            opts = {
+              stream = true,
+              tools = true,
+              vision = false,
+            },
+            handlers = {
+              --- Use the OpenAI adapter for the bulk of the work
+              setup = function(self)
+                return openai.handlers.setup(self)
+              end,
+              tokens = function(self, data)
+                return openai.handlers.tokens(self, data)
+              end,
+              form_parameters = function(self, params, messages)
+                return openai.handlers.form_parameters(self, params, messages)
+              end,
+              form_messages = function(self, messages)
+                return openai.handlers.form_messages(self, messages)
+              end,
+              form_tools = function(self, tools)
+                return openai.handlers.form_tools(self, tools)
+              end,
+              chat_output = function(self, data)
+                return openai.handlers.chat_output(self, data)
+              end,
+              tools = {
+                format_tool_calls = function(self, tools)
+                  return openai.handlers.tools.format_tool_calls(self, tools)
+                end,
+                output_response = function(self, tool_call, output)
+                  return openai.handlers.tools.output_response(self, tool_call, output)
+                end,
+              },
+              inline_output = function(self, data, context)
+                return openai.handlers.inline_output(self, data, context)
+              end,
+              on_exit = function(self, data)
+                return openai.handlers.on_exit(self, data)
+              end,
+            },
             schema = {
               model = {
                 default = "qwen3:14b",
