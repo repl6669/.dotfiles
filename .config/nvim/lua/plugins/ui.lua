@@ -13,13 +13,7 @@ return {
     lazy = false,
     priority = 1000,
     opts = {
-
-      styles = {
-        bold = true,
-        italic = true,
-        transparency = true,
-      },
-
+      transparent = true,
       highlight_groups = {
 
         -- Dashboard
