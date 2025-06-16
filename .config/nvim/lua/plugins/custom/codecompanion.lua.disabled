@@ -1,0 +1,423 @@
+local M = {}
+
+local fmt = string.format
+local default_model = "qwen/qwen3-32b"
+local available_models = {
+  "qwen/qwen3-32b",
+  "anthropic/claude-3.7-sonnet",
+  "anthropic/claude-3.5-sonnet",
+  "openai/gpt-4o-mini",
+  "openai/o3",
+  "anthropic/claude-sonnet-4",
+}
+
+local Path = require("plenary.path")
+local config = {
+  current_model = default_model,
+  config_dir = "~/.local/share/nvim/codecompanion-openrouter",
+  config_name = "config.json",
+}
+
+-- Internal function to get Path object
+local function get_config_path(cfg)
+  local dir = Path:new(vim.fn.expand(cfg.config_dir))
+  return dir:joinpath(cfg.config_name)
+end
+
+-- Initialize config directory & file
+function M.init_config()
+  local config_path = get_config_path(config)
+
+  -- Create directory if not exists
+  config_path:parent():mkdir({ parents = true })
+
+  -- Save default config only if file doesn't exist
+  if not config_path:exists() then
+    M.save_config(config)
+  end
+
+  local latest_config = M.read_config()
+  config = latest_config
+end
+
+-- Save config to file (overwrites existing file)
+function M.save_config(cfg)
+  local config_path = get_config_path(cfg)
+
+  -- Remove non-persistable fields
+  local copy = vim.tbl_deep_extend("force", {}, cfg)
+  copy.config_dir = nil
+  copy.config_name = nil
+
+  config_path:write(vim.fn.json_encode(copy), "w")
+end
+
+-- Read config from file
+function M.read_config()
+  local config_path = get_config_path(config)
+  if not config_path:exists() then
+    return nil, "Config file does not exist"
+  end
+
+  local content = config_path:read()
+  local ok, parsed = pcall(vim.fn.json_decode, content)
+  if not ok then
+    return nil, "Failed to parse config"
+  end
+
+  -- Reattach config_dir and config_name if needed
+  parsed.config_dir = config.config_dir
+  parsed.config_name = config.config_name
+  return parsed
+end
+
+function M.select_model()
+  vim.ui.select(available_models, {
+    prompt = "Select  Model:",
+  }, function(choice)
+    if choice then
+      config.current_model = choice
+      M.save_config(config)
+      vim.notify("Selected model: " .. config.current_model)
+      M.init_config()
+    end
+  end)
+end
+
+function M.get_current_model()
+  return config.current_model
+end
+
+---@param chat CodeCompanion.Chat
+---@param id string
+---@param input string
+function M.add_image(chat, id, input)
+  local new_message = {
+    {
+      type = "text",
+      text = "the user is sharing this image with you. be ready for a query or task regarding this image",
+    },
+    {
+      type = "image_url",
+      image_url = {
+        url = input,
+      },
+    },
+  }
+
+  local constants = require("codecompanion.config").config.constants
+  chat:add_message({
+    role = constants.USER_ROLE,
+    content = vim.fn.json_encode(new_message),
+  }, { reference = id, visible = false })
+
+  chat.references:add({
+    id = id,
+    source = "adapter.image_url",
+  })
+end
+
+---@Param chat CodeCompanion.Chat
+function M.slash_paste_image(chat)
+  local clipboard = require("img-clip.clipboard")
+  local paste = require("img-clip.paste")
+  if not clipboard.content_is_image() then
+    vim.notify("clipboard content is not an image", vim.log.levels.WARN)
+    return
+  end
+  local prefix = paste.get_base64_prefix()
+  local base64res = clipboard.get_base64_encoded_image()
+  local url = prefix .. base64res
+  local hash = vim.fn.sha256(url)
+  local id = "<pasted_image>" .. hash:sub(1, 16) .. "</pasted_image>"
+  M.add_image(chat, id, url)
+end
+
+---@param chat CodeCompanion.Chat
+function M.slash_add_image_url(chat)
+  local function callback(input)
+    if input then
+      local id = "<image_url>" .. input .. "</image_url>"
+      M.add_image(chat, id, input)
+    end
+  end
+  vim.ui.input({ prompt = "> Enter image url", default = "", completion = "dir" }, callback)
+end
+
+function M.slash_md_reference(chat)
+  local constants = require("codecompanion.config").config.constants
+  ---@type TextareaCallback
+  local callback = function(first_line, full_text)
+    local id = "<markdown>" .. first_line .. "</markdown>"
+    local prompt = [[
+
+			The user is sharing a markdown text with you, it can be a PRD, a description of a task, or even an openapi contract.
+      if it is description of a task or a product you should follow the description there and remind the user if some implementation is not adheere to the shared document.
+      if it is openapi contract you should remember it and when implementing a form of rest api call use that as reference
+      Here is the content of the file
+    ]]
+    local content = fmt(
+      [[%s:
+
+```%s
+%s
+```]],
+      "markdown",
+      prompt,
+      full_text
+    )
+    chat:add_message({
+      role = constants.USER_ROLE,
+      content = content,
+    }, { reference = id, visible = false })
+
+    chat.references:add({
+      id = id,
+      source = "codecompanion.strategies.chat.slash_commands.file",
+    })
+  end
+
+  local fun = require("utils.functions")
+  fun.open_textarea(callback)
+end
+
+function M.get_slash_commands()
+  return {
+    ["file"] = {
+      callback = "strategies.chat.slash_commands.file",
+      description = "Select a file using FZF",
+      opts = {
+        provider = "fzf_lua",
+        contains_code = true,
+      },
+    },
+    ["buffer"] = {
+      callback = "strategies.chat.slash_commands.buffer",
+      description = "Select a file using FZF",
+      opts = {
+        provider = "fzf_lua",
+        contains_code = true,
+      },
+    },
+    ["image_url"] = {
+      callback = M.slash_add_image_url,
+      description = "add image via url",
+    },
+    ["image_paste"] = {
+      callback = M.slash_paste_image,
+      description = "add image from clipboard",
+    },
+    ["reference"] = {
+      callback = M.slash_md_reference,
+      description = "Add markdown reference",
+    },
+  }
+end
+
+function M.get_variables()
+  return {
+    ["run_tests_command"] = {
+      ---@return string|fun(): nil
+      callback = function()
+        return require("utils.docker").docker_enabled()
+            and "docker compose -f compose.local.yml run --rm --no-deps api ./vendor/bin/pest"
+          or "./vendor/bin/pest"
+      end,
+      description = "Command for running tests",
+      opts = {
+        contains_code = false,
+      },
+    },
+    ["docker_enabled"] = {
+      ---@return string|fun(): nil
+      callback = function()
+        return tostring(require("utils.docker").docker_enabled())
+      end,
+      description = "Check if docker is enabled for current workspace",
+      opts = {
+        contains_code = false,
+      },
+    },
+  }
+end
+
+function M.get_keymaps()
+  return {
+    submit = {
+      modes = { n = "<CR>" },
+      description = "Submit",
+      callback = function(chat)
+        local config = M.read_config()
+        chat:apply_model(config.current_model)
+        chat:submit()
+      end,
+    },
+  }
+end
+
+function M.get_extensions()
+  return {
+    mcphub = {
+      enabled = true,
+      callback = "mcphub.extensions.codecompanion",
+      opts = {
+        show_result_in_chat = true, -- Show mcp tool results in chat
+        make_vars = true, -- Convert resources to #variables
+        make_slash_commands = true, -- Add prompts as /slash commands
+      },
+    },
+    vectorcode = {
+      enabled = true,
+      opts = {
+        add_tool = true,
+        add_slash_command = true,
+        tool_opts = {},
+      },
+    },
+    history = {
+      enabled = true,
+      opts = {
+        keymap = "gh", -- Keymap to open history from chat buffer (default: gh)
+        save_chat_keymap = "sc", -- Keymap to save the current chat manually (when auto_save is disabled)
+        auto_save = true, -- Save all chats by default (disable to save only manually using 'sc')
+        picker = "fzf-lua", -- Picker interface ("telescope" or "snacks" or "fzf-lua" or "default")
+        auto_generate_title = true, ---Automatically generate titles for new chats
+        continue_last_chat = false, ---On exiting and entering neovim, loads the last chat on opening chat
+        delete_on_clearing_chat = false, ---When chat is cleared with `gx` delete the chat from history
+        dir_to_save = vim.fn.stdpath("data") .. "/codecompanion-history", ---Directory path to save the chats
+        enable_logging = false, ---Enable detailed logging for history extension
+      },
+    },
+  }
+end
+
+function M.get_adapters()
+  return {
+    anthropic = function()
+      return require("codecompanion.adapters").extend("anthropic", {
+        schema = {
+          model = {
+            default = "claude-sonnet-4-20250514",
+          },
+        },
+        env = {
+          api_key = 'cmd:op read "op://Private/Anthropic/API_KEY" --no-newline',
+        },
+      })
+    end,
+
+    openai = function()
+      return require("codecompanion.adapters").extend("openai", {
+        opts = {
+          stream = true,
+        },
+        env = {
+          api_key = 'cmd:op read "op://Private/OpenAI/API_KEY" --no-newline',
+        },
+      })
+    end,
+
+    tavily = function()
+      return require("codecompanion.adapters").extend("tavily", {
+        env = {
+          api_key = 'cmd:op read "op://Private/Tavily/API_KEY" --no-newline',
+        },
+      })
+    end,
+
+    openrouter = function()
+      local openai = require("codecompanion.adapters.openai")
+      return require("codecompanion.adapters").extend("openai_compatible", {
+        env = {
+          url = "https://openrouter.ai/api",
+          api_key = 'cmd:op read "op://Private/OpenRouter/API_KEY" --no-newline',
+          chat_url = "/v1/chat/completions",
+        },
+        handlers = {
+          form_parameters = function(self, params, messages)
+            local result = openai.handlers.form_parameters(self, params, messages)
+            return result
+          end,
+          form_messages = function(self, messages)
+            local result = openai.handlers.form_messages(self, messages)
+
+            local fun = require("utils.functions")
+            fun.map(result.messages, function(v)
+              local ok, json_res = pcall(function()
+                return vim.fn.json_decode(v.content)
+              end, "not a json")
+              if ok then
+                v.content = json_res
+                return v
+              end
+              return v
+            end)
+
+            return result
+          end,
+        },
+        schema = {
+          model = {
+            default = config.current_model,
+          },
+        },
+      })
+    end,
+
+    ollama = function()
+      local openai = require("codecompanion.adapters.openai")
+      return require("codecompanion.adapters").extend("ollama", {
+        opts = {
+          stream = true,
+          tools = true,
+          vision = false,
+        },
+        handlers = {
+          --- Use the OpenAI adapter for the bulk of the work
+          setup = function(self)
+            return openai.handlers.setup(self)
+          end,
+          tokens = function(self, data)
+            return openai.handlers.tokens(self, data)
+          end,
+          form_parameters = function(self, params, messages)
+            return openai.handlers.form_parameters(self, params, messages)
+          end,
+          form_messages = function(self, messages)
+            return openai.handlers.form_messages(self, messages)
+          end,
+          form_tools = function(self, tools)
+            return openai.handlers.form_tools(self, tools)
+          end,
+          chat_output = function(self, data)
+            return openai.handlers.chat_output(self, data)
+          end,
+          tools = {
+            format_tool_calls = function(self, tools)
+              return openai.handlers.tools.format_tool_calls(self, tools)
+            end,
+            output_response = function(self, tool_call, output)
+              return openai.handlers.tools.output_response(self, tool_call, output)
+            end,
+          },
+          inline_output = function(self, data, context)
+            return openai.handlers.inline_output(self, data, context)
+          end,
+          on_exit = function(self, data)
+            return openai.handlers.on_exit(self, data)
+          end,
+        },
+        schema = {
+          model = {
+            default = "qwen3:14b",
+          },
+          num_ctx = {
+            default = 20000,
+          },
+        },
+      })
+    end,
+  }
+end
+
+return M
