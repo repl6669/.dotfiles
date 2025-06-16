@@ -496,6 +496,7 @@ return {
   -- Minuet
   {
     "milanglacier/minuet-ai.nvim",
+    enabled = false,
     event = "VeryLazy",
     config = function(_, opts)
       local num_docs = 10
