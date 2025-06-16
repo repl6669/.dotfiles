@@ -4,7 +4,7 @@ return {
     "nvim-lua/plenary.nvim", -- Required for v0.4.0+
   },
   config = function()
-    local palette = require("repl69.palette")
+    local palette = require("repl69.colors").setup(require("repl69.config").extend())
     local mappings = require("cokeline.mappings")
 
     local icons = {
@@ -23,7 +23,7 @@ return {
       info = palette.cyan,
       hint = palette.cyan,
       background = palette.gray925,
-      transparent = palette.background,
+      transparent = palette.bg,
     }
 
     local components = {
