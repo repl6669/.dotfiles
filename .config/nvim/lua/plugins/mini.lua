@@ -22,9 +22,12 @@ return {
     "echasnovski/mini.hipatterns",
     event = "BufReadPre",
     opts = function(_, opts)
+      local hi = require("mini.hipatterns")
       local colors = require("utils.colors")
 
-      opts.highlighters = vim.tbl_deep_extend("force", opts.highlighters or {}, {
+      opts.highlighters = vim.tbl_deep_extend("keep", opts.highlighters or {}, {
+        hex_color = hi.gen_highlighter.hex_color(),
+
         hex_color_short = {
           pattern = "#%x%x%x%f[%X]",
           group = colors.hex_color_short,
