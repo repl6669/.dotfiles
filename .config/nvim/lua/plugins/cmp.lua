@@ -24,11 +24,20 @@ return {
       name = "render-markdown",
     })
 
-    if LazyVim.has("minuet") then
+    if LazyVim.has("minuet-ai.nvim") then
       table.insert(opts.sources, {
         name = "minuet",
       })
+
+      table.insert(opts.mapping, {
+        ["<A-y>"] = require("minuet").make_cmp_map(),
+      })
     end
+
+    opts.window = {
+      completion = cmp.config.window.bordered({}),
+      documentation = cmp.config.window.bordered({}),
+    }
 
     opts = vim.tbl_deep_extend("force", opts, {
       performance = {
@@ -37,13 +46,6 @@ return {
         -- other completion sources. This is not needed when you only
         -- need manual completion.
         fetching_timeout = 2000,
-      },
-      mapping = {
-        ["<A-y>"] = require("minuet").make_cmp_map(),
-      },
-      window = {
-        completion = cmp.config.window.bordered(opts),
-        documentation = cmp.config.window.bordered(opts),
       },
     })
   end,
