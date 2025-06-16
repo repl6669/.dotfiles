@@ -3,7 +3,11 @@ return {
     "mason-org/mason.nvim",
     opts = {
       ui = {
-        border = "rounded",
+        border = vim.o.winborder,
+        icons = {
+          package_installed = "✓",
+          package_pending = "➜",
+        },
       },
       ensure_installed = {
         "php-debug-adapter",

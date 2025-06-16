@@ -23,7 +23,7 @@ function M.open_textarea(callback)
     row = (vim.o.lines - height) / 2,
     col = (vim.o.columns - width) / 2,
     style = "minimal",
-    border = "rounded",
+    border = vim.o.winborder,
   }
 
   local win = vim.api.nvim_open_win(buf, true, win_opts)

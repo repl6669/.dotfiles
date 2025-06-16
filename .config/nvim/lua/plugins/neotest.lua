@@ -80,7 +80,7 @@ return {
         skipped = "",
       },
       floating = {
-        border = "rounded",
+        border = vim.o.winborder,
         max_height = 0.8,
         max_width = 0.8,
         options = {},
