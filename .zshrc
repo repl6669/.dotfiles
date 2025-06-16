@@ -14,11 +14,9 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.local/share/nvim/mason/bin:$PATH"
 
-# Neovide settings
-export NEOVIDE_FRAME=transparent
-export NEOVIDE_TITLE_HIDDEN=0
-export NEOVIDE_TABS=0
-export NEOVIDE_FORK=1
+# Ollama settings
+export OLLAMA_HOST="127.0.0.1"
+export OLLAMA_CODE_MODEL="qwen2.5-coder:14b" # qwen3:14b
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
