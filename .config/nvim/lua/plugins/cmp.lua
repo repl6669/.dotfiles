@@ -1,10 +1,13 @@
 return {
   "hrsh7th/nvim-cmp",
+  ---@param opts cmp.ConfigSchema
   opts = function(_, opts)
     local cmp = require("cmp")
 
     if LazyVim.has("nvim-snippets") then
-      table.insert(opts.sources, { name = "nvim_lsp_signature_help" })
+      table.insert(opts.sources, {
+        name = "nvim_lsp_signature_help",
+      })
     end
 
     table.insert(opts.sources, {
@@ -21,10 +24,28 @@ return {
       name = "render-markdown",
     })
 
-    opts.window = {
-      completion = cmp.config.window.bordered(opts),
-      documentation = cmp.config.window.bordered(opts),
-    }
+    if LazyVim.has("minuet") then
+      table.insert(opts.sources, {
+        name = "minuet",
+      })
+    end
+
+    opts = vim.tbl_deep_extend("force", opts, {
+      performance = {
+        -- It is recommended to increase the timeout duration due to
+        -- the typically slower response speed of LLMs compared to
+        -- other completion sources. This is not needed when you only
+        -- need manual completion.
+        fetching_timeout = 2000,
+      },
+      mapping = {
+        ["<A-y>"] = require("minuet").make_cmp_map(),
+      },
+      window = {
+        completion = cmp.config.window.bordered(opts),
+        documentation = cmp.config.window.bordered(opts),
+      },
+    })
   end,
   dependencies = {
     "hrsh7th/cmp-nvim-lsp",
