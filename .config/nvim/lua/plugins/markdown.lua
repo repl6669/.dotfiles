@@ -15,9 +15,9 @@ return {
         enabled = true,
         checked = { scope_highlight = "@markup.strikethrough" },
       },
-      code = {
-        border = "none",
-      },
+      -- code = {
+      --   border = "none",
+      -- },
       overrides = {
         buftype = {
           nofile = {
