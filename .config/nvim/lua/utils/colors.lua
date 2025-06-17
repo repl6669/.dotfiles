@@ -101,6 +101,17 @@ M.rgb_color = function(_, match)
   return MiniHipatterns.compute_hex_color_group(hex_color, "bg")
 end
 
+-- Returns hex color group for matching space-separated RGB color like "122 122 122" at end of line.
+--
+---@param match string
+---@return string
+M.rgb_color_short = function(_, match)
+  -- Extract RGB values from the matched pattern (three numbers separated by spaces)
+  local red, green, blue = match:match("(%d+)%s+(%d+)%s+(%d+)")
+  local hex_color = string.format("#%02x%02x%02x", tonumber(red), tonumber(green), tonumber(blue))
+  return MiniHipatterns.compute_hex_color_group(hex_color, "bg")
+end
+
 -- Returns hex color group for matching rgba() color
 -- or false if alpha is nil or out of range.
 -- The use of the alpha value refers to a black background.

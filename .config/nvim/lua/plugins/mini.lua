@@ -38,6 +38,11 @@ return {
           group = colors.rgb_color,
         },
 
+        rgb_color_short = {
+          pattern = "%d+%s+%d+%s+%d+%s*$",
+          group = colors.rgb_color_short,
+        },
+
         rgba_color = {
           pattern = "rgba%(%d+, ?%d+, ?%d+, ?%d*%.?%d*%)",
           group = colors.rgba_color,
