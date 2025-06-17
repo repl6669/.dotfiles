@@ -1,6 +1,10 @@
+---@module "lazy"
+---@type LazySpec
 return {
   "folke/which-key.nvim",
   opts = {
+    preset = "modern", -- modern | helix
+    show_help = false,
     spec = {
       { "<leader>a", group = "+ai" },
       { "<leader>ag", group = "+ai/rag" },
