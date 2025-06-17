@@ -8,17 +8,27 @@ return {
     "olimorris/codecompanion.nvim",
     cmd = { "CodeCompanion", "CodeCompanionActions", "CodeCompanionChat" },
     init = function()
-      require("plugins.custom.spinner"):init()
+      require("plugins.custom.cc-spinner"):init()
     end,
-    opts = {
-      strategies = {
+    opts = function(_, opts)
+      opts = opts or {}
+
+      opts.display = {
+        action_palette = { provider = "fzf_lua" },
+        diff = { provider = "mini_diff" },
+      }
+
+      opts.strategies = {
         chat = {
           adapter = {
             name = "copilot",
             model = "claude-sonnet-4",
           },
           roles = {
-            user = "repl6669",
+            ---@type string|fun(adapter: CodeCompanion.Adapter): string
+            llm = function(adapter)
+              return string.format("%s %s (%s)", "repl6669", adapter.formatted_name, adapter.model.name)
+            end,
           },
           slash_commands = {
             ["file"] = {
@@ -48,6 +58,18 @@ return {
             },
           },
           variables = {
+            ["run_tests_command"] = {
+              ---@return string|fun(): nil
+              callback = function()
+                return require("utils.docker").docker_enabled()
+                    and "docker compose -f compose.local.yml run --rm --no-deps api ./vendor/bin/pest"
+                  or "./vendor/bin/pest"
+              end,
+              description = "Command for running tests",
+              opts = {
+                contains_code = false,
+              },
+            },
             ["docker_enabled"] = {
               ---@return string|fun(): nil
               callback = function()
@@ -63,11 +85,12 @@ return {
         inline = {
           adapter = {
             name = "copilot",
-            model = "gpt-4.1",
+            model = "gemini-2.0-flash-001",
           },
         },
-      },
-      adapters = {
+      }
+
+      opts.adapters = {
         anthropic = function()
           return require("codecompanion.adapters").extend("anthropic", {
             schema = {
@@ -97,36 +120,26 @@ return {
             },
           })
         end,
+        mistral = function()
+          return require("codecompanion.adapters").extend("mistral", {
+            schema = {
+              model = {
+                default = "claude-sonnet-4-20250514",
+              },
+            },
+            env = {
+              url = "https://codestral.mistral.ai/v1/fim/completions",
+              api_key = 'cmd:op read "op://Private/Mistral/CODESTRAL_API_KEY" --no-newline',
+              chat_url = "https://codestral.mistral.ai/v1/chat/completions",
+            },
+          })
+        end,
         openrouter = function()
-          local openai = require("codecompanion.adapters.openai")
           return require("codecompanion.adapters").extend("openai_compatible", {
             env = {
               url = "https://openrouter.ai/api",
               api_key = 'cmd:op read "op://Private/OpenRouter/API_KEY" --no-newline',
               chat_url = "/v1/chat/completions",
-            },
-            handlers = {
-              form_parameters = function(self, params, messages)
-                local result = openai.handlers.form_parameters(self, params, messages)
-                return result
-              end,
-              form_messages = function(self, messages)
-                local result = openai.handlers.form_messages(self, messages)
-
-                local fun = require("utils.functions")
-                fun.map(result.messages, function(v)
-                  local ok, json_res = pcall(function()
-                    return vim.fn.json_decode(v.content)
-                  end, "not a json")
-                  if ok then
-                    v.content = json_res
-                    return v
-                  end
-                  return v
-                end)
-
-                return result
-              end,
             },
             schema = {
               model = {
@@ -136,62 +149,27 @@ return {
           })
         end,
         ollama = function()
-          local openai = require("codecompanion.adapters.openai")
-
           return require("codecompanion.adapters").extend("ollama", {
+            schema = {
+              num_ctx = {
+                default = 1024 * 128,
+              },
+              model = {
+                default = "codestral:latest",
+              },
+            },
             opts = {
               stream = true,
               tools = true,
               vision = false,
             },
-            handlers = {
-              --- Use the OpenAI adapter for the bulk of the work
-              setup = function(self)
-                return openai.handlers.setup(self)
-              end,
-              tokens = function(self, data)
-                return openai.handlers.tokens(self, data)
-              end,
-              form_parameters = function(self, params, messages)
-                return openai.handlers.form_parameters(self, params, messages)
-              end,
-              form_messages = function(self, messages)
-                return openai.handlers.form_messages(self, messages)
-              end,
-              form_tools = function(self, tools)
-                return openai.handlers.form_tools(self, tools)
-              end,
-              chat_output = function(self, data)
-                return openai.handlers.chat_output(self, data)
-              end,
-              tools = {
-                format_tool_calls = function(self, tools)
-                  return openai.handlers.tools.format_tool_calls(self, tools)
-                end,
-                output_response = function(self, tool_call, output)
-                  return openai.handlers.tools.output_response(self, tool_call, output)
-                end,
-              },
-              inline_output = function(self, data, context)
-                return openai.handlers.inline_output(self, data, context)
-              end,
-              on_exit = function(self, data)
-                return openai.handlers.on_exit(self, data)
-              end,
-            },
-            schema = {
-              model = {
-                default = "qwen3:14b",
-              },
-              num_ctx = {
-                default = 20000,
-              },
-            },
           })
         end,
-      },
-      prompt_library = {},
-      extensions = {
+      }
+
+      opts.prompt_library = {}
+
+      opts.extensions = {
         mcphub = {
           enabled = true,
           callback = "mcphub.extensions.codecompanion",
@@ -202,11 +180,16 @@ return {
           },
         },
         vectorcode = {
-          enabled = true,
+          enabled = vim.fn.executable("vectorcode") == 1,
           opts = {
             add_tool = true,
             add_slash_command = true,
-            tool_opts = {},
+            ---@type VectorCode.CodeCompanion.ToolOpts
+            tool_opts = {
+              use_lsp = true,
+              auto_submit = { ls = false, query = false },
+              ls_on_start = true,
+            },
           },
         },
         history = {
@@ -221,21 +204,21 @@ return {
             delete_on_clearing_chat = false, ---When chat is cleared with `gx` delete the chat from history
             dir_to_save = vim.fn.stdpath("data") .. "/codecompanion-history", ---Directory path to save the chats
             enable_logging = false, ---Enable detailed logging for history extension
+            summary = {
+              create_summary_keymap = "gcs",
+              browse_summaries_keymap = "gbs",
+              preview_summary_keymap = "gps",
+
+              generation_opts = {
+                context_size = 90000,
+                include_references = true, -- Include slash command content (default: true)
+                include_tool_outputs = true, -- Include tool outputs (default: true)
+              },
+            },
           },
         },
-      },
-      window = {
-        width = 0.45,
-      },
-      display = {
-        action_palette = {
-          provider = "default",
-        },
-        diff = {
-          provider = "mini_diff",
-        },
-      },
-    },
+      }
+    end,
 
     keys = {
       {
@@ -334,17 +317,16 @@ return {
     version = "*", -- optional, depending on whether you're on nightly or release
     build = "uv tool upgrade vectorcode", -- optional but recommended. This keeps your CLI up-to-date.
     cmd = "VectorCode",
+    cond = function()
+      return vim.fn.executable("vectorcode") == 1
+    end,
     opts = function()
       return {
         async_backend = "lsp",
-        notify = true,
-        on_setup = { lsp = false },
-        n_query = 10,
-        timeout_ms = -1,
+        timeout_ms = 10 * 1000,
         async_opts = {
           events = { "BufWritePost" },
           single_job = true,
-          query_cb = require("vectorcode.utils").make_surrounding_lines_cb(40),
           debounce = -1,
           n_query = 30,
         },
@@ -374,148 +356,5 @@ return {
         end,
       },
     },
-  },
-
-  -- Minuet
-  {
-    "milanglacier/minuet-ai.nvim",
-    enabled = false,
-    event = "VeryLazy",
-    config = function(_, opts)
-      local num_docs = 10
-
-      local has_vc, vectorcode_config = pcall(require, "vectorcode.config")
-      local vectorcode_cacher = nil
-      if has_vc then
-        vectorcode_cacher = vectorcode_config.get_cacher_backend()
-      end
-
-      -- roughly equate to 2000 tokens for LLM
-      local RAG_Context_Window_Size = 8000
-
-      opts = {
-        add_single_line_entry = true,
-        n_completions = 1,
-        after_cursor_filter_length = 0,
-        provider = "openai_fim_compatible",
-        provider_options = {
-          openai = {
-            api_key = function()
-              local handle = io.popen('op read "op://Private/OpenAI/API_KEY" --no-newline')
-              if handle then
-                local result = handle:read("*a")
-                handle:close()
-                return result
-              else
-                return nil
-              end
-            end,
-          },
-          anthropic = {
-            api_key = function()
-              local handle = io.popen('op read "op://Private/Anthropic/API_KEY" --no-newline')
-              if handle then
-                local result = handle:read("*a")
-                handle:close()
-                return result
-              else
-                return nil
-              end
-            end,
-          },
-          openai_fim_compatible = {
-            model = os.getenv("OLLAMA_CODE_MODEL"),
-            template = {
-              prompt = function(pref, suff, _)
-                local prompt_message = ""
-                if has_vc then
-                  for _, file in ipairs(vectorcode_cacher.query_from_cache(0)) do
-                    prompt_message = prompt_message .. "<|file_sep|>" .. file.path .. "\n" .. file.document
-                  end
-                end
-
-                prompt_message = vim.fn.strcharpart(prompt_message, 0, RAG_Context_Window_Size)
-
-                return prompt_message .. "<|fim_prefix|>" .. pref .. "<|fim_suffix|>" .. suff .. "<|fim_middle|>"
-              end,
-              suffix = false,
-            },
-          },
-        },
-        request_timeout = 10,
-      }
-      local num_ctx = 1024 * 32
-      local job = require("plenary.job"):new({
-        command = "curl",
-        args = { os.getenv("OLLAMA_HOST"), "--connect-timeout", "1" },
-        on_exit = function(self, code, signal)
-          if code == 0 then
-            opts.provider_options.openai_fim_compatible = {
-              api_key = "TERM",
-              name = "Ollama",
-              stream = false,
-              end_point = os.getenv("OLLAMA_HOST") .. "/v1/completions",
-              model = os.getenv("OLLAMA_CODE_MODEL"),
-              optional = {
-                max_tokens = 256,
-                num_ctx = num_ctx,
-              },
-              template = {
-                prompt = function(pref, suff)
-                  if vim.bo.filetype == "gitcommit" then
-                    local git_diff = vim.system({ "git", "diff" }, {}, nil):wait().stdout
-                    if git_diff then
-                      return "You are a experienced software developer, writing a conventional git commit message for the following patch.<|file_sep|>"
-                        .. git_diff
-                        .. "<|fim_middle|>"
-                    end
-                  end
-                  local prompt_message = ([[Perform fill-in-middle from the following snippet of a %s code. Respond with only the filled in code.]]):format(
-                    vim.bo.filetype
-                  )
-                  local has_vc, vectorcode_config = pcall(require, "vectorcode.config")
-                  if has_vc then
-                    local cache_result = vectorcode_config.get_cacher_backend().make_prompt_component(0)
-                    num_docs = cache_result.count
-                    prompt_message = prompt_message .. cache_result.content
-                  end
-
-                  return prompt_message .. "<|fim_prefix|>" .. pref .. "<|fim_suffix|>" .. suff .. "<|fim_middle|>"
-                end,
-                suffix = false,
-              },
-            }
-          end
-          vim.schedule(function()
-            require("minuet").setup(opts)
-            local openai_fim_compatible = require("minuet.backends.openai_fim_compatible")
-            local orig_get_text_fn = openai_fim_compatible.get_text_fn
-            openai_fim_compatible.get_text_fn = function(json)
-              local bufnr = vim.api.nvim_get_current_buf()
-              local co = coroutine.create(function()
-                vim.b[bufnr].ai_raw_response = json
-                local has_vc, vectorcode_config = pcall(require, "vectorcode.config")
-                if not has_vc then
-                  return
-                end
-                if vectorcode_config.get_cacher_backend().buf_is_registered() then
-                  local new_num_query = num_docs
-                  if json.usage.total_tokens > num_ctx then
-                    new_num_query = math.max(num_docs - 1, 1)
-                  elseif json.usage.total_tokens < num_ctx * 0.9 then
-                    new_num_query = num_docs + 1
-                  end
-                  vectorcode_config.get_cacher_backend().register_buffer(0, { n_query = new_num_query })
-                end
-              end)
-              coroutine.resume(co)
-              return orig_get_text_fn(json)
-            end
-          end)
-        end,
-      })
-      job:start()
-    end,
-    dependencies = { "ibhagwan/fzf-lua" },
   },
 }
