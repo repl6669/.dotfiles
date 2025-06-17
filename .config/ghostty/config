@@ -3,7 +3,7 @@ theme = repl69
 background-opacity = 0.80
 background-blur = 20
 
-font-family = "TX02"
+font-family = "TX-02"
 font-family = "JetBrainsMono Nerd Font Mono"
 font-size = 18
 
