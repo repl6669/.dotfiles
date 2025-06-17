@@ -42,8 +42,7 @@ end
 
 function M:create_progress_handle(request)
   return progress.handle.create({
-    -- title = "  Requesting assistance (" .. request.data.strategy .. ")",
-    title = "",
+    title = "  Requesting assistance (" .. request.data.strategy .. ")",
     message = "  Sending...",
     lsp_client = {
       name = M:llm_role_title(request.data.adapter),
@@ -62,7 +61,7 @@ end
 
 function M:report_exit_status(handle, request)
   if request.data.status == "success" then
-    handle.message = "Completed"
+    handle.message = "✓ Completed"
   elseif request.data.status == "error" then
     handle.message = " Error"
   else
