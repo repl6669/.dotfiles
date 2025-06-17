@@ -18,6 +18,14 @@ export PATH="$HOME/.local/share/nvim/mason/bin:$PATH"
 export OLLAMA_HOST="127.0.0.1"
 export OLLAMA_CODE_MODEL="qwen2.5-coder:14b" # qwen3:14b
 
+# Chroma settings
+export CHROMA_CLIENT_TYPE="http"
+export CHROMA_DATA_DIR="$HOME/.local/share/vectorcode"
+export CHROMA_HOST="http://127.0.0.1"
+export CHROMA_PORT="6131"
+export CHROMA_CUSTOM_AUTH_CREDENTIALS=
+export CHROMA_SSL="false"
+
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
