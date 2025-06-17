@@ -8,6 +8,7 @@ return {
       css = { "prettierd" },
       html = { "prettierd" },
       javascript = { "prettierd" },
+      kdl = { "kdlfmt" },
       json = { "prettierd" },
       jsonc = { "prettierd" },
       json5 = { "prettierd" },
