@@ -1,33 +1,235 @@
-// Repl69 Zellij Colors
-// Add this file to your `CONFIG_DIR/themes` directory as described here:
-// https://zellij.dev/documentation/themes#getting-zellij-to-pick-up-the-theme
-
 themes {
-	repl69 {
-		fg "#7a7a7a"
-	    bg "#000000"
-		black "#000000"
-		red "#4e4e4e"
-		green "#c2c2c2"
-		yellow "#666666"
-		blue "#525252"
-		magenta "#3d3d3d"
-		cyan "#3d3d3d"
-		white "#7a7a7a"
-		orange "#dc4a00"
-	};
-
-	repl69-color {
-		fg "#7a7a7a"
-	    bg "#000000"
-		black "#000000"
-		red "#4e4e4e"
-		green "#09aa6f"
-		yellow "#666666"
-		blue "#525252"
-		magenta "#3d3d3d"
-		cyan "#3d3d3d"
-		white "#7a7a7a"
-		orange "#dc4a00"
-	};
+    repl69 {
+        text_unselected {
+            base 122 122 122
+            background 0 0 0
+            emphasis_0 220 74 0
+            emphasis_1 194 194 194
+            emphasis_2 102 102 102
+            emphasis_3 78 78 78
+        }
+        text_selected {
+            base 122 122 122
+            background 82 82 82
+            emphasis_0 220 74 0
+            emphasis_1 194 194 194
+            emphasis_2 102 102 102
+            emphasis_3 78 78 78
+        }
+        ribbon_selected {
+            base 0 0 0
+            background 194 194 194
+            emphasis_0 78 78 78
+            emphasis_1 220 74 0
+            emphasis_2 61 61 61
+            emphasis_3 82 82 82
+        }
+        ribbon_unselected {
+            base 0 0 0
+            background 122 122 122
+            emphasis_0 78 78 78
+            emphasis_1 122 122 122
+            emphasis_2 82 82 82
+            emphasis_3 61 61 61
+        }
+        table_title {
+            base 194 194 194
+            background 0 0 0
+            emphasis_0 220 74 0
+            emphasis_1 82 82 82
+            emphasis_2 61 61 61
+            emphasis_3 0 0 0
+        }
+        table_cell_selected {
+            base 122 122 122
+            background 82 82 82
+            emphasis_0 220 74 0
+            emphasis_1 194 194 194
+            emphasis_2 102 102 102
+            emphasis_3 78 78 78
+        }
+        table_cell_unselected {
+            base 122 122 122
+            background 0 0 0
+            emphasis_0 220 74 0
+            emphasis_1 194 194 194
+            emphasis_2 102 102 102
+            emphasis_3 78 78 78
+        }
+        list_selected {
+            base 122 122 122
+            background 82 82 82
+            emphasis_0 220 74 0
+            emphasis_1 194 194 194
+            emphasis_2 102 102 102
+            emphasis_3 78 78 78
+        }
+        list_unselected {
+            base 122 122 122
+            background 0 0 0
+            emphasis_0 220 74 0
+            emphasis_1 194 194 194
+            emphasis_2 102 102 102
+            emphasis_3 78 78 78
+        }
+        frame_selected {
+            base 194 194 194
+            background 0 0 0
+            emphasis_0 220 74 0
+            emphasis_1 82 82 82
+            emphasis_2 61 61 61
+            emphasis_3 0 0 0
+        }
+        frame_highlight {
+            base 220 74 0
+            background 0 0 0
+            emphasis_0 220 74 0
+            emphasis_1 220 74 0
+            emphasis_2 220 74 0
+            emphasis_3 220 74 0
+        }
+        exit_code_success {
+            base 194 194 194
+            background 0 0 0
+            emphasis_0 82 82 82
+            emphasis_1 0 0 0
+            emphasis_2 61 61 61
+            emphasis_3 82 82 82
+        }
+        exit_code_error {
+            base 220 74 0
+            background 0 0 0
+            emphasis_0 102 102 102
+            emphasis_1 0 0 0
+            emphasis_2 0 0 0
+            emphasis_3 0 0 0
+        }
+        multiplayer_user_colors {
+            player_1 220 74 0
+            player_2 194 194 194
+            player_3 82 82 82
+            player_4 102 102 102
+            player_5 61 61 61
+            player_6 78 78 78
+            player_7 122 122 122
+            player_8 0 0 0
+        }
+    }
+    "repl69-color" {
+        text_unselected {
+            base 122 122 122
+            background 0 0 0
+            emphasis_0 220 74 0
+            emphasis_1 9 170 111
+            emphasis_2 102 102 102
+            emphasis_3 78 78 78
+        }
+        text_selected {
+            base 122 122 122
+            background 82 82 82
+            emphasis_0 220 74 0
+            emphasis_1 9 170 111
+            emphasis_2 102 102 102
+            emphasis_3 78 78 78
+        }
+        ribbon_selected {
+            base 0 0 0
+            background 9 170 111
+            emphasis_0 78 78 78
+            emphasis_1 220 74 0
+            emphasis_2 61 61 61
+            emphasis_3 82 82 82
+        }
+        ribbon_unselected {
+            base 0 0 0
+            background 122 122 122
+            emphasis_0 78 78 78
+            emphasis_1 122 122 122
+            emphasis_2 82 82 82
+            emphasis_3 61 61 61
+        }
+        table_title {
+            base 9 170 111
+            background 0 0 0
+            emphasis_0 220 74 0
+            emphasis_1 82 82 82
+            emphasis_2 61 61 61
+            emphasis_3 0 0 0
+        }
+        table_cell_selected {
+            base 122 122 122
+            background 82 82 82
+            emphasis_0 220 74 0
+            emphasis_1 9 170 111
+            emphasis_2 102 102 102
+            emphasis_3 78 78 78
+        }
+        table_cell_unselected {
+            base 122 122 122
+            background 0 0 0
+            emphasis_0 220 74 0
+            emphasis_1 9 170 111
+            emphasis_2 102 102 102
+            emphasis_3 78 78 78
+        }
+        list_selected {
+            base 122 122 122
+            background 82 82 82
+            emphasis_0 220 74 0
+            emphasis_1 9 170 111
+            emphasis_2 102 102 102
+            emphasis_3 78 78 78
+        }
+        list_unselected {
+            base 122 122 122
+            background 0 0 0
+            emphasis_0 220 74 0
+            emphasis_1 9 170 111
+            emphasis_2 102 102 102
+            emphasis_3 78 78 78
+        }
+        frame_selected {
+            base 9 170 111
+            background 0 0 0
+            emphasis_0 220 74 0
+            emphasis_1 82 82 82
+            emphasis_2 61 61 61
+            emphasis_3 0 0 0
+        }
+        frame_highlight {
+            base 220 74 0
+            background 0 0 0
+            emphasis_0 220 74 0
+            emphasis_1 220 74 0
+            emphasis_2 220 74 0
+            emphasis_3 220 74 0
+        }
+        exit_code_success {
+            base 9 170 111
+            background 0 0 0
+            emphasis_0 82 82 82
+            emphasis_1 0 0 0
+            emphasis_2 61 61 61
+            emphasis_3 82 82 82
+        }
+        exit_code_error {
+            base 220 74 0
+            background 0 0 0
+            emphasis_0 102 102 102
+            emphasis_1 0 0 0
+            emphasis_2 0 0 0
+            emphasis_3 0 0 0
+        }
+        multiplayer_user_colors {
+            player_1 220 74 0
+            player_2 9 170 111
+            player_3 82 82 82
+            player_4 102 102 102
+            player_5 61 61 61
+            player_6 78 78 78
+            player_7 122 122 122
+            player_8 0 0 0
+        }
+    }
 }
+
