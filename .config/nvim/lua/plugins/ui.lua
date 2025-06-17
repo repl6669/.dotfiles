@@ -36,4 +36,27 @@ return {
       end,
     },
   },
+
+  {
+    "3rd/image.nvim",
+    filetypes = { "markdown" },
+    dependencies = { "leafo/magick" },
+    cond = function()
+      return vim.fn.executable("magick") == 1 and vim.fn.executable("lua5.1") == 1
+    end,
+    opts = function()
+      return {
+        backend = "kitty",
+        max_width_window_percentage = 200 / 3,
+        integrations = {
+          markdown = {
+            clear_in_insert_mode = true,
+            only_render_image_at_cursor = true,
+          },
+        },
+        window_overlap_clear_enabled = true,
+        editor_only_render_when_focused = true,
+      }
+    end,
+  },
 }
