@@ -32,8 +32,8 @@ vim.bo.tabstop = 4 -- Number of spaces in a tab
 vim.opt.spelllang = {} -- Set spell checking languages { "en", "cs" }
 
 -- Transparency
-vim.opt.winblend = 10 -- Global transparency for floating windows
-vim.opt.pumblend = 10 -- Popup transparency
+vim.opt.winblend = 0 -- Global transparency for floating windows
+vim.opt.pumblend = 0 -- Popup transparency
 
 -- Floating windows
 vim.o.winborder = "rounded"
