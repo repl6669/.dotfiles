@@ -115,13 +115,13 @@ themes {
             player_8 0 0 0
         }
     }
-    "repl69-color" {
+    repl69-color {
         text_unselected {
             base 122 122 122
             background 0 0 0
             emphasis_0 220 74 0
             emphasis_1 9 170 111
-            emphasis_2 102 102 102
+            emphasis_2 9 170 111
             emphasis_3 78 78 78
         }
         text_selected {
