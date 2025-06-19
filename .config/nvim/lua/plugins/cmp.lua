@@ -54,6 +54,11 @@ return {
     "hrsh7th/cmp-nvim-lsp-signature-help",
     "SergioRibera/cmp-dotenv",
     "lukas-reineke/cmp-rg",
+    -- Ensure we have the render-markdown completion source
+    {
+      "MeanderingProgrammer/render-markdown.nvim",
+      optional = true,
+    },
     {
       "epwalsh/obsidian.nvim",
       opts = function(_, opts)

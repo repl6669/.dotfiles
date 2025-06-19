@@ -1,122 +1,166 @@
 return {
+  -- Native phpactor configuration using our custom implementation
   {
-    "gbprod/phpactor.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim", -- required to update phpactor
-      "neovim/nvim-lspconfig", -- required to automatically register lsp server
-      "folke/trouble.nvim", -- required to show phpactor errors
-    },
-    ft = { "php", "blade" },
-    opts = {
-      install = {
-        -- path = vim.fn.stdpath("data") .. "/opt/",
-        branch = "master",
-        bin = vim.fn.stdpath("data") .. "/mason/packages/phpactor/phpactor.phar",
-        php_bin = "php",
-        -- php_bin = (
-        --   require("utils.docker").docker_enabled()
-        --   and "docker compose -f"
-        --     .. require("lazyvim.util").root.get({ normalize = true })
-        --     .. "/compose.local.yml exec api php"
-        -- ) or "php",
-        composer_bin = "composer",
-        git_bin = "git",
-        check_on_startup = "none",
-      },
-      lspconfig = {
-        options = {
-          cmd = { vim.fn.stdpath("data") .. "/mason/bin/phpactor", "language-server" },
-        },
-      },
-    },
+    "folke/trouble.nvim", -- Still needed for phpstan integration
+    optional = true,
+  },
+
+  {
+    "LazyVim/LazyVim",
+    opts = function()
+      -- Setup phpactor commands and keymaps
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = { "php", "blade" },
+        callback = function()
+          local phpactor = require("utils.phpactor")
+
+          -- Configure phpactor for Docker if needed
+          -- Uncomment and modify this if you use Docker
+          -- if require("utils.docker").docker_enabled() then
+          --   phpactor.config.php_bin = "docker compose -f " ..
+          --     require("lazyvim.util").root.get({ normalize = true }) ..
+          --     "/compose.local.yml exec api php"
+          -- end
+        end,
+      })
+
+      -- Create phpactor commands
+      vim.api.nvim_create_user_command("PhpActor", function(opts)
+        local phpactor = require("utils.phpactor")
+        if opts.args == "" then
+          phpactor.context_menu()
+        else
+          -- Handle specific phpactor commands
+          local commands = {
+            context_menu = phpactor.context_menu,
+            import_class = phpactor.import_class,
+            import_missing_classes = phpactor.import_missing_classes,
+            new_class = phpactor.new_class,
+            change_visibility = phpactor.change_visibility,
+            expand_class = phpactor.expand_class,
+            transform = phpactor.transform,
+            copy_class = phpactor.copy_class,
+            cache_clear = phpactor.cache_clear,
+            status = phpactor.status,
+            reindex = phpactor.reindex,
+          }
+
+          local cmd = commands[opts.args]
+          if cmd then
+            cmd()
+          else
+            vim.notify("Unknown phpactor command: " .. opts.args, vim.log.levels.ERROR)
+          end
+        end
+      end, {
+        nargs = "?",
+        complete = function()
+          return {
+            "context_menu",
+            "import_class",
+            "import_missing_classes",
+            "new_class",
+            "change_visibility",
+            "expand_class",
+            "transform",
+            "copy_class",
+            "cache_clear",
+            "status",
+            "reindex",
+          }
+        end,
+        desc = "Phpactor commands",
+      })
+    end,
+
     keys = {
       {
         "<leader>cpc",
         function()
-          require("phpactor").rpc("context_menu", {})
+          require("utils.phpactor").context_menu()
         end,
-        mode = { "n" },
-        desc = "Open PhpActor Context Menu",
+        ft = { "php", "blade" },
+        desc = "phpactor: Context Menu",
       },
       {
         "<leader>cpic",
         function()
-          require("phpactor").rpc("import_class", {})
+          require("utils.phpactor").import_class()
         end,
-        mode = { "n" },
-        desc = "Import Class",
+        ft = { "php", "blade" },
+        desc = "phpactor: Import Class",
       },
       {
         "<leader>cpim",
         function()
-          require("phpactor").rpc("import_missing_classes", {})
+          require("utils.phpactor").import_missing_classes()
         end,
-        mode = { "n" },
-        desc = "Import Missing Classes",
+        ft = { "php", "blade" },
+        desc = "phpactor: Import Missing Classes",
       },
       {
         "<leader>cpn",
         function()
-          require("phpactor").rpc("class_new", {})
+          require("utils.phpactor").new_class()
         end,
-        mode = { "n" },
-        desc = "New Class",
+        ft = { "php", "blade" },
+        desc = "phpactor: New Class",
       },
       {
         "<leader>cpv",
         function()
-          require("phpactor").rpc("change_visibility", {})
+          require("utils.phpactor").change_visibility()
         end,
-        mode = { "n" },
-        desc = "Change Visibility",
+        ft = { "php", "blade" },
+        desc = "phpactor: Change Visibility",
       },
       {
         "<leader>cpe",
         function()
-          require("phpactor").rpc("expand_class", {})
+          require("utils.phpactor").expand_class()
         end,
-        mode = { "n" },
-        desc = "Expand Class",
+        ft = { "php", "blade" },
+        desc = "phpactor: Expand Class",
       },
       {
         "<leader>cpt",
         function()
-          require("phpactor").rpc("transform", {})
+          require("utils.phpactor").transform()
         end,
-        mode = { "n" },
-        desc = "Transform Class",
+        ft = { "php", "blade" },
+        desc = "phpactor: Transform",
       },
       {
         "<leader>cpy",
         function()
-          require("phpactor").rpc("copy_class", {})
+          require("utils.phpactor").copy_class()
         end,
-        mode = { "n" },
-        desc = "Copy Class Name",
+        ft = { "php", "blade" },
+        desc = "phpactor: Copy Class Name",
       },
       {
         "<leader>cpx",
         function()
-          require("phpactor").rpc("cache_clear", {})
+          require("utils.phpactor").cache_clear()
         end,
-        mode = { "n" },
-        desc = "Clear PhpActor Cache",
+        ft = { "php", "blade" },
+        desc = "phpactor: Clear Cache",
       },
       {
         "<leader>cpls",
         function()
-          require("phpactor").rpc("status", {})
+          require("utils.phpactor").status()
         end,
-        mode = { "n" },
-        desc = "PhpActor LSP Status",
+        ft = { "php", "blade" },
+        desc = "phpactor: LSP Status",
       },
       {
         "<leader>cplr",
         function()
-          require("phpactor").rpc("reindex", {})
+          require("utils.phpactor").reindex()
         end,
-        mode = { "n" },
-        desc = "Reindex PhpActor LSP",
+        ft = { "php", "blade" },
+        desc = "phpactor: Reindex LSP",
       },
       -- Phpstan
       {

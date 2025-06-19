@@ -10,14 +10,20 @@ return {
         },
       },
       ensure_installed = {
+        -- LSP servers
+        "docker-compose-language-service",
+        "dockerfile-language-server",
+        "typescript-language-server",
+        "vtsls",
+        "tailwindcss-language-server",
+        "vue-language-server",
+        "phpactor",
+        -- Other tools
         "php-debug-adapter",
         "markdownlint",
         "marksman",
       },
     },
-  },
-  {
-    "mason-org/mason-lspconfig.nvim",
   },
   {
     "jay-babu/mason-nvim-dap.nvim",
