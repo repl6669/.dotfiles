@@ -1,5 +1,5 @@
 return {
-  cmd = { "vectorcode-server", "--stdio" },
-  filetypes = { "*" }, -- All filetypes
+  cmd = { "vectorcode-server" },
+  filetypes = { "*" },
   root_markers = { ".git", ".vectorcode" },
 }
