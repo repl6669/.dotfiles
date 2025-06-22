@@ -3,6 +3,12 @@ return {
   enabled = false,
   ft = "markdown",
   version = "*",
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    "hrsh7th/nvim-cmp",
+    "ibhagwan/fzf-lua",
+    "nvim-treesitter",
+  },
   ui = {
     enable = false,
     -- hl_groups = require("repl69.plugins.obsidian"),
@@ -30,7 +36,10 @@ return {
       date_format = "%Y%m%d",
       time_format = "%H:%M",
     },
-    completion = {},
+    completion = {
+      nvim_cmp = true,
+      min_chars = 3,
+    },
     note_id_func = function(title)
       -- Create note IDs in a Zettelkasten format with a timestamp and a suffix.
       local suffix = ""
@@ -53,6 +62,7 @@ return {
     { "<leader>ob", ":ObsidianBacklinks<cr>", desc = "Get List of References" }, -- for getting a location list of references to the current buffer.
     { "<leader>ot", ":ObsidianToday<cr>", desc = "Create Daily Note" }, -- to create a new daily note.
     { "<leader>oy", ":ObsidianYesterday<cr>", desc = "Open or Create Note for Previous Working Day" }, -- to open (eventually creating) the daily note for the previous working day.
+    { "<leader>od", ":ObsidianDailies -7 0<CR>", desc = "Get List of Daily Notes" }, -- get list of daily notes for the last 7 days.
     { "<leader>oo", ":ObsidianOpen<cr>", desc = "Open Note in Obsidian app" }, -- to open a note in the Obsidian app. This command has one optional argument: the ID, path, or alias of the note to open. If not given, the note corresponding to the current buffer is opened.
     { "<leader>oc", ":ObsidianNew ", desc = "Create New Note" }, -- to create a new note. This command has one optional argument: the title of the new note.
     { "<leader>oC", ":ObsidianNew<cr>", desc = "Create New Random Note" }, -- to create a new note. This command has one optional argument: the title of the new note.
