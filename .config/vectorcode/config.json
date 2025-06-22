@@ -1,0 +1,4 @@
+{
+  "db_url": "http://127.0.0.1:6131/api/embeddings",
+  "model_name": "nomic-embed-text"
+}
