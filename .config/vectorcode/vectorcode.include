@@ -1,0 +1,7 @@
+api/**/*.php
+api/**/*.md
+api/**/*.json
+client/**/.ts
+client/**/.vue
+client/**/.js
+client/**/*.md
