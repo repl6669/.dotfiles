@@ -181,14 +181,27 @@ return {
         },
         vectorcode = {
           enabled = vim.fn.executable("vectorcode") == 1,
+          ---@type VectorCode.CodeCompanion.ExtensionOpts
           opts = {
-            add_tool = true,
-            add_slash_command = true,
-            ---@type VectorCode.CodeCompanion.ToolOpts
+            tool_group = {
+              enabled = true,
+              extras = { "file_search" },
+              collapse = false,
+            },
             tool_opts = {
-              use_lsp = true,
-              auto_submit = { ls = false, query = false },
-              ls_on_start = true,
+              ---@type VectorCode.CodeCompanion.LsToolOpts
+              ls = { use_lsp = true },
+              ---@type VectorCode.CodeCompanion.VectoriseToolOpts
+              vectorise = {
+                use_lsp = true,
+                requires_approval = false,
+              },
+              ---@type VectorCode.CodeCompanion.QueryToolOpts
+              query = {
+                default_num = { document = 15, chunks = 100 },
+                chunk_mode = true,
+                use_lsp = true,
+              },
             },
           },
         },
@@ -323,13 +336,11 @@ return {
     opts = function()
       return {
         async_backend = "lsp",
+        notify = true,
+        on_setup = { lsp = true },
+        n_query = 10,
         timeout_ms = 10 * 1000,
-        async_opts = {
-          events = { "BufWritePost" },
-          single_job = true,
-          debounce = -1,
-          n_query = 30,
-        },
+        async_opts = {},
       }
     end,
     config = function(_, opts)
@@ -337,6 +348,7 @@ return {
     end,
     dependencies = {
       "nvim-lua/plenary.nvim",
+      "j-hui/fidget.nvim",
 
       {
         "nvim-lualine/lualine.nvim",
