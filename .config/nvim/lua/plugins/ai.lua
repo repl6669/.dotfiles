@@ -22,12 +22,12 @@ return {
         chat = {
           adapter = {
             name = "copilot",
-            model = "claude-sonnet-4",
+            model = "gpt-4.1",
           },
           roles = {
             ---@type string|fun(adapter: CodeCompanion.Adapter): string
             llm = function(adapter)
-              return string.format("%s %s (%s)", "repl6669", adapter.formatted_name, adapter.model.name)
+              return string.format("%s (%s)", adapter.formatted_name, adapter.model.name)
             end,
           },
           slash_commands = {
@@ -96,6 +96,12 @@ return {
             schema = {
               model = {
                 default = "claude-sonnet-4-20250514",
+              },
+              temperature = {
+                default = 0,
+              },
+              top_p = {
+                default = 1,
               },
             },
             env = {
