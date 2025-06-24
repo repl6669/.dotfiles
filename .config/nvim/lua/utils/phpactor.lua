@@ -26,12 +26,12 @@ end
 
 function utils.path(bufnr)
   bufnr = bufnr or 0
-  
+
   -- regular file
   if vim.api.nvim_get_option_value("buftype", { buf = bufnr }) == "" then
     return vim.api.nvim_buf_get_name(bufnr) or vim.uv.cwd()
   end
-  
+
   -- neo-tree support
   if vim.api.nvim_get_option_value("filetype", { buf = bufnr }) == "neo-tree" then
     local ok, state = pcall(require, "neo-tree.sources.manager")
@@ -42,7 +42,7 @@ function utils.path(bufnr)
       end
     end
   end
-  
+
   return vim.uv.cwd()
 end
 
@@ -52,7 +52,7 @@ function utils.get_root_dir()
   if #clients > 0 then
     return clients[1].config.root_dir or vim.uv.cwd()
   end
-  
+
   -- Fallback to current working directory
   return vim.uv.cwd()
 end
@@ -60,7 +60,7 @@ end
 function utils.open_message_win(content)
   local bufnr = vim.api.nvim_create_buf(false, true)
   vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, content)
-  
+
   vim.api.nvim_open_win(bufnr, true, {
     relative = "win",
     style = "minimal",
@@ -77,11 +77,11 @@ function utils.get_default_register()
   if vim.tbl_contains(clipboard_flags, "unnamedplus") then
     return "+"
   end
-  
+
   if vim.tbl_contains(clipboard_flags, "unnamed") then
     return "*"
   end
-  
+
   return '"'
 end
 
@@ -89,35 +89,26 @@ end
 function M.call(action, parameters, options)
   options = options or {}
   local request = { action = action, parameters = parameters }
-  
+
   local workspace_dir = utils.get_root_dir()
-  
-  local cmd = string.format(
-    '%s %s rpc --working-dir "%s"',
-    M.config.php_bin,
-    M.config.phpactor_bin,
-    workspace_dir
-  )
-  
+
+  local cmd = string.format('%s %s rpc --working-dir "%s"', M.config.php_bin, M.config.phpactor_bin, workspace_dir)
+
   local result = vim.fn.system(cmd, vim.fn.json_encode(request))
-  
+
   if vim.v.shell_error ~= 0 then
     vim.notify("Phpactor error: " .. result, vim.log.levels.ERROR, { title = "phpactor" })
     return
   end
-  
+
   local response = vim.fn.json_decode(result)
   local handler_name = "handle_" .. response.action
-  
+
   if M[handler_name] == nil then
-    vim.notify(
-      "Unknown phpactor action: " .. response.action,
-      vim.log.levels.ERROR,
-      { title = "phpactor" }
-    )
+    vim.notify("Unknown phpactor action: " .. response.action, vim.log.levels.ERROR, { title = "phpactor" })
     return
   end
-  
+
   return M[handler_name](response.parameters, options)
 end
 
@@ -143,13 +134,9 @@ end
 function M.handle_collection(parameters, options)
   for _, action in pairs(parameters.actions) do
     local handler_name = "handle_" .. action.name
-    
+
     if M[handler_name] == nil then
-      vim.notify(
-        "Unknown phpactor action: " .. action.name,
-        vim.log.levels.ERROR,
-        { title = "phpactor" }
-      )
+      vim.notify("Unknown phpactor action: " .. action.name, vim.log.levels.ERROR, { title = "phpactor" })
     else
       M[handler_name](action.parameters, options)
     end
@@ -172,7 +159,7 @@ end
 function M.handle_update_file_source(parameters)
   for _, edit in pairs(parameters.edits) do
     local bufnr = vim.fn.bufadd(parameters.path)
-    
+
     vim.api.nvim_buf_set_lines(
       bufnr,
       edit.start.line,
@@ -185,10 +172,10 @@ end
 
 function M.handle_input_callback(parameters)
   local input = table.remove(parameters.inputs)
-  
+
   if input.type == "list" or input.type == "choice" then
-    vim.ui.select(vim.tbl_values(input.parameters.choices), { 
-      prompt = input.parameters.label 
+    vim.ui.select(vim.tbl_values(input.parameters.choices), {
+      prompt = input.parameters.label,
     }, function(item)
       if item then
         parameters.callback.parameters[input.name] = item
@@ -197,16 +184,16 @@ function M.handle_input_callback(parameters)
     end)
     return
   end
-  
+
   if input.type == "text" then
-    local opts = { 
-      prompt = input.parameters.label, 
-      default = input.parameters.default 
+    local opts = {
+      prompt = input.parameters.label,
+      default = input.parameters.default,
     }
     if input.parameters.type == "file" then
       opts.completion = "file"
     end
-    
+
     vim.ui.input(opts, function(item)
       if item then
         parameters.callback.parameters[input.name] = item
@@ -215,10 +202,10 @@ function M.handle_input_callback(parameters)
     end)
     return
   end
-  
+
   if input.type == "confirm" then
-    vim.ui.select({ "Yes", "No" }, { 
-      prompt = input.parameters.label 
+    vim.ui.select({ "Yes", "No" }, {
+      prompt = input.parameters.label,
     }, function(item)
       if item == "Yes" then
         parameters.callback.parameters[input.name] = true
@@ -227,7 +214,7 @@ function M.handle_input_callback(parameters)
     end)
     return
   end
-  
+
   vim.notify("Unknown input type: " .. input.type, vim.log.levels.ERROR, { title = "phpactor" })
 end
 
@@ -241,12 +228,12 @@ end
 function M.handle_open_file(parameters, options)
   local target = options.target or parameters.target or "edit"
   local bufnr = vim.fn.bufnr(parameters.path .. "$")
-  
+
   if bufnr ~= -1 and target == "focused_window" then
     vim.api.nvim_win_set_buf(vim.api.nvim_get_current_win(), bufnr)
     return
   end
-  
+
   -- Convert target to vim command
   local open_cmd = target
   if target == "focused_window" then
@@ -256,13 +243,13 @@ function M.handle_open_file(parameters, options)
   elseif target == "new_tab" then
     open_cmd = "tabedit"
   end
-  
+
   vim.cmd(string.format("%s %s", open_cmd, vim.fn.fnameescape(parameters.path)))
-  
+
   if bufnr ~= -1 and parameters.force_reload then
     vim.cmd("edit!")
   end
-  
+
   if parameters.offset then
     vim.cmd(string.format("goto %s", parameters.offset + 1))
   end
@@ -270,12 +257,12 @@ end
 
 function M.handle_replace_file_source(parameters)
   local bufnr = vim.fn.bufnr(parameters.path .. "$")
-  
+
   if bufnr == -1 then
     vim.cmd(string.format("edit %s", vim.fn.fnameescape(parameters.path)))
     bufnr = vim.fn.bufnr(parameters.path .. "$")
   end
-  
+
   vim.api.nvim_buf_set_lines(bufnr, 0, -1, true, vim.split(parameters.source, "\n", {}))
 end
 
@@ -322,10 +309,16 @@ function M.change_visibility()
 end
 
 function M.expand_class()
-  M.call("expand_class", {
-    offset = utils.offset(),
-    source = utils.source(),
-    current_path = utils.path(),
+  local word = vim.fn.expand("<cword>")
+  M.call("class_search", {
+    short_name = word,
+  }, {
+    callback = function(class_info)
+      if class_info == nil then
+        return
+      end
+      vim.cmd(string.format("normal! ciw%s", class_info["class"]))
+    end,
   })
 end
 
@@ -346,7 +339,7 @@ function M.copy_class()
     callback = function(class_name)
       vim.fn.setreg(utils.get_default_register(), class_name)
       vim.notify("Copied: " .. class_name, vim.log.levels.INFO, { title = "phpactor" })
-    end
+    end,
   })
 end
 
