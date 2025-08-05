@@ -11,8 +11,10 @@ export PATH="/opt/homebrew/sbin:$PATH"
 export PATH="$PATH:$HOME/.composer/vendor/bin"
 export PATH="./vendor/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$PATH:$(go env GOPATH)/bin"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.local/share/nvim/mason/bin:$PATH"
+export XDG_RUNTIME_DIR=$TMPDIR
 
 # Ollama settings
 export OLLAMA_HOST="127.0.0.1"
