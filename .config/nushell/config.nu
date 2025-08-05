@@ -108,3 +108,4 @@ source ~/.zoxide.nu
 source ~/.cache/carapace/init.nu
 
 use ~/.cache/starship/init.nu
+source $"($nu.home-path)/.cargo/env.nu"
