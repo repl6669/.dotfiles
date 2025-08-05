@@ -85,7 +85,7 @@ return {
         inline = {
           adapter = {
             name = "copilot",
-            model = "gemini-2.0-flash-001",
+            model = "gemini-2.5-flash",
           },
         },
       }
@@ -278,9 +278,10 @@ return {
         dependencies = {
           {
             "nvim-lualine/lualine.nvim",
-            opts = function(_, opts)
-              table.insert(opts.sections.lualine_x, { require("mcphub.extensions.lualine") })
-            end,
+            -- WARNING: Deprecated
+            -- opts = function(_, opts)
+            --   table.insert(opts.sections.lualine_x, { require("mcphub.extensions.lualine") })
+            -- end,
           },
         },
       },
