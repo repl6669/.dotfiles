@@ -46,6 +46,9 @@ alias push="git push"                                       # Git push
 alias unstage="git restore --staged ."                      # Git unstage
 alias wip="commit wip"                                      # Git commit wip
 
+## Tailscale
+alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
+
 ## Github
 eval "$(gh copilot alias -- zsh)"
 
