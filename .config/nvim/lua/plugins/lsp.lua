@@ -25,6 +25,7 @@ return {
       require("lsp-file-operations").setup()
     end,
   },
+
   -- Disable LazyVim's automatic LSP server setup for servers we configure manually
   {
     "LazyVim/LazyVim",
