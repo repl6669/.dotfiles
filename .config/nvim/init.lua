@@ -43,6 +43,7 @@ vim.api.nvim_create_autocmd("User", {
     vim.lsp.config("vectorcode_server", load_lsp_config("vectorcode_server"))
     vim.lsp.config("volar", load_lsp_config("volar"))
     vim.lsp.config("phpactor", load_lsp_config("phpactor"))
+    vim.lsp.config("emmet_language_server", load_lsp_config("emmet_language_server"))
   end,
 })
 
@@ -74,4 +75,3 @@ vim.api.nvim_create_autocmd("LspAttach", {
     -- end
   end,
 })
-
