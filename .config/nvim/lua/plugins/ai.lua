@@ -22,7 +22,7 @@ return {
         chat = {
           adapter = {
             name = "copilot",
-            model = "gpt-4.1",
+            model = "gpt-5",
           },
           roles = {
             ---@type string|fun(adapter: CodeCompanion.Adapter): string
@@ -85,92 +85,106 @@ return {
         inline = {
           adapter = {
             name = "copilot",
-            model = "gemini-2.5-flash",
+            model = "gpt-4.1",
           },
         },
       }
 
       opts.adapters = {
-        anthropic = function()
-          return require("codecompanion.adapters").extend("anthropic", {
-            schema = {
+        acp = {
+          gemini_cli = function()
+            return require("codecompanion.adapters").extend("gemini_cli", {
               model = {
-                default = "claude-sonnet-4-20250514",
+                default = "gemini-2.5-pro",
               },
-              temperature = {
-                default = 0,
+              -- env = {
+              --   api_key = 'cmd:op read "op://Private/Gemini/API_KEY" --no-newline',
+              -- },
+            })
+          end,
+        },
+        http = {
+          anthropic = function()
+            return require("codecompanion.adapters").extend("anthropic", {
+              schema = {
+                model = {
+                  default = "claude-sonnet-4-20250514",
+                },
+                temperature = {
+                  default = 0,
+                },
+                top_p = {
+                  default = 1,
+                },
               },
-              top_p = {
-                default = 1,
+              env = {
+                api_key = 'cmd:op read "op://Private/Anthropic/API_KEY" --no-newline',
               },
-            },
-            env = {
-              api_key = 'cmd:op read "op://Private/Anthropic/API_KEY" --no-newline',
-            },
-          })
-        end,
-        openai = function()
-          return require("codecompanion.adapters").extend("openai", {
-            opts = {
-              stream = true,
-            },
-            env = {
-              api_key = 'cmd:op read "op://Private/OpenAI/API_KEY" --no-newline',
-            },
-          })
-        end,
-        tavily = function()
-          return require("codecompanion.adapters").extend("tavily", {
-            env = {
-              api_key = 'cmd:op read "op://Private/Tavily/API_KEY" --no-newline',
-            },
-          })
-        end,
-        mistral = function()
-          return require("codecompanion.adapters").extend("mistral", {
-            schema = {
-              model = {
-                default = "claude-sonnet-4-20250514",
+            })
+          end,
+          openai = function()
+            return require("codecompanion.adapters").extend("openai", {
+              opts = {
+                stream = true,
               },
-            },
-            env = {
-              url = "https://codestral.mistral.ai/v1/fim/completions",
-              api_key = 'cmd:op read "op://Private/Mistral/CODESTRAL_API_KEY" --no-newline',
-              chat_url = "https://codestral.mistral.ai/v1/chat/completions",
-            },
-          })
-        end,
-        openrouter = function()
-          return require("codecompanion.adapters").extend("openai_compatible", {
-            env = {
-              url = "https://openrouter.ai/api",
-              api_key = 'cmd:op read "op://Private/OpenRouter/API_KEY" --no-newline',
-              chat_url = "/v1/chat/completions",
-            },
-            schema = {
-              model = {
-                default = "qwen/qwen3-32b",
+              env = {
+                api_key = 'cmd:op read "op://Private/OpenAI/API_KEY" --no-newline',
               },
-            },
-          })
-        end,
-        ollama = function()
-          return require("codecompanion.adapters").extend("ollama", {
-            schema = {
-              num_ctx = {
-                default = 1024 * 128,
+            })
+          end,
+          tavily = function()
+            return require("codecompanion.adapters").extend("tavily", {
+              env = {
+                api_key = 'cmd:op read "op://Private/Tavily/API_KEY" --no-newline',
               },
-              model = {
-                default = "codestral:latest",
+            })
+          end,
+          mistral = function()
+            return require("codecompanion.adapters").extend("mistral", {
+              schema = {
+                model = {
+                  default = "claude-sonnet-4-20250514",
+                },
               },
-            },
-            opts = {
-              stream = true,
-              tools = true,
-              vision = false,
-            },
-          })
-        end,
+              env = {
+                url = "https://codestral.mistral.ai/v1/fim/completions",
+                api_key = 'cmd:op read "op://Private/Mistral/CODESTRAL_API_KEY" --no-newline',
+                chat_url = "https://codestral.mistral.ai/v1/chat/completions",
+              },
+            })
+          end,
+          openrouter = function()
+            return require("codecompanion.adapters").extend("openai_compatible", {
+              env = {
+                url = "https://openrouter.ai/api",
+                api_key = 'cmd:op read "op://Private/OpenRouter/API_KEY" --no-newline',
+                chat_url = "/v1/chat/completions",
+              },
+              schema = {
+                model = {
+                  default = "qwen/qwen3-32b",
+                },
+              },
+            })
+          end,
+          ollama = function()
+            return require("codecompanion.adapters").extend("ollama", {
+              schema = {
+                num_ctx = {
+                  default = 1024 * 128,
+                },
+                model = {
+                  default = "codestral:latest",
+                },
+              },
+              opts = {
+                stream = true,
+                tools = true,
+                vision = false,
+              },
+            })
+          end,
+        },
       }
 
       opts.prompt_library = {}
