@@ -85,6 +85,40 @@ function utils.get_default_register()
   return '"'
 end
 
+-- Show a selection with all items visible at once (using inputlist)
+function utils._format_choice_label(item)
+  if type(item) == "table" then
+    return item.name or item.label or item.class or item.fqcn or tostring(item.value or "")
+  end
+  return tostring(item)
+end
+
+function utils._extract_choice_value(item)
+  if type(item) == "table" then
+    return item.value or item.class or item.fqcn or item.name or item.label
+  end
+  return item
+end
+
+function utils.select(choices, opts, on_choice)
+  opts = opts or {}
+  local items = vim.tbl_values(choices or {})
+  if #items == 0 then
+    on_choice(nil)
+    return
+  end
+  local lines = { string.format("%s:", opts.prompt or "Select") }
+  for i, it in ipairs(items) do
+    table.insert(lines, string.format("%d. %s", i, utils._format_choice_label(it)))
+  end
+  local idx = vim.fn.inputlist(lines)
+  if idx >= 1 and idx <= #items then
+    on_choice(items[idx])
+  else
+    on_choice(nil)
+  end
+end
+
 -- Core RPC functionality
 function M.call(action, parameters, options)
   options = options or {}
@@ -121,12 +155,13 @@ end
 
 function M.handle_return_choice(parameters, options)
   vim.ui.select(vim.tbl_values(parameters.choices), {
+    prompt = parameters.label or "Select",
     format_item = function(item)
-      return item.name
+      return utils._format_choice_label(item)
     end,
   }, function(item)
     if item and options.callback then
-      options.callback(item.value)
+      options.callback(utils._extract_choice_value(item))
     end
   end)
 end
@@ -176,9 +211,12 @@ function M.handle_input_callback(parameters)
   if input.type == "list" or input.type == "choice" then
     vim.ui.select(vim.tbl_values(input.parameters.choices), {
       prompt = input.parameters.label,
+      format_item = function(item)
+        return utils._format_choice_label(item)
+      end,
     }, function(item)
       if item then
-        parameters.callback.parameters[input.name] = item
+        parameters.callback.parameters[input.name] = utils._extract_choice_value(item)
         M.call(parameters.callback.action, parameters.callback.parameters)
       end
     end)
@@ -317,7 +355,15 @@ function M.expand_class()
       if class_info == nil then
         return
       end
-      vim.cmd(string.format("normal! ciw%s", class_info["class"]))
+      local replacement
+      if type(class_info) == "table" then
+        replacement = class_info.class or class_info.fqcn or class_info.name or class_info.value
+      else
+        replacement = class_info
+      end
+      if replacement and replacement ~= "" then
+        vim.cmd(string.format("normal! ciw%s", replacement))
+      end
     end,
   })
 end
