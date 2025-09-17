@@ -1,7 +1,7 @@
 return {
   "stevearc/conform.nvim",
-  opts = function(_, opts)
-    opts.formatters_by_ft = vim.tbl_deep_extend("force", opts.formatters_by_ft or {}, {
+  opts = {
+    formatters_by_ft = {
       blade = { "blade-formatter" },
       css = { "prettierd" },
       html = { "prettierd" },
@@ -16,8 +16,18 @@ return {
       typescript = { "prettierd" },
       vue = { "prettierd" },
       yaml = { "prettierd" },
-    })
-
-    return opts
-  end,
+    },
+    formatters = {
+      pint = {
+        meta = {
+          url = "https://github.com/laravel/pint",
+          description = "Laravel Pint is an opinionated PHP code style fixer for minimalists.",
+        },
+        command = "pint",
+        args = { "$FILENAME", "--repair" },
+        stdin = false,
+        exit_codes = { 0, 1 },
+      },
+    },
+  },
 }
