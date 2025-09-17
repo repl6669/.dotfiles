@@ -4,7 +4,7 @@ return {
     ft = { "markdown", "codecompanion" },
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
-      "echasnovski/mini.icons",
+      "nvim-mini/mini.icons",
     },
     ---@module 'render-markdown'
     ---@type render.md.UserConfig

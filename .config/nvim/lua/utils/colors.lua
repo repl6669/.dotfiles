@@ -79,7 +79,7 @@ M.hsl_color = function(_, match)
   return MiniHipatterns.compute_hex_color_group(hex_color, "bg")
 end
 
---- https://github.com/echasnovski/mini.nvim/discussions/1024#discussion-6905706
+--- https://github.com/nvim-mini/mini.nvim/discussions/1024#discussion-6905706
 
 --- Returns hex color group for matching short hex color.
 ---
