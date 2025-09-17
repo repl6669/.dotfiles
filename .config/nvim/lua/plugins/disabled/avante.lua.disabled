@@ -261,7 +261,7 @@
       "stevearc/dressing.nvim",
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
-      "echasnovski/mini.icons",
+      "nvim-mini/mini.icons",
       -- "Kaiser-Yang/blink-cmp-avante",
       "hrsh7th/nvim-cmp", -- Autocompletion for avante commands and mentions
       "ibhagwan/fzf-lua", -- For file_selector provider fzf

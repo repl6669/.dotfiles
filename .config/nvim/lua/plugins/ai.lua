@@ -278,7 +278,7 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
       "ravitemer/codecompanion-history.nvim",
-      "echasnovski/mini.diff",
+      "nvim-mini/mini.diff",
       "j-hui/fidget.nvim",
       "ibhagwan/fzf-lua",
 

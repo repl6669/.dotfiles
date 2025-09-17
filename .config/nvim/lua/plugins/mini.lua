@@ -1,6 +1,6 @@
 return {
   {
-    "echasnovski/mini.surround",
+    "nvim-mini/mini.surround",
     optional = true,
     opts = {
       mappings = {
@@ -19,7 +19,7 @@ return {
   },
 
   {
-    "echasnovski/mini.hipatterns",
+    "nvim-mini/mini.hipatterns",
     event = "BufReadPre",
     opts = function(_, opts)
       local hi = require("mini.hipatterns")
@@ -57,7 +57,7 @@ return {
   },
 
   {
-    "echasnovski/mini.splitjoin",
+    "nvim-mini/mini.splitjoin",
     opts = {
       mappings = {
         toggle = "gS",

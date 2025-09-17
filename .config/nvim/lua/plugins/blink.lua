@@ -23,7 +23,7 @@ return {
       "Kaiser-Yang/blink-cmp-avante",
       "folke/snacks.nvim",
       "lukas-reineke/cmp-rg",
-      "echasnovski/mini.icons",
+      "nvim-mini/mini.icons",
     },
 
     opts = function(_, opts)
