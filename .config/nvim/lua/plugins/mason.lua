@@ -18,6 +18,12 @@ return {
         "tailwindcss-language-server",
         "vue-language-server",
         "phpactor",
+        -- Formatters & Linters
+        "pint",
+        "prettierd",
+        "blade-formatter",
+        "kdlfmt",
+        "stylua",
         -- Other tools
         "php-debug-adapter",
         "markdownlint",
