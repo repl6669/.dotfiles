@@ -1,9 +1,7 @@
 return {
   "stevearc/conform.nvim",
-  lazy = true,
-  event = { "BufReadPre", "BufNewFile" }, -- to disable, comment this out
-  opts = {
-    formatters_by_ft = {
+  opts = function(_, opts)
+    opts.formatters_by_ft = vim.tbl_deep_extend("force", opts.formatters_by_ft or {}, {
       blade = { "blade-formatter" },
       css = { "prettierd" },
       html = { "prettierd" },
@@ -18,6 +16,8 @@ return {
       typescript = { "prettierd" },
       vue = { "prettierd" },
       yaml = { "prettierd" },
-    },
-  },
+    })
+
+    return opts
+  end,
 }
