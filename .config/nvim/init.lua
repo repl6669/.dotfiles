@@ -44,6 +44,16 @@ vim.api.nvim_create_autocmd("User", {
     vim.lsp.config("volar", load_lsp_config("volar"))
     vim.lsp.config("phpactor", load_lsp_config("phpactor"))
     vim.lsp.config("emmet_language_server", load_lsp_config("emmet_language_server"))
+
+    -- Enable LSP servers after configuration
+    vim.lsp.enable("docker_compose_language_service")
+    vim.lsp.enable("dockerls")
+    vim.lsp.enable("vtsls")
+    vim.lsp.enable("tailwindcss")
+    vim.lsp.enable("vectorcode_server")
+    vim.lsp.enable("volar")
+    vim.lsp.enable("phpactor")
+    vim.lsp.enable("emmet_language_server")
   end,
 })
 
@@ -63,6 +73,20 @@ vim.api.nvim_create_autocmd("LspAttach", {
       vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
     end
 
+    -- PHP-specific setup for phpactor
+    if client.name == "phpactor" then
+      -- Custom PHP-specific keymaps (optional)
+      local opts = { buffer = bufnr, silent = true }
+      
+      -- These keymaps complement the phpactor.nvim plugin commands
+      -- You can uncomment if you want LSP-specific bindings
+      -- vim.keymap.set('n', '<leader>lpi', vim.lsp.buf.implementation, opts)
+      -- vim.keymap.set('n', '<leader>lpr', vim.lsp.buf.references, opts)
+      -- vim.keymap.set('n', '<leader>lps', vim.lsp.buf.document_symbol, opts)
+      
+      -- Disable semantic tokens if causing issues (uncomment if needed)
+      -- client.server_capabilities.semanticTokensProvider = nil
+    end
     -- Auto-format on save for certain filetypes (optional)
     -- Uncomment if you want auto-formatting
     -- if client:supports_method('textDocument/formatting') then
