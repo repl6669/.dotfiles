@@ -81,4 +81,6 @@ vim.g.ai_cmp = true
 -- in this case.
 vim.g.lazyvim_blink_main = true
 
+vim.g.lazyvim_php_lsp = "phpactor"
+
 LazyVim.terminal.setup("/bin/zsh")
