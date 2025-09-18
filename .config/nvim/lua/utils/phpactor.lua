@@ -7,6 +7,7 @@ M.config = {
   phpactor_bin = vim.fn.stdpath("data") .. "/mason/packages/phpactor/phpactor.phar",
   php_bin = "php",
   -- php_bin = "docker compose -f ../compose.local.yml exec api php", -- for Docker
+  picker = "fzf-lua", -- options: "fzf-lua", "native"
 }
 
 -- Utility functions
@@ -107,16 +108,58 @@ function utils.select(choices, opts, on_choice)
     on_choice(nil)
     return
   end
-  local lines = { string.format("%s:", opts.prompt or "Select") }
-  for i, it in ipairs(items) do
-    table.insert(lines, string.format("%d. %s", i, utils._format_choice_label(it)))
+
+  -- Use fzf-lua if configured and available
+  if M.config.picker == "fzf-lua" then
+    local ok, fzf = pcall(require, "fzf-lua")
+    if ok then
+      local formatted_items = {}
+      for i, item in ipairs(items) do
+        formatted_items[i] = utils._format_choice_label(item)
+      end
+
+      fzf.fzf_exec(formatted_items, {
+        prompt = "> ",
+        actions = {
+          ["default"] = function(selected)
+            if selected and #selected > 0 then
+              -- Find the original item by matching the formatted label
+              local selected_label = selected[1]
+              for i, item in ipairs(items) do
+                if utils._format_choice_label(item) == selected_label then
+                  on_choice(item)
+                  return
+                end
+              end
+            end
+            on_choice(nil)
+          end,
+        },
+        winopts = {
+          title = opts.prompt or "Select",
+          title_pos = "center",
+          height = math.min(#formatted_items + 5, 20),
+          width = 0.6,
+          row = 0.35,
+          col = 0.5,
+          preview = {
+            hidden = "nohidden",
+          },
+        },
+      })
+      return
+    end
   end
-  local idx = vim.fn.inputlist(lines)
-  if idx >= 1 and idx <= #items then
-    on_choice(items[idx])
-  else
-    on_choice(nil)
-  end
+
+  -- Fallback to vim.ui.select (native)
+  vim.ui.select(items, {
+    prompt = opts.prompt or "Select",
+    format_item = function(item)
+      return utils._format_choice_label(item)
+    end,
+  }, function(item)
+    on_choice(item)
+  end)
 end
 
 -- Core RPC functionality
@@ -154,11 +197,8 @@ function M.handle_return(parameters, options)
 end
 
 function M.handle_return_choice(parameters, options)
-  vim.ui.select(vim.tbl_values(parameters.choices), {
-    prompt = parameters.label or "Select",
-    format_item = function(item)
-      return utils._format_choice_label(item)
-    end,
+  utils.select(parameters.choices, {
+    prompt = options.custom_prompt or parameters.label or "Select",
   }, function(item)
     if item and options.callback then
       options.callback(utils._extract_choice_value(item))
@@ -209,11 +249,8 @@ function M.handle_input_callback(parameters)
   local input = table.remove(parameters.inputs)
 
   if input.type == "list" or input.type == "choice" then
-    vim.ui.select(vim.tbl_values(input.parameters.choices), {
+    utils.select(input.parameters.choices, {
       prompt = input.parameters.label,
-      format_item = function(item)
-        return utils._format_choice_label(item)
-      end,
     }, function(item)
       if item then
         parameters.callback.parameters[input.name] = utils._extract_choice_value(item)
@@ -242,7 +279,7 @@ function M.handle_input_callback(parameters)
   end
 
   if input.type == "confirm" then
-    vim.ui.select({ "Yes", "No" }, {
+    utils.select({ "Yes", "No" }, {
       prompt = input.parameters.label,
     }, function(item)
       if item == "Yes" then
@@ -351,6 +388,7 @@ function M.expand_class()
   M.call("class_search", {
     short_name = word,
   }, {
+    custom_prompt = "Expand Class",
     callback = function(class_info)
       if class_info == nil then
         return
