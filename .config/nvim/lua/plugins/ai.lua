@@ -85,7 +85,7 @@ return {
         inline = {
           adapter = {
             name = "copilot",
-            model = "gpt-4.1",
+            model = "gpt-5-mini",
           },
         },
       }
