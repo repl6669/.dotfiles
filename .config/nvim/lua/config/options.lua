@@ -72,6 +72,9 @@ vim.wo.colorcolumn = "120" -- Make a ruler at 120px
 -- Disable animations
 vim.g.snacks_animate = false
 
+-- Set picker
+vim.g.lazyvim_picker = "fzf"
+
 -- if the completion engine supports the AI source,
 -- use that instead of inline suggestions
 vim.g.ai_cmp = true
@@ -81,6 +84,7 @@ vim.g.ai_cmp = true
 -- in this case.
 vim.g.lazyvim_blink_main = true
 
+-- PHP
 vim.g.lazyvim_php_lsp = "phpactor"
 
 LazyVim.terminal.setup("/bin/zsh")
