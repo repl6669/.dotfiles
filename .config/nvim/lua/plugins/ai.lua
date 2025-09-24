@@ -6,6 +6,7 @@ return {
   -- olimoriss's dotfiles: https://github.com/olimorris/dotfiles/blob/main/.config/nvim/lua/plugins/coding.lua
   {
     "olimorris/codecompanion.nvim",
+    version = "*",
     cmd = { "CodeCompanion", "CodeCompanionActions", "CodeCompanionChat" },
     init = function()
       require("plugins.custom.cc-spinner"):init()
