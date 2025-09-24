@@ -75,9 +75,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
 
     -- Enable inlay hints if supported
-    if client:supports_method("textDocument/inlayHint") then
-      vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-    end
+    -- if client:supports_method("textDocument/inlayHint") then
+    --   vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+    -- end
 
     -- PHP-specific setup for phpactor
     if client.name == "phpactor" then
