@@ -14,6 +14,19 @@ return {
     opts = function(_, opts)
       opts = opts or {}
 
+      -- Detect completion provider: prefer blink.cmp, fallback to nvim-cmp
+      local completion_provider = (function()
+        local ok_blink = pcall(require, "blink.cmp")
+        if ok_blink then
+          return "blink"
+        end
+        local ok_cmp = pcall(require, "cmp")
+        if ok_cmp then
+          return "cmp"
+        end
+        return "default"
+      end)()
+
       opts.display = {
         action_palette = { provider = "fzf_lua" },
         diff = { provider = "mini_diff" },
@@ -50,7 +63,7 @@ return {
             },
           },
           opts = {
-            completion_provider = "cmp",
+            completion_provider = completion_provider, -- blink|cmp
           },
           tools = {
             opts = {
@@ -318,6 +331,7 @@ return {
     },
   },
 
+  -- Copilot
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
