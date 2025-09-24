@@ -9,8 +9,22 @@ vim.api.nvim_create_autocmd("User", {
       capabilities = vim.tbl_deep_extend(
         "force",
         vim.lsp.protocol.make_client_capabilities(),
-        -- Add nvim-cmp capabilities
-        require("cmp_nvim_lsp").default_capabilities()
+        -- Add nvim-cmp capabilities if cmp_nvim_lsp is available (compat)
+        (function()
+          local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+          if ok and type(cmp_nvim_lsp.default_capabilities) == "function" then
+            return cmp_nvim_lsp.default_capabilities()
+          end
+          return {}
+        end)(),
+        -- Add blink.cmp capabilities if available
+        (function()
+          local ok, blink = pcall(require, "blink.cmp")
+          if ok and type(blink.get_lsp_capabilities) == "function" then
+            return blink.get_lsp_capabilities()
+          end
+          return {}
+        end)()
       ),
     })
 
@@ -77,13 +91,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
     if client.name == "phpactor" then
       -- Custom PHP-specific keymaps (optional)
       local opts = { buffer = bufnr, silent = true }
-      
+
       -- These keymaps complement the phpactor.nvim plugin commands
       -- You can uncomment if you want LSP-specific bindings
       -- vim.keymap.set('n', '<leader>lpi', vim.lsp.buf.implementation, opts)
       -- vim.keymap.set('n', '<leader>lpr', vim.lsp.buf.references, opts)
       -- vim.keymap.set('n', '<leader>lps', vim.lsp.buf.document_symbol, opts)
-      
+
       -- Disable semantic tokens if causing issues (uncomment if needed)
       -- client.server_capabilities.semanticTokensProvider = nil
     end
