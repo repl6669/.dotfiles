@@ -39,7 +39,6 @@ return {
             model = "gpt-5",
           },
           roles = {
-            ---@type string|fun(adapter: CodeCompanion.Adapter): string
             llm = function(adapter)
               return string.format("%s (%s)", adapter.formatted_name, adapter.model.name)
             end,
@@ -215,7 +214,6 @@ return {
         },
         vectorcode = {
           enabled = vim.fn.executable("vectorcode") == 1,
-          ---@type VectorCode.CodeCompanion.ExtensionOpts
           opts = {
             tool_group = {
               enabled = true,
