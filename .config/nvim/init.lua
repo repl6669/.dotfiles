@@ -16,14 +16,6 @@ vim.api.nvim_create_autocmd("User", {
             return cmp_nvim_lsp.default_capabilities()
           end
           return {}
-        end)(),
-        -- Add blink.cmp capabilities if available
-        (function()
-          local ok, blink = pcall(require, "blink.cmp")
-          if ok and type(blink.get_lsp_capabilities) == "function" then
-            return blink.get_lsp_capabilities()
-          end
-          return {}
         end)()
       ),
     })
