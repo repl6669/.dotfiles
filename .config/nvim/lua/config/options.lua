@@ -75,6 +75,9 @@ vim.g.snacks_animate = false
 -- Set picker
 vim.g.lazyvim_picker = "fzf"
 
+-- Completions
+vim.g.lazyvim_cmp = "auto"
+
 -- if the completion engine supports the AI source,
 -- use that instead of inline suggestions
 vim.g.ai_cmp = true
