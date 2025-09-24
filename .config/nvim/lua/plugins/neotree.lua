@@ -8,7 +8,7 @@ return {
   keys = {
     {
       "-",
-      ":Neotree current %:p:h:h %:p<CR>",
+      ":Neotree position=current<CR>",
       { noremap = true, silent = true },
     },
   },
