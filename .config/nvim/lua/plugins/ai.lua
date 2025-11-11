@@ -6,7 +6,7 @@ return {
   -- olimoriss's dotfiles: https://github.com/olimorris/dotfiles/blob/main/.config/nvim/lua/plugins/coding.lua
   {
     "olimorris/codecompanion.nvim",
-    version = "*",
+    -- version = "*",
     cmd = { "CodeCompanion", "CodeCompanionActions", "CodeCompanionChat" },
     init = function()
       require("plugins.custom.cc-spinner"):init()
@@ -45,7 +45,7 @@ return {
           },
           slash_commands = {
             ["file"] = {
-              callback = "strategies.chat.slash_commands.file",
+              callback = "strategies.chat.slash_commands.catalog.file",
               description = "Select a file using FZF",
               opts = {
                 provider = "fzf_lua",
@@ -53,7 +53,7 @@ return {
               },
             },
             ["buffer"] = {
-              callback = "strategies.chat.slash_commands.buffer",
+              callback = "strategies.chat.slash_commands.catalog.buffer",
               description = "Select a file using FZF",
               opts = {
                 provider = "fzf_lua",
@@ -121,13 +121,10 @@ return {
             return require("codecompanion.adapters").extend("anthropic", {
               schema = {
                 model = {
-                  default = "claude-sonnet-4-20250514",
+                  default = "claude-sonnet-4-5-20250929",
                 },
                 temperature = {
                   default = 0,
-                },
-                top_p = {
-                  default = 1,
                 },
               },
               env = {
