@@ -17,17 +17,5 @@ return {
       vue = { "prettierd" },
       yaml = { "prettierd" },
     },
-    formatters = {
-      pint = {
-        meta = {
-          url = "https://github.com/laravel/pint",
-          description = "Laravel Pint is an opinionated PHP code style fixer for minimalists.",
-        },
-        command = "pint",
-        args = { "$FILENAME", "--repair" },
-        stdin = false,
-        exit_codes = { 0, 1 },
-      },
-    },
   },
 }
