@@ -97,7 +97,7 @@ export PYENV_ROOT="$HOME/.pyenv"
 eval "$(pyenv init -)"
 
 # Ripgrep
-export RIPGREP_CONFIG_PATH="~/.config/.ripgreprc"
+export RIPGREP_CONFIG_PATH="$HOME/.config/.ripgreprc"
 
 # Carapace
 export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
