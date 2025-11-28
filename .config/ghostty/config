@@ -6,8 +6,7 @@ background-blur = 20
 font-family = TX-02
 font-family = JetBrainsMono Nerd Font Mono
 font-size = 18
-
-adjust-cell-height = 10%
+# adjust-cell-height = 10%
 
 cursor-style = block
 cursor-style-blink = false
