@@ -1,8 +1,7 @@
 # Global ignore
---glob
-!*.cache
-!.cache/
-!node_modules/
-!vendor/
-!public/
-!storage/
+--glob=!*.cache
+--glob=!.cache/
+--glob=!node_modules/
+--glob=!vendor/
+--glob=!public/
+--glob=!storage/
