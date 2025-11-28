@@ -16,10 +16,6 @@ return {
     opts = {
       sources = {
         providers = {
-          lsp = {
-            min_keyword_length = 2,
-            score_offset = 0,
-          },
           path = {
             min_keyword_length = 0,
           },
@@ -102,6 +98,8 @@ return {
         ["<S-k>"] = { "scroll_documentation_up", "fallback" },
         ["<S-j>"] = { "scroll_documentation_down", "fallback" },
       },
+
+      fuzzy = { implementation = "prefer_rust" },
     },
   },
 }
