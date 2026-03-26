@@ -6,7 +6,7 @@ return {
   -- olimoriss's dotfiles: https://github.com/olimorris/dotfiles/blob/main/.config/nvim/lua/plugins/coding.lua
   {
     "olimorris/codecompanion.nvim",
-    -- version = "*",
+    version = "*",
     cmd = { "CodeCompanion", "CodeCompanionActions", "CodeCompanionChat" },
     init = function()
       require("plugins.custom.cc-spinner"):init()
@@ -32,11 +32,11 @@ return {
         diff = { provider = "mini_diff" },
       }
 
-      opts.strategies = {
+      opts.interactions = {
         chat = {
           adapter = {
-            name = "copilot",
-            model = "gpt-5",
+            name = "opencode",
+            model = "github-copilot/claude-opus-4.6",
           },
           roles = {
             llm = function(adapter)
@@ -45,7 +45,7 @@ return {
           },
           slash_commands = {
             ["file"] = {
-              callback = "strategies.chat.slash_commands.catalog.file",
+              callback = "interactions.chat.slash_commands.builtin.file",
               description = "Select a file using FZF",
               opts = {
                 provider = "fzf_lua",
@@ -53,7 +53,7 @@ return {
               },
             },
             ["buffer"] = {
-              callback = "strategies.chat.slash_commands.catalog.buffer",
+              callback = "interactions.chat.slash_commands.builtin.buffer",
               description = "Select a file using FZF",
               opts = {
                 provider = "fzf_lua",
@@ -113,6 +113,23 @@ return {
               -- env = {
               --   api_key = 'cmd:op read "op://Private/Gemini/API_KEY" --no-newline',
               -- },
+            })
+          end,
+          claude_code = function()
+            return require("codecompanion.adapters").extend("claude_code", {
+              model = {
+                default = "claude-sonnet-4-5-20250929",
+              },
+              env = {
+                ANTHROPIC_API_KEY = 'cmd:op read "op://Private/Anthropic/API_KEY" --no-newline',
+              },
+            })
+          end,
+          opencode = function()
+            return require("codecompanion.adapters").extend("opencode", {
+              model = {
+                default = "github-copilot/claude-opus-4.6",
+              },
             })
           end,
         },
@@ -223,7 +240,7 @@ return {
               ---@type VectorCode.CodeCompanion.VectoriseToolOpts
               vectorise = {
                 use_lsp = true,
-                requires_approval = false,
+                require_approval_before = false,
               },
               ---@type VectorCode.CodeCompanion.QueryToolOpts
               query = {
