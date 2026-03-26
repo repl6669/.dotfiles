@@ -114,3 +114,14 @@ fpath=(/Users/theimer/.docker/completions $fpath)
 autoload -Uz compinit
 compinit
 # End of Docker CLI completions
+
+# --WCGW_ENVIRONMENT_START--
+if [ -n "$IN_WCGW_ENVIRONMENT" ]; then
+ PROMPT_COMMAND='printf "◉ $(pwd)──➤ \r\e[2K"'
+ prmptcmdwcgw() { eval "$PROMPT_COMMAND" }
+ add-zsh-hook -d precmd prmptcmdwcgw
+ precmd_functions+=prmptcmdwcgw
+fi
+# --WCGW_ENVIRONMENT_END--
+
+alias claude-mem='bun "/Users/theimer/.claude/plugins/marketplaces/thedotmack/plugin/scripts/worker-service.cjs"'

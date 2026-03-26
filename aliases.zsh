@@ -49,9 +49,6 @@ alias wip="commit wip"                                      # Git commit wip
 ## Tailscale
 alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
 
-## Github
-eval "$(gh copilot alias -- zsh)"
-
 # Copilot CLI
 eval "$(github-copilot-cli alias -- "$0")"
 
@@ -65,6 +62,7 @@ alias ll="eza -la"
 
 ## Vim
 alias vim="nvim"                                            # Use nvim
+alias vimr="nvim --listen ~/.cache/nvim/ray.sock"                                            # Use nvim
 
 ## ZSH
 alias zshconfig="vim ~/.zshrc"                              # Open zsh config in vim
