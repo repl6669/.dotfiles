@@ -25,34 +25,34 @@ return {
       local hi = require("mini.hipatterns")
       local colors = require("utils.colors")
 
-      opts.highlighters = vim.tbl_deep_extend("keep", opts.highlighters or {}, {
-        hex_color = hi.gen_highlighter.hex_color(),
-
-        hex_color_short = {
-          pattern = "#%x%x%x%f[%X]",
-          group = colors.hex_color_short,
-        },
-
-        rgb_color = {
-          pattern = "rgb%(%d+, ?%d+, ?%d+%)",
-          group = colors.rgb_color,
-        },
-
-        rgb_color_short = {
-          pattern = "%d+%s+%d+%s+%d+%s*$",
-          group = colors.rgb_color_short,
-        },
-
-        rgba_color = {
-          pattern = "rgba%(%d+, ?%d+, ?%d+, ?%d*%.?%d*%)",
-          group = colors.rgba_color,
-        },
-
-        hsl_color = {
-          pattern = "hsl%(%d+,? %d+%%?,? %d+%%?%)",
-          group = colors.hsl_color,
-        },
-      })
+      -- opts.highlighters = vim.tbl_deep_extend("keep", opts.highlighters or {}, {
+      --   hex_color = hi.gen_highlighter.hex_color(),
+      --
+      --   hex_color_short = {
+      --     pattern = "#%x%x%x%f[%X]",
+      --     group = colors.hex_color_short,
+      --   },
+      --
+      --   rgb_color = {
+      --     pattern = "rgb%(%d+, ?%d+, ?%d+%)",
+      --     group = colors.rgb_color,
+      --   },
+      --
+      --   rgb_color_short = {
+      --     pattern = "%d+%s+%d+%s+%d+%s*$",
+      --     group = colors.rgb_color_short,
+      --   },
+      --
+      --   rgba_color = {
+      --     pattern = "rgba%(%d+, ?%d+, ?%d+, ?%d*%.?%d*%)",
+      --     group = colors.rgba_color,
+      --   },
+      --
+      --   hsl_color = {
+      --     pattern = "hsl%(%d+,? %d+%%?,? %d+%%?%)",
+      --     group = colors.hsl_color,
+      --   },
+      -- })
     end,
   },
 
