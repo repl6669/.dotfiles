@@ -36,26 +36,32 @@ gui:
   # Config relating to colors and styles.
   # See https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md#color-attributes
   theme:
-    unstagedChangesColor:
-      - "#6f2500"
-    selectedLineBgColor:
+    activeBorderColor:
+      - "#474747"
+      - "bold"
+    inactiveBorderColor:
       - "#1f1f1f"
     searchingActiveBorderColor:
       - "#474747"
       - "bold"
     optionsTextColor:
       - "#e0e0e0"
-    inactiveBorderColor:
+    selectedLineBgColor:
       - "#1f1f1f"
-    defaultFgColor:
-      - "#c1c1c1"
+    inactiveViewSelectedLineBgColor:
+      - "bold"
     cherryPickedCommitFgColor:
       - "#e0e0e0"
     cherryPickedCommitBgColor:
       - "#e0e0e0"
-    activeBorderColor:
-      - "#474747"
-      - "bold"
+    markedBaseCommitFgColor:
+      - "#889edc"
+    markedBaseCommitBgColor:
+      - "#dfce5c"
+    unstagedChangesColor:
+      - "#6f2500"
+    defaultFgColor:
+      - "#c1c1c1"
   authorColors:
     "*": "#067474"
     "Jakub Theimer": "#0bcb85"
