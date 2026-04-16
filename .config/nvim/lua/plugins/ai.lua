@@ -139,6 +139,32 @@ return {
 
       opts.adapters = {
         acp = {
+          pi = function()
+            return require("codecompanion.adapters").extend("opencode", {
+              name = "pi",
+              formatted_name = "Pi",
+              commands = {
+                default = { "pi-acp" },
+              },
+              defaults = {
+                mcpServers = {},
+                timeout = 20000,
+              },
+              handlers = {
+                setup = function(self)
+                  return true
+                end,
+                auth = function(self)
+                  -- pi handles auth via its own auth.json / env vars
+                  return true
+                end,
+                form_messages = function(self, messages, capabilities)
+                  return require("codecompanion.adapters.acp.helpers").form_messages(self, messages, capabilities)
+                end,
+                on_exit = function(self, code) end,
+              },
+            })
+          end,
           gemini_cli = function()
             return require("codecompanion.adapters").extend("gemini_cli", {
               model = {
