@@ -1,0 +1,35 @@
+{
+  "version": 3,
+  "skills": {
+    "ray": {
+      "source": "spatie/ray-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/spatie/ray-skills.git",
+      "skillPath": "skills/ray/SKILL.md",
+      "skillFolderHash": "b0579898846efb01426a457ff075d5eea874eb30",
+      "installedAt": "2026-02-05T02:50:33.603Z",
+      "updatedAt": "2026-02-05T02:51:42.897Z"
+    },
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/skills.git",
+      "skillPath": "skills/find-skills/SKILL.md",
+      "skillFolderHash": "c2f31172b6f256272305a5e6e7228b258446899f",
+      "installedAt": "2026-02-05T02:50:40.811Z",
+      "updatedAt": "2026-02-05T02:50:40.811Z"
+    }
+  },
+  "dismissed": {
+    "findSkillsPrompt": true
+  },
+  "lastSelectedAgents": [
+    "amp",
+    "codex",
+    "gemini-cli",
+    "github-copilot",
+    "kimi-cli",
+    "opencode",
+    "replit"
+  ]
+}
