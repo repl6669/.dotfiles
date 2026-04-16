@@ -1,6 +1,35 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "instructions": ["AGENTS.md"],
+  "provider": {
+    "github-copilot": {
+      "models": {
+        "claude-opus-4.6": {
+          "limit": { "context": 192000, "output": 64000 }
+        },
+        "claude-sonnet-4.6": {
+          "limit": { "context": 160000, "output": 32000 }
+        }
+      }
+    },
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama (local)",
+      "options": {
+        "baseURL": "http://localhost:11434/v1"
+      },
+      "models": {
+        "gemma4:26b-a4b-it-q4_K_M": {
+          "name": "Gemma 4 26B (local)",
+          "limit": { "context": 131072, "output": 8192 }
+        },
+        "gpt-oss:20b": {
+          "name": "GPT-OSS 20B (local)",
+          "limit": { "context": 131072, "output": 8192 }
+        }
+      }
+    }
+  },
   "agent": {
     "build": {
       "mode": "primary",
@@ -36,6 +65,9 @@
       "type": "remote",
       "url": "http://localhost:37373/mcp"
     }
+  },
+  "watcher": {
+    "ignore": ["node_modules/**", "dist/**", ".git/**", "vendor/**"]
   },
   "autoupdate": true
 }
