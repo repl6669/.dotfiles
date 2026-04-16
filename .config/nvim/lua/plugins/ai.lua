@@ -14,18 +14,13 @@ return {
     opts = function(_, opts)
       opts = opts or {}
 
-      -- Detect completion provider: prefer blink.cmp, fallback to nvim-cmp
-      local completion_provider = (function()
-        local ok_blink = pcall(require, "blink.cmp")
-        if ok_blink then
-          return "blink"
-        end
-        local ok_cmp = pcall(require, "cmp")
-        if ok_cmp then
-          return "cmp"
-        end
-        return "default"
-      end)()
+      --- Build the test command based on Docker availability
+      ---@return string
+      local function test_cmd()
+        return require("utils.docker").docker_enabled()
+            and "docker compose -f compose.local.yml run --rm --no-deps api ./vendor/bin/pest"
+          or "./vendor/bin/pest"
+      end
 
       opts.display = {
         action_palette = { provider = "fzf_lua" },
@@ -40,8 +35,20 @@ return {
           },
           roles = {
             llm = function(adapter)
-              return string.format("%s (%s)", adapter.formatted_name, adapter.model.name)
+              local model = (adapter.schema and adapter.schema.model and adapter.schema.model.default) or ""
+              if model ~= "" then
+                return string.format("%s (%s)", adapter.formatted_name, model)
+              end
+              return adapter.formatted_name
             end,
+          },
+          keymaps = {
+            send = {
+              modes = { n = "<CR>", i = "<C-s>" },
+            },
+            close = {
+              modes = { n = "q" },
+            },
           },
           slash_commands = {
             ["file"] = {
@@ -60,9 +67,28 @@ return {
                 contains_code = true,
               },
             },
+            ["test"] = {
+              callback = function(chat)
+                local cmd = test_cmd()
+                chat:add_message({
+                  role = "user",
+                  content = "Run the test suite with `@{run_command}` using: `" .. cmd .. "`. Report the results.",
+                }, { visible = true })
+                chat:submit()
+              end,
+              description = "Run the project test suite and report results",
+            },
           },
           opts = {
-            completion_provider = completion_provider, -- blink|cmp
+            system_prompt = function(ctx)
+              return ctx.default_system_prompt
+                .. "\n\n## Project Context\n"
+                .. "The user works with a Laravel/PHP backend (Pest for testing, JSON:API, MySQL, Redis) "
+                .. "and a Vue/Nuxt/TypeScript frontend with Tailwind CSS. "
+                .. "Docker is used for local development via compose.local.yml. "
+                .. "When suggesting terminal commands, prefer the Docker-wrapped variant if the project uses Docker. "
+                .. "Prefer strict PHP types, early returns, and concise responses."
+            end,
           },
           tools = {
             opts = {
@@ -73,11 +99,7 @@ return {
           variables = {
             ["run_tests_command"] = {
               ---@return string|fun(): nil
-              callback = function()
-                return require("utils.docker").docker_enabled()
-                    and "docker compose -f compose.local.yml run --rm --no-deps api ./vendor/bin/pest"
-                  or "./vendor/bin/pest"
-              end,
+              callback = test_cmd,
               description = "Command for running tests",
               opts = {
                 contains_code = false,
@@ -96,6 +118,18 @@ return {
           },
         },
         inline = {
+          adapter = {
+            name = "copilot",
+            model = "gpt-5-mini",
+          },
+        },
+        cmd = {
+          adapter = {
+            name = "opencode",
+            model = "github-copilot/claude-opus-4.6",
+          },
+        },
+        background = {
           adapter = {
             name = "copilot",
             model = "gpt-5-mini",
@@ -127,8 +161,9 @@ return {
           end,
           opencode = function()
             return require("codecompanion.adapters").extend("opencode", {
-              model = {
-                default = "github-copilot/claude-opus-4.6",
+              defaults = {
+                model = "github-copilot/claude-opus-4.6",
+                mcpServers = "inherit_from_config",
               },
             })
           end,
@@ -170,7 +205,7 @@ return {
             return require("codecompanion.adapters").extend("mistral", {
               schema = {
                 model = {
-                  default = "claude-sonnet-4-20250514",
+                  default = "codestral-latest",
                 },
               },
               env = {
@@ -196,6 +231,9 @@ return {
           end,
           ollama = function()
             return require("codecompanion.adapters").extend("ollama", {
+              env = {
+                url = "http://127.0.0.1:11434",
+              },
               schema = {
                 num_ctx = {
                   default = 1024 * 128,
@@ -214,7 +252,10 @@ return {
         },
       }
 
-      opts.prompt_library = {}
+      opts.prompt_library = {
+        -- Disable prompts you don't use; the rest (explain, fix, lsp, tests) stay available
+        ["Generate a Commit Message"] = { enabled = true },
+      }
 
       opts.extensions = {
         mcphub = {
