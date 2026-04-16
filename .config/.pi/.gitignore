@@ -3,3 +3,6 @@ agent/sessions/
 
 # Auth tokens
 agent/auth.json
+
+# MCP cache (auto-generated)
+agent/mcp-cache.json
