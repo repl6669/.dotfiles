@@ -1,0 +1,12 @@
+{
+  "settings": {
+    "toolPrefix": "server",
+    "idleTimeout": 10
+  },
+  "mcpServers": {
+    "mcphub": {
+      "url": "http://localhost:37373/mcp",
+      "lifecycle": "lazy"
+    }
+  }
+}
