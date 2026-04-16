@@ -5,6 +5,9 @@
   "defaultThinkingLevel": "medium",
   "theme": "repl69",
   "packages": [
-    "npm:pi-mcp-adapter"
+    "npm:pi-mcp-adapter",
+    "npm:pi-nvim",
+    "npm:pi-markdown-preview",
+    "npm:pi-subagents"
   ]
 }
