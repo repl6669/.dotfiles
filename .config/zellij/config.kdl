@@ -2,6 +2,8 @@ keybinds clear-defaults=true {
     shared {
         bind "PageUp" { GoToPreviousTab; }
         bind "PageDown" { GoToNextTab; }
+        bind "Shift PageUp" { MoveFocus "left"; }
+        bind "Shift PageDown" { MoveFocus "right"; }
         bind "Home" { ToggleFloatingPanes; }
     }
     locked {
