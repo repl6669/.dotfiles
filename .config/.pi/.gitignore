@@ -1,0 +1,5 @@
+# Sessions (conversation history)
+agent/sessions/
+
+# Auth tokens
+agent/auth.json
