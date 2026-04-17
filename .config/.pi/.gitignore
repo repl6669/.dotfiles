@@ -7,5 +7,8 @@ agent/auth.json
 # MCP cache (auto-generated)
 agent/mcp-cache.json
 
+# Run history
+agent/run-history.jsonl
+
 # pi-acp session mapping
 pi-acp/session-map.json
