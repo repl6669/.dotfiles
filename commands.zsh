@@ -38,6 +38,18 @@ composer-link() {
 }
 
 # Zellij
+# Auto-rename tab to current directory name
+function _zellij_tab_name_update() {
+  if [[ -n "$ZELLIJ" ]]; then
+    local tab_name=${PWD##*/}
+    [[ "$tab_name" == "" ]] && tab_name="/"
+    command zellij action rename-tab "$tab_name"
+  fi
+}
+add-zsh-hook chpwd _zellij_tab_name_update
+# Also set on shell startup
+_zellij_tab_name_update
+
 function zr () { zellij run --name "$*" -- zsh -ic "$*";}
 function zrf () { zellij run --name "$*" --floating -- zsh -ic "$*";}
 function zri () { zellij run --name "$*" --in-place -- zsh -ic "$*";}
