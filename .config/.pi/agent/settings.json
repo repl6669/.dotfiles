@@ -4,10 +4,34 @@
   "defaultModel": "claude-opus-4.6",
   "defaultThinkingLevel": "medium",
   "theme": "repl69",
+  "subagents": {
+    "agentOverrides": {
+      "scout": {
+        "model": "github-copilot/claude-haiku-4-5"
+      },
+      "context-builder": {
+        "model": "github-copilot/claude-sonnet-4-6"
+      },
+      "planner": {
+        "model": "github-copilot/claude-opus-4-6"
+      },
+      "worker": {
+        "model": "github-copilot/claude-sonnet-4-6"
+      },
+      "reviewer": {
+        "model": "github-copilot/claude-sonnet-4-6"
+      },
+      "researcher": {
+        "model": "github-copilot/claude-sonnet-4-6"
+      }
+    }
+  },
   "packages": [
     "npm:pi-mcp-adapter",
     "npm:pi-nvim",
     "npm:pi-markdown-preview",
-    "npm:pi-subagents"
+    "npm:pi-subagents",
+    "npm:pi-web-access"
   ]
 }
+
