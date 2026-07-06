@@ -1,0 +1,12 @@
+{
+  "providers": {
+    "openrouter": {
+      "compat": {
+        "openRouterRouting": {
+          "order": ["DigitalOcean", "Hetzner", "Vultr", "OVHcloud", "Scaleway"],
+          "allow_fallbacks": true
+        }
+      }
+    }
+  }
+}
