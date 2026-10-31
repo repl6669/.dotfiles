@@ -53,4 +53,5 @@ cask 'quicklook-json'
 
 ## Apps
 cask 'warp'                                                 # Warp Terminal
+cask 'swiftbar'                                             # Menu bar plugins (AI usage)
 

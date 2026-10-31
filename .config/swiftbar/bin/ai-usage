@@ -1,0 +1,548 @@
+#!/usr/bin/env -S python3 -I
+"""AI accounts and their usage limits, as JSON on stdout (AiUsage.qml runs this; `ai-usage | jq` to look).
+
+Claude Code profiles: every directory matching $QS_AI_HOME/.claude* (default $HOME; one per CLAUDE_CONFIG_DIR,
+e.g. ~/.claude, ~/.claude-work). Per profile:
+  - account / plan from <dir>/.claude.json (for ~/.claude: ~/.claude.json) -> oauthAccount, and
+    <dir>/.credentials.json -> claudeAiOauth.subscriptionType / rateLimitTier
+  - limits from GET https://api.anthropic.com/api/oauth/usage (the unofficial endpoint Claude Code's /usage
+    uses). Bearer = claudeAiOauth.accessToken, read here and sent only in the request header (never argv,
+    never stdout, never the cache). The token is NEVER refreshed here: refreshing rotates the refresh token
+    and could log the CLI out; an expired / rejected token just reports status "expired".
+    Claude Code also caches the same response in .claude.json (cachedUsageUtilization); when that copy is
+    fresh enough no request is made at all.
+  - without subscription windows (API key, no login, endpoint failing with nothing cached): local estimate
+    from the session logs projects/**/*.jsonl, parsed incrementally (per-file byte offsets in the cache).
+  - lastUsed: mtime of the newest projects/**/*.jsonl (else of .credentials.json): picks the bar chip's account.
+Other tools: Codex CLI (rate limits from its newest session log), opencode, Gemini CLI: listed when found.
+
+Options: --max-age S (default 60: reuse an answer younger than this), --force (refresh button: max-age 20),
+         --shape (stderr: keys + percentages of each fetched response, for checking the parser; no secrets).
+Env (tests): QS_AI_HOME (where to look), QS_AI_CACHE (cache dir), QS_AI_MOCK (dir with <profile dir name>.json
+         = {"status": 200, "body": {...}} used instead of the network).
+"""
+import glob
+import json
+import os
+import re
+import subprocess
+import sys
+import time
+import urllib.error
+import urllib.request
+from datetime import datetime, timedelta, timezone
+
+HOME = os.environ.get("QS_AI_HOME") or os.path.expanduser("~")
+REAL_HOME = os.path.expanduser("~")
+CACHE = os.environ.get("QS_AI_CACHE") or os.path.join(
+    os.environ.get("XDG_CACHE_HOME") or os.path.join(REAL_HOME, ".cache"), "quickshell", "ai-usage")
+if sys.platform == "darwin" and not os.environ.get("QS_AI_CACHE"):
+    CACHE = os.path.join(REAL_HOME, "Library", "Caches", "ai-usage")
+MOCK = os.environ.get("QS_AI_MOCK") or ""
+ENDPOINT = "https://api.anthropic.com/api/oauth/usage"
+NOW = time.time()
+
+args = sys.argv[1:]
+FORCE = "--force" in args
+SHAPE = "--shape" in args
+MAX_AGE = 60.0
+if "--max-age" in args:
+    try:
+        MAX_AGE = float(args[args.index("--max-age") + 1])
+    except (IndexError, ValueError):
+        pass
+if FORCE:
+    MAX_AGE = 20.0                       # the refresh button still can't hammer the endpoint
+BACKOFF_429 = 300.0                      # after a 429 without Retry-After
+BACKOFF_ERR = 120.0                      # offline / 5xx
+
+
+def load_json(path, default=None):
+    try:
+        with open(path, encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return default
+
+
+def save_json(path, data):
+    try:
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        tmp = path + ".tmp%d" % os.getpid()
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(data, f)
+        os.replace(tmp, path)
+    except Exception:
+        pass
+
+
+def num(v):
+    if isinstance(v, bool):
+        return None
+    if isinstance(v, (int, float)):
+        return float(v)
+    if isinstance(v, str):
+        try:
+            return float(v)
+        except ValueError:
+            return None
+    return None
+
+
+def mtime(path):
+    try:
+        return os.path.getmtime(path)
+    except OSError:
+        return None
+
+
+def iso_to_epoch(s):
+    if not isinstance(s, str) or not s:
+        return None
+    try:
+        return datetime.fromisoformat(s.replace("Z", "+00:00")).timestamp()
+    except ValueError:
+        return None
+
+
+# ---- plan / account -------------------------------------------------------------------------------------
+
+def plan_name(sub, tier, acct):
+    sub = (sub or "").lower()
+    # the credentials keep the tier their token was minted with (stale after an upgrade); the profile's
+    # user / organization tier is refreshed by the CLI, so a multiplier named there wins
+    prof = (acct.get("userRateLimitTier") or acct.get("organizationRateLimitTier") or "").lower()
+    tier = prof if re.search(r"max_\d+x", prof) else (tier or "").lower()
+    mult = re.search(r"max_(\d+x)", tier)
+    org = (acct.get("organizationType") or "").lower()
+    seat = (acct.get("seatTier") or "").lower()
+    if not sub and org.startswith("claude_"):
+        sub = org[len("claude_"):]
+    if sub == "max":
+        return "Max " + mult.group(1) if mult else "Max"
+    if sub == "pro":
+        return "Pro"
+    if sub == "team":                    # a premium seat runs on a max_Nx tier: "Team 5x"
+        return "Team " + mult.group(1) if mult else "Team Premium" if "premium" in seat else "Team"
+    if sub == "enterprise":
+        return "Enterprise"
+    if sub == "free":
+        return "Free"
+    return sub.capitalize() if sub else ""
+
+
+# ---- usage response -> windows --------------------------------------------------------------------------
+
+KNOWN = [
+    ("five_hour", "Session", "5-hour window"),
+    ("seven_day", "Weekly", "all models"),
+    ("seven_day_opus", "Weekly", "Opus"),
+    ("seven_day_sonnet", "Weekly", "Sonnet"),
+    ("seven_day_haiku", "Weekly", "Haiku"),
+    ("seven_day_fable", "Weekly", "Fable"),
+]
+# other keys (seven_day_oauth_apps, seven_day_cowork, codenamed experiments) are not shown: /usage doesn't either
+
+
+def scoped_title(kind):
+    k = (kind or "").lower()
+    return "Monthly" if "month" in k else "Weekly" if "week" in k or "day" in k else "Session" if "hour" in k or "session" in k else ""
+
+
+def parse_usage(body):
+    """Tolerant: anything missing or of an unexpected type is skipped. Utilization is already a percent (1.0 = 1 %)."""
+    windows = []
+    if not isinstance(body, dict):
+        return windows, None
+    entries = body.get("limits") if isinstance(body.get("limits"), list) else []
+
+    def add(key, title, sub, w):
+        if not isinstance(w, dict):
+            return
+        pct = num(w.get("utilization"))
+        if pct is None:
+            pct = num(w.get("percent"))
+        if pct is None:
+            return
+        windows.append({"key": key, "title": title, "detail": sub, "percent": max(0.0, pct),
+                        "resetsAt": iso_to_epoch(w.get("resets_at"))})
+
+    for key, title, sub in KNOWN:
+        add(key, title, sub, body.get(key))
+    # model-scoped allowances (e.g. a weekly window only one model draws from) appear only in the
+    # `limits` array, while the matching seven_day_<model> keys stay null
+    seen = {(w["title"], w["detail"].lower()) for w in windows}
+    for e in entries:
+        if not isinstance(e, dict) or not isinstance(e.get("scope"), dict):
+            continue
+        model = e["scope"].get("model")
+        if not isinstance(model, dict):
+            continue
+        name = str(model.get("display_name") or model.get("id") or "").strip()
+        title = scoped_title(e.get("kind")) or "Limit"
+        if not name or (title, name.lower()) in seen:
+            continue
+        seen.add((title, name.lower()))
+        add("scoped_" + name, title, name, {"utilization": e.get("percent"), "resets_at": e.get("resets_at")})
+
+    extra = None
+    ex = body.get("extra_usage")
+    if isinstance(ex, dict) and ex.get("is_enabled") is True:
+        dp = num(ex.get("decimal_places"))
+        div = 10 ** int(dp) if dp is not None and 0 <= dp <= 4 else 1
+        used, limit = num(ex.get("used_credits")), num(ex.get("monthly_limit"))
+        extra = {
+            "percent": num(ex.get("utilization")),
+            "used": used / div if used is not None else None,
+            "limit": limit / div if limit is not None else None,
+            "currency": ex.get("currency") if isinstance(ex.get("currency"), str) else "",
+            "disabledReason": ex.get("disabled_reason") if isinstance(ex.get("disabled_reason"), str) else "",
+        }
+    return windows, extra
+
+
+def shape(o, depth=0):
+    """Keys and numbers only (strings are reduced to their type), for --shape."""
+    if isinstance(o, dict):
+        return {k: shape(v, depth + 1) for k, v in o.items()}
+    if isinstance(o, list):
+        return [shape(o[0], depth + 1)] if o else []
+    if isinstance(o, bool) or o is None:
+        return type(o).__name__
+    if isinstance(o, (int, float)):
+        return o
+    return "str"
+
+
+def fetch(profile_name, token):
+    """-> (http status or 0 for a network error, parsed body or None, retry-after seconds or None)"""
+    if MOCK:
+        m = load_json(os.path.join(MOCK, profile_name + ".json"))
+        if m is None:
+            return 0, None, None
+        return int(m.get("status", 200)), m.get("body"), m.get("retryAfter")
+    req = urllib.request.Request(ENDPOINT, method="GET", headers={
+        "Authorization": "Bearer " + token,
+        "anthropic-beta": "oauth-2025-04-20",
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "User-Agent": "quickshell-ai-usage/1.0",
+    })
+    try:
+        with urllib.request.urlopen(req, timeout=12) as r:
+            return r.status, json.loads(r.read().decode("utf-8", "replace") or "null"), None
+    except urllib.error.HTTPError as e:
+        ra = num(e.headers.get("retry-after")) if e.headers else None
+        return e.code, None, ra
+    except Exception:
+        return 0, None, None
+
+
+# ---- local estimate from session logs -------------------------------------------------------------------
+
+def local_stats(cdir, cache_key):
+    """Messages and tokens per local day from <cdir>/projects/**/*.jsonl, last 7 days. Each file is read
+    only from where the previous run stopped (offsets cached), and only files touched in the last 8 days."""
+    path = os.path.join(CACHE, "local-" + cache_key + ".json")
+    cache = load_json(path, {}) or {}
+    files = cache.get("files", {})
+    cutoff = NOW - 8 * 86400
+    keep_days = {(datetime.now() - timedelta(days=i)).strftime("%Y-%m-%d") for i in range(8)}
+    budget = 64 * 1024 * 1024            # read at most this much per run; the rest next time
+    out = {}
+    for f in glob.glob(os.path.join(cdir, "projects", "**", "*.jsonl"), recursive=True):
+        try:
+            st = os.stat(f)
+        except OSError:
+            continue
+        if st.st_mtime < cutoff:
+            continue
+        rec = files.get(f)
+        if not rec or rec.get("ino") != st.st_ino or st.st_size < rec.get("offset", 0):
+            rec = {"ino": st.st_ino, "offset": 0, "days": {}, "last": ""}
+        if st.st_size > rec["offset"] and budget > 0:
+            try:
+                with open(f, "rb") as fh:
+                    fh.seek(rec["offset"])
+                    chunk = fh.read(min(budget, st.st_size - rec["offset"]))
+                end = chunk.rfind(b"\n") + 1           # only whole lines; a partial last line waits
+                budget -= end
+                rec["offset"] += end
+                for line in chunk[:end].split(b"\n"):
+                    if b'"usage"' not in line or b'"assistant"' not in line:
+                        continue
+                    try:
+                        o = json.loads(line)
+                    except ValueError:
+                        continue
+                    msg = o.get("message") if isinstance(o, dict) else None
+                    if o.get("type") != "assistant" or not isinstance(msg, dict) or not isinstance(msg.get("usage"), dict):
+                        continue
+                    mid = str(msg.get("id") or "") + "|" + str(o.get("requestId") or "")
+                    if mid != "|" and mid == rec.get("last"):
+                        continue                       # streamed message logged again with the same id
+                    rec["last"] = mid
+                    ts = iso_to_epoch(o.get("timestamp"))
+                    if ts is None:
+                        continue
+                    day = datetime.fromtimestamp(ts).strftime("%Y-%m-%d")
+                    u = msg["usage"]
+                    d = rec["days"].setdefault(day, [0, 0, 0, 0])
+                    d[0] += 1
+                    d[1] += int(num(u.get("input_tokens")) or 0) + int(num(u.get("cache_creation_input_tokens")) or 0)
+                    d[2] += int(num(u.get("output_tokens")) or 0)
+                    d[3] += int(num(u.get("cache_read_input_tokens")) or 0)
+            except OSError:
+                pass
+        rec["days"] = {k: v for k, v in rec["days"].items() if k in keep_days}
+        out[f] = rec
+    save_json(path, {"files": out})
+    today = datetime.now().strftime("%Y-%m-%d")
+    week = {(datetime.now() - timedelta(days=i)).strftime("%Y-%m-%d") for i in range(7)}
+    t = [0, 0, 0, 0]
+    w = [0, 0, 0, 0]
+    for rec in out.values():
+        for day, v in rec["days"].items():
+            if day == today:
+                t = [a + b for a, b in zip(t, v)]
+            if day in week:
+                w = [a + b for a, b in zip(w, v)]
+    as_obj = lambda v: {"messages": v[0], "input": v[1], "output": v[2], "cacheRead": v[3]}
+    return {"today": as_obj(t), "week": as_obj(w), "partial": budget <= 0}
+
+
+# ---- Claude profiles ------------------------------------------------------------------------------------
+
+def keychain_creds():
+    """macOS: Claude Code keeps the default profile's credentials in the login Keychain (same JSON as
+    .credentials.json) instead of a file. Read through /usr/bin/security, in memory only; {} when unavailable."""
+    try:
+        r = subprocess.run(["/usr/bin/security", "find-generic-password", "-s", "Claude Code-credentials", "-w"],
+                           capture_output=True, text=True, timeout=10)
+        d = json.loads(r.stdout) if r.returncode == 0 else {}
+    except (OSError, subprocess.SubprocessError, ValueError):
+        return {}
+    return d if isinstance(d, dict) else {}
+
+
+def claude_profiles(state):
+    profiles = []
+    for d in sorted(glob.glob(os.path.join(HOME, ".claude*"))):
+        if not os.path.isdir(d) or os.path.islink(d) and not os.path.isdir(os.path.realpath(d)):
+            continue
+        name = os.path.basename(d)
+        creds_path = os.path.join(d, ".credentials.json")
+        cfg_path = os.path.join(d, ".config.json")              # legacy location first
+        if not os.path.exists(cfg_path):
+            cfg_path = os.path.join(d, ".claude.json")
+        if not os.path.exists(cfg_path) and name == ".claude":
+            cfg_path = os.path.join(HOME, ".claude.json")      # default profile keeps its config next to the dir
+        has_logs = os.path.isdir(os.path.join(d, "projects"))
+        if not (os.path.exists(creds_path) or os.path.exists(cfg_path) or has_logs):
+            continue                                            # not a Claude Code config dir
+        creds = load_json(creds_path, {}) or {}
+        if not creds and sys.platform == "darwin" and name == ".claude" and HOME == REAL_HOME and not MOCK:
+            creds = keychain_creds()
+        cfg = load_json(cfg_path, {}) or {}
+        oauth = creds.get("claudeAiOauth") if isinstance(creds.get("claudeAiOauth"), dict) else {}
+        acct = cfg.get("oauthAccount") if isinstance(cfg.get("oauthAccount"), dict) else {}
+        token = oauth.get("accessToken") if isinstance(oauth.get("accessToken"), str) else ""
+        api_key = bool(cfg.get("primaryApiKey")) or (not token and bool(creds.get("apiKey")))
+
+        p = {
+            "dir": name,
+            "label": acct.get("emailAddress") or acct.get("displayName") or name,
+            "displayName": acct.get("displayName") or "",
+            "org": acct.get("organizationName") or "",
+            "plan": plan_name(oauth.get("subscriptionType"), oauth.get("rateLimitTier"), acct)
+                    or ("API" if api_key else ""),
+            "status": "ok", "message": "", "windows": [], "extra": None,
+            "fetchedAt": None, "stale": False, "local": None,
+            # last activity: newest session transcript (claude appends to it on every turn); without logs the
+            # credentials file (claude rewrites it when it renews the token). The bar chip follows this.
+            "lastUsed": newest(glob.glob(os.path.join(d, "projects", "**", "*.jsonl"), recursive=True))[1]
+                        or mtime(creds_path),
+        }
+        if sys.platform == "darwin" and not p["lastUsed"]:
+            p["lastUsed"] = mtime(os.path.join(d, "projects"))
+        # no credentials file (Keychain): the token's expiry stands in for the file mtime in the retry guard
+        creds_stamp = mtime(creds_path) or (num(oauth.get("expiresAt")) or 0)
+
+        st = state.setdefault(d, {})
+        if token:
+            # Claude Code's own cached copy of the same response: newer than ours -> adopt it
+            cu = cfg.get("cachedUsageUtilization")
+            if isinstance(cu, dict) and isinstance(cu.get("utilization"), dict):
+                at = (num(cu.get("fetchedAtMs")) or 0) / 1000.0
+                if at > (st.get("okAt") or 0) and (not acct.get("accountUuid") or cu.get("accountUuid") in (None, acct.get("accountUuid"))):
+                    w, ex = parse_usage(cu["utilization"])
+                    if w:
+                        st.update({"okAt": at, "windows": w, "extra": ex, "src": "claude-code"})
+
+            exp = (num(oauth.get("expiresAt")) or 0) / 1000.0
+            rexp = (num(oauth.get("refreshTokenExpiresAt")) or 0) / 1000.0
+            if exp and exp < NOW:
+                # the access token lives hours and claude renews it on its next run; only a lapsed refresh
+                # token means signing in again
+                st["status"] = "paused" if rexp > NOW else "expired"
+            elif (NOW - (st.get("okAt") or 0) < MAX_AGE) or (NOW - (st.get("tried") or 0) < MAX_AGE) \
+                    or NOW < (st.get("backoff") or 0) \
+                    or (st.get("status") in ("expired", "forbidden") and st.get("credsMtime") == creds_stamp):
+                pass                                            # recent enough / backing off: no request
+            else:
+                st["tried"] = NOW
+                code, body, ra = fetch(name, token)
+                if code == 200 and isinstance(body, dict):
+                    if SHAPE:
+                        print("== " + name + " shape:", json.dumps(shape(body), indent=1), file=sys.stderr)
+                    w, ex = parse_usage(body)
+                    st.update({"okAt": NOW, "windows": w, "extra": ex, "status": "ok", "src": "api"})
+                    st.pop("backoff", None)
+                elif code in (401, 403):
+                    st["status"] = "expired" if code == 401 else "forbidden"
+                    st["credsMtime"] = creds_stamp         # no retry until claude rewrites its credentials
+                elif code == 429:
+                    st["status"] = "ratelimited"
+                    st["backoff"] = NOW + (ra if ra and ra > 0 else BACKOFF_429)
+                elif code == 0:
+                    st["status"] = "offline"
+                    st["backoff"] = NOW + BACKOFF_ERR
+                else:
+                    st["status"] = "error"
+                    st["code"] = code if code != 200 else "(unexpected response)"
+                    st["backoff"] = NOW + BACKOFF_ERR
+                if SHAPE and code != 200:
+                    print("== " + name + ": HTTP %s" % code, file=sys.stderr)
+
+            status = st.get("status", "ok")
+            p["windows"] = [w if not w.get("resetsAt") or w["resetsAt"] > NOW else dict(w, percent=0.0, resetsAt=None)
+                            for w in (st.get("windows") or [])]   # a cached window whose period ended is back at 0
+            p["extra"] = st.get("extra")
+            p["fetchedAt"] = st.get("okAt")
+            p["status"] = status
+            p["stale"] = status != "ok" or (p["fetchedAt"] is not None and NOW - p["fetchedAt"] > 15 * 60)
+            p["message"] = {
+                "expired": "Session expired — open claude in this profile",
+                "paused": "Token lapsed — start claude in this profile to refresh it",
+                "forbidden": "Usage not available for this login (403)",
+                "ratelimited": "Rate limited — showing last values",
+                "offline": "Offline — showing last values",
+                "error": "Usage endpoint error %s" % st.get("code", ""),
+            }.get(status, "")
+            if status == "ok" and not p["windows"] and p["fetchedAt"]:
+                p["message"] = "No subscription limits reported"
+        elif api_key:
+            p["status"] = "apikey"
+            p["message"] = "API key — no subscription limits"
+        else:
+            p["status"] = "nologin"
+            p["message"] = "Not logged in — run claude in this profile"
+
+        if not p["windows"] and has_logs:
+            key = "".join(c if c.isalnum() else "_" for c in os.path.realpath(d))
+            p["local"] = local_stats(d, key)
+        profiles.append(p)
+    return profiles
+
+
+# ---- other tools ----------------------------------------------------------------------------------------
+
+def newest(paths):
+    best, bt = None, 0
+    for p in paths:
+        try:
+            t = os.path.getmtime(p)
+        except OSError:
+            continue
+        if t > bt:
+            best, bt = p, t
+    return best, bt
+
+
+def codex_limits(root):
+    """Codex CLI writes its rate limits into the session log (token_count events). Last 256 KB of the
+    newest log only."""
+    f, _ = newest(glob.glob(os.path.join(root, "sessions", "**", "*.jsonl"), recursive=True))
+    if not f:
+        return []
+    try:
+        with open(f, "rb") as fh:
+            fh.seek(max(0, os.path.getsize(f) - 262144))
+            lines = fh.read().split(b"\n")
+    except OSError:
+        return []
+    for line in reversed(lines):
+        if b"rate_limits" not in line:
+            continue
+        try:
+            o = json.loads(line)
+        except ValueError:
+            continue
+        rl = None
+        stack = [o]
+        while stack and rl is None:                  # find the "rate_limits" object wherever it is nested
+            x = stack.pop()
+            if isinstance(x, dict):
+                if isinstance(x.get("rate_limits"), dict):
+                    rl = x["rate_limits"]
+                stack.extend(v for v in x.values() if isinstance(v, (dict, list)))
+            elif isinstance(x, list):
+                stack.extend(x)
+        if not rl:
+            continue
+        ts = iso_to_epoch(o.get("timestamp")) or os.path.getmtime(f)
+        out = []
+        for k in ("primary", "secondary"):
+            w = rl.get(k)
+            if not isinstance(w, dict) or num(w.get("used_percent")) is None:
+                continue
+            mins = num(w.get("window_minutes"))
+            reset = num(w.get("resets_at"))
+            if reset is None and num(w.get("resets_in_seconds")) is not None:
+                reset = ts + num(w.get("resets_in_seconds"))
+            title = "Session" if mins and mins <= 600 else "Weekly" if mins else k.capitalize()
+            detail = ("%dh window" % round(mins / 60)) if mins and mins < 1440 else ("%dd window" % round(mins / 1440)) if mins else ""
+            out.append({"key": "codex_" + k, "title": title, "detail": detail,
+                        "percent": num(w["used_percent"]), "resetsAt": reset})
+        return out
+    return []
+
+
+def others():
+    res = []
+    codex = os.environ.get("CODEX_HOME") or os.path.join(HOME, ".codex")
+    if os.path.isdir(codex):
+        w = codex_limits(codex)
+        _, last = newest(glob.glob(os.path.join(codex, "sessions", "**", "*.jsonl"), recursive=True))
+        res.append({"name": "Codex CLI", "detail": "limits from the last session log" if w else "no limits recorded locally",
+                    "windows": w, "lastUsed": last or None})
+    oc_data = os.path.join(HOME, ".local", "share", "opencode")
+    if os.path.isdir(oc_data) or os.path.isdir(os.path.join(HOME, ".config", "opencode")):
+        auth = load_json(os.path.join(oc_data, "auth.json"), {}) or {}
+        names = {"github-copilot": "GitHub Copilot", "anthropic": "Anthropic", "openai": "OpenAI",
+                 "openrouter": "OpenRouter", "google": "Google"}
+        provs = [names.get(k, k) for k in auth.keys()] if isinstance(auth, dict) else []
+        _, last = newest([os.path.join(oc_data, "opencode.db"), os.path.join(oc_data, "opencode.db-wal")])
+        res.append({"name": "opencode", "detail": (", ".join(provs) if provs else "no providers logged in") + " · no local limits",
+                    "windows": [], "lastUsed": last or None})
+    gem = os.path.join(HOME, ".gemini")
+    if os.path.isdir(gem):
+        _, last = newest(glob.glob(os.path.join(gem, "**", "*"), recursive=False) + [gem])
+        res.append({"name": "Gemini CLI", "detail": "no local limits", "windows": [], "lastUsed": last or None})
+    return res
+
+
+def main():
+    state_path = os.path.join(CACHE, "state.json")
+    state = load_json(state_path, {}) or {}
+    profiles = claude_profiles(state)
+    # forget profiles whose dir is gone
+    alive = {os.path.join(HOME, p["dir"]) for p in profiles}
+    state = {k: v for k, v in state.items() if k in alive}
+    save_json(state_path, state)
+    json.dump({"generatedAt": NOW, "profiles": profiles, "others": others()}, sys.stdout)
+    sys.stdout.write("\n")
+
+
+if __name__ == "__main__":
+    main()
