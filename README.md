@@ -29,7 +29,7 @@ Go through this list before you wipe the disk.
 - [ ] `~/.gnupg`, if still needed
 - [ ] Any extra `~/.s3cfg-*` files (mackup only covers `~/.s3cfg`)
 - [ ] `~/.kube/config`
-- [ ] API keys live in 1Password. `secrets.zsh` maps env vars to `op://` references and configs only use the env vars (e.g. `$OMLX_API_KEY` in `.pi/agent/models.json`). Check every referenced item exists in 1Password.
+- [ ] API keys live in 1Password. `secrets.zsh` maps env vars to `op://` references, configs only use the env vars. Check every referenced item exists in 1Password.
 
 ### Code and data
 
@@ -54,7 +54,7 @@ Go through this list before you wipe the disk.
 
 ### Installed by hand (not in Brewfile)
 
-Ableton Live 12 Suite, FileZilla, Ivanti Secure Access, RME (ADI-2 Remote, DigiCheck NG, USB Flash Tool), Roland Cloud, Keydous Driver, ObinsKit, QMK Toolbox, Adobe Acrobat, Bambu Connect, Prusa drivers, Umbrel, oMLX, mlx-dspark, CrossOver, TeamViewer, Autodesk Fusion, games (Steam).
+Ableton Live 12 Suite, FileZilla, Ivanti Secure Access, RME (ADI-2 Remote, DigiCheck NG, USB Flash Tool), Roland Cloud, Keydous Driver, ObinsKit, QMK Toolbox, Adobe Acrobat, Bambu Connect, Prusa drivers, Umbrel, mlx-dspark, CrossOver, TeamViewer, Autodesk Fusion, games (Steam).
 
 ## Setting up the new Mac
 

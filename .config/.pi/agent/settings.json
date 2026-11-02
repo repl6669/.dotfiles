@@ -1,7 +1,7 @@
 {
   "lastChangelogVersion": "0.85.1",
-  "defaultProvider": "omlx",
-  "defaultModel": "GLM-4.7-Flash-4bit",
+  "defaultProvider": "github-copilot",
+  "defaultModel": "claude-opus-4.6",
   "defaultThinkingLevel": "high",
   "theme": "repl69",
   "subagents": {
