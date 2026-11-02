@@ -78,6 +78,7 @@ Ableton Live 12 Suite, FileZilla, Ivanti Secure Access, RME (ADI-2 Remote, DigiC
 - Keyboard input sources: add Czech QWERTY next to U.S.
 - Grant Accessibility permission to AeroSpace, Raycast, AltTab, SwiftBar
 - Raycast: import settings, set cmd + space (Spotlight shortcut is turned off by `.macos`)
+- TablePlus: File → Import connections from the export saved in 1Password
 - Claude Code: plugins are listed in `.config/.claude/settings.json`, run `claude` and install them from the marketplaces in `plugins/known_marketplaces.json`
 
 ### Neovim
