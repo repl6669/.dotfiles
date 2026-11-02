@@ -1,0 +1,18 @@
+{
+  "claude-plugins-official": {
+    "source": {
+      "source": "github",
+      "repo": "anthropics/claude-plugins-official"
+    },
+    "installLocation": "/Users/theimer/.claude/plugins/marketplaces/claude-plugins-official",
+    "lastUpdated": "2026-11-02T17:38:25.136Z"
+  },
+  "thedotmack": {
+    "source": {
+      "source": "github",
+      "repo": "thedotmack/claude-mem"
+    },
+    "installLocation": "/Users/theimer/.claude/plugins/marketplaces/thedotmack",
+    "lastUpdated": "2026-02-05T03:38:52.408Z"
+  }
+}

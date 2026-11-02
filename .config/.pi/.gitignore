@@ -12,3 +12,12 @@ agent/run-history.jsonl
 
 # pi-acp session mapping
 pi-acp/session-map.json
+
+# Backups and installed packages
+agent/*.bak
+agent/npm/
+
+# Runtime state
+agent/missions/
+agent/models-store.json
+agent/trust.json

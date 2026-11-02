@@ -1,3 +1,5 @@
 .php_cs.cache
 .undodir
 Session.vim
+
+**/.claude/settings.local.json

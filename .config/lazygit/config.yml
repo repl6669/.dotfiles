@@ -62,10 +62,10 @@ gui:
       - "#6f2500"
     defaultFgColor:
       - "#c1c1c1"
-  authorColors:
-    "*": "#067474"
-    "Jakub Theimer": "#0bcb85"
-    "Paul Cross": "#5f00c9"
+    authorColors:
+      "*": "#067474"
+      "Jakub Theimer": "#0bcb85"
+      "Paul Cross": "#5f00c9"
   # Config relating to the commit length indicator
   commitLength:
     # If true, show an indicator of commit message length
@@ -133,16 +133,10 @@ gui:
 # Config relating to git
 git:
   # See https://github.com/jesseduffield/lazygit/blob/master/docs/Custom_Pagers.md
-  pagers:
+  diffRenderers:
     - # Value of the --color arg in the git diff command. Some pagers want this to be set to 'always' and some want it set to 'never'
       colorArg: always
-      # e.g.
-      # diff-so-fancy
-      # delta --dark --paging=never
-      # ydiff -p cat -s --wrap --width={{columnWidth}}
-      pager: ""
-      # e.g. 'difft --color=always'
-      externalDiffCommand: ""
+      type: rawGit
   # Config relating to committing
   commit:
     # Automatic WYSIWYG wrapping of the commit message as you type
@@ -327,6 +321,7 @@ keybinding:
     increaseContextInDiffView: "}"
     decreaseContextInDiffView: "{"
     openDiffTool: <c-t>
+    newWorktree: w
   status:
     checkForUpdate: u
     recentRepos: <enter>
@@ -365,8 +360,6 @@ keybinding:
     setUpstream: u
     fetchRemote: f
     sortOrder: s
-  worktrees:
-    viewWorktreeOptions: w
   commits:
     squashDown: s
     renameCommit: r
@@ -386,7 +379,7 @@ keybinding:
     markCommitAsBaseForRebase: B
     tagCommit: T
     checkoutCommit: <space>
-    resetCherryPick: <c-R>
+    resetCherryPick: <c-r>
     copyCommitAttributeToClipboard: "y"
     openLogMenu: <c-l>
     openInBrowser: o

@@ -1,0 +1,13 @@
+# Track only config, ignore runtime state (history, sessions, caches, auth)
+/*
+!/.gitignore
+!/CLAUDE.md
+!/settings.json
+!/statusline-command.sh
+!/skills/
+!/plugins/
+/plugins/*
+!/plugins/known_marketplaces.json
+/skills/.trash/
+.DS_Store
+/skills/synced/

@@ -50,7 +50,7 @@ alias wip="commit wip"                                      # Git commit wip
 alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
 
 # Copilot CLI
-eval "$(github-copilot-cli alias -- "$0")"
+command -v github-copilot-cli >/dev/null && eval "$(github-copilot-cli alias -- "$0")"
 
 ## Python
 # alias pip="pip3"                                          # Use pip3

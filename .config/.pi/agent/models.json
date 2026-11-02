@@ -3,10 +3,33 @@
     "openrouter": {
       "compat": {
         "openRouterRouting": {
-          "order": ["DigitalOcean", "Hetzner", "Vultr", "OVHcloud", "Scaleway"],
           "allow_fallbacks": true
         }
       }
+    },
+    "omlx": {
+      "baseUrl": "http://127.0.0.1:8999/v1",
+      "api": "openai-completions",
+      "apiKey": "$OMLX_API_KEY",
+      "authHeader": true,
+      "models": [
+        {
+          "id": "GLM-4.7-Flash-4bit",
+          "name": "GLM-4.7-Flash-4bit",
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "contextWindow": 202752,
+          "maxTokens": 32768
+        }
+      ]
     }
   }
 }

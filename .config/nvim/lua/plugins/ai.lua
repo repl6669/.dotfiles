@@ -1,49 +1,59 @@
 ---@module "lazy"
 ---@type LazySpec
 return {
-  -- Pi (coding agent)
+  -- Claude Code
   {
-    "carderne/pi-nvim",
-    cmd = { "Pi", "PiSend", "PiSendFile", "PiSendSelection", "PiSendBuffer", "PiPing", "PiSessions" },
-    keys = {
-      { "<Leader>ai", "<cmd>Pi<CR>", desc = "Send to pi", mode = "n" },
-      { "<Leader>ai", "<cmd>Pi<CR>", desc = "Send to pi (selection)", mode = "v" },
-      { "<Leader>ap", "<cmd>PiSend<CR>", desc = "Send prompt to Pi", mode = "n" },
-      { "<Leader>af", "<cmd>PiSendFile<CR>", desc = "Send file to Pi", mode = "n" },
-      { "<Leader>as", "<cmd>PiSendSelection<CR>", desc = "Send selection to Pi", mode = "v" },
-      { "<Leader>ab", "<cmd>PiSendBuffer<CR>", desc = "Send buffer to Pi", mode = "n" },
-      { "<Leader>ag", "<cmd>PiPing<CR>", desc = "Ping Pi", mode = "n" },
-      { "<Leader>ao", "<cmd>PiSessions<CR>", desc = "Pi sessions", mode = "n" },
+    "greggh/claude-code.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim", -- Required for git operations
     },
     config = function()
-      require("pi-nvim").setup()
+      require("claude-code").setup()
     end,
   },
 
-  -- Copilot
+  -- -- Copilot
+  -- {
+  --   "zbirenbaum/copilot.lua",
+  --   cmd = "Copilot",
+  --   event = "InsertEnter",
+  --   opts = function()
+  --     return {
+  --       panel = {
+  --         enabled = false,
+  --       },
+  --       suggestion = {
+  --         enabled = false,
+  --         auto_trigger = false,
+  --         keymap = {
+  --           accept_word = "<C-l>",
+  --           accept_line = "<C-j>",
+  --         },
+  --       },
+  --       workspace_folders = {
+  --         os.getenv("HOME") .. "/Developer/php",
+  --       },
+  --       copilot_model = "",
+  --       copilot_node_command = "/opt/homebrew/bin/node",
+  --     }
+  --   end,
+  -- },
+
   {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "InsertEnter",
-    opts = function()
-      return {
-        panel = {
-          enabled = false,
-        },
-        suggestion = {
-          enabled = false,
-          auto_trigger = false,
-          keymap = {
-            accept_word = "<C-l>",
-            accept_line = "<C-j>",
-          },
-        },
-        workspace_folders = {
-          os.getenv("HOME") .. "/Developer/php",
-        },
-        copilot_model = "",
-        copilot_node_command = "/opt/homebrew/bin/node",
-      }
+    "ravitemer/mcphub.nvim", -- Manage MCP servers
+    cmd = "MCPHub",
+    build = "npm install -g mcp-hub@latest",
+    config = function()
+      require("mcphub").setup()
     end,
+    dependencies = {
+      {
+        "nvim-lualine/lualine.nvim",
+        -- WARNING: Deprecated
+        -- opts = function(_, opts)
+        --   table.insert(opts.sections.lualine_x, { require("mcphub.extensions.lualine") })
+        -- end,
+      },
+    },
   },
 }

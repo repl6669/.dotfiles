@@ -4,39 +4,80 @@ Personal .dotfiles
 
 Special thanks to [Dries Vints](https://github.com/driesvints) for making a great dotfiles [tutorial](https://driesvints.com/blog/getting-started-with-dotfiles) and [screencast](https://laracasts.com/series/guest-spotlight/episodes/1).
 
-## A Fresh macOS Setup
+## What's in here
 
-These instructions are for when you've already set up your dotfiles. If you want to get started with your own dotfiles you can [find instructions below](#your-own-dotfiles).
+| File | What it does |
+| --- | --- |
+| `fresh.sh` | Full setup: Homebrew, Brewfile, Oh My Zsh, symlinks, Rust, Python, Valet, Neovim plugins, macOS prefs. Safe to re-run. |
+| `Brewfile` | CLI tools, apps (casks), Mac App Store apps, global npm and cargo packages |
+| `.macos` | System preferences (Dock, Finder, keyboard, trackpad, Spaces for AeroSpace) |
+| `.mackup.cfg` | App settings synced through iCloud. Ignores everything that lives in this repo. |
+| `.config/` | Neovim, Ghostty, AeroSpace, Zellij, lazygit, Claude Code, pi, ... (symlinked into `~/.config` and `~`) |
 
-### Before you re-install
+## Before you reinstall
 
-First, go through the checklist below to make sure you didn't forget anything before you wipe your hard drive.
+Go through this list before you wipe the disk.
 
-- Did you backup your SSH keys to 1Password?
-- Did you commit and push any changes/branches to your git repositories?
-- Did you remember to save all important documents from non-iCloud directories?
-- Did you save all of your work from apps which aren't synced through iCloud?
-- Did you remember to export important data from your local database?
-- Did you update [mackup](https://github.com/lra/mackup) to the latest version and ran `mackup backup`?
+### Dotfiles
 
-### Installing macOS cleanly
+- [ ] Commit and push everything in `~/.dotfiles` (`git status` must be clean)
+- [ ] `brew bundle dump --file=- --taps --formulae --casks --mas --npm --cargo` and compare with `Brewfile` for anything new
+- [ ] `mackup backup` (copies app settings to iCloud), then check `~/Library/Mobile Documents/com~apple~CloudDocs/Mackup` has synced
 
-After going to our checklist above and making sure you backed everything up, we're going to cleanly install macOS with the latest release. Follow [this article](https://www.imore.com/how-do-clean-install-macos) to cleanly install the latest macOS version.
+### Secrets and keys
 
-### Setting up your Mac
+- [ ] `~/.gnupg`, if still needed
+- [ ] Any extra `~/.s3cfg-*` files (mackup only covers `~/.s3cfg`)
+- [ ] `~/.kube/config`
+- [ ] API keys live in 1Password. `secrets.zsh` maps env vars to `op://` references and configs only use the env vars (e.g. `$OMLX_API_KEY` in `.pi/agent/models.json`). Check every referenced item exists in 1Password.
 
-If you did all of the above you may now follow these install instructions to setup a new Mac.
+### Code and data
 
-1. Update macOS to the latest version with the App Store
-2. Clone this repo to `~/.dotfiles`
-3. Run `fresh.sh` to start the installation
-4. After mackup is synced with your cloud storage, restore preferences by running `mackup restore`
-5. Restart your computer to finalize the process
+- [ ] Copy all of `~/Developer` to an external disk. `.env` files aren't in git, and a lot of repos have uncommitted work.
+- [ ] Push repos with unpushed commits and check for repos without a remote
+- [ ] Dump local MySQL databases you need: `mysqldump -uroot --all-databases > all.sql`
+- [ ] `~/.git-stats` (git-stats commit history)
+- [ ] `~/.claude-mem` (claude-mem memory database) and `~/.claude/projects` if you want old Claude Code sessions
 
-### Setting up neovim
+### Fonts
 
-1. Open `$HOME/.config/nvim/lua/config/plugins/plugins.lua`
-2. Save the file and packer should install everything
-3. Enjoy neovim
+- [ ] Copy `~/Library/Fonts` (~150 MB). Most are paid and not on Homebrew: TX-02 (Ghostty), Berkeley Mono, Comic Code, Dank Mono, Apercu, ...
 
-Your Mac is now ready to use!
+### Apps
+
+- [ ] Raycast: Settings → Advanced → Export (snippets, quicklinks, hotkeys)
+- [ ] Little Snitch: export rules
+- [ ] `~/SP404 User`, `~/Calibre Library`, `~/Screen Studio Projects`, `~/Movies`, `~/Pictures` if not in iCloud
+- [ ] Parallels / CrossOver VMs and bottles you want to keep
+- [ ] Licence keys for paid apps not bought through the App Store: Beyond Compare, Transmit, Sketch, Screen Studio, Tinkerwell, Ray, SoundSource, Audio Hijack, Little Snitch, Parallels, CrossOver
+- [ ] Sign out of iCloud, deauthorize Music, unpair Bluetooth devices if selling
+
+### Installed by hand (not in Brewfile)
+
+Ableton Live 12 Suite, FileZilla, Ivanti Secure Access, RME (ADI-2 Remote, DigiCheck NG, USB Flash Tool), Roland Cloud, Keydous Driver, ObinsKit, QMK Toolbox, Adobe Acrobat, Bambu Connect, Prusa drivers, Umbrel, oMLX, mlx-dspark, CrossOver, TeamViewer, Autodesk Fusion, games (Steam).
+
+## Setting up the new Mac
+
+1. Install macOS cleanly ([Apple guide](https://support.apple.com/en-us/102664)), update to the latest version
+2. Sign in to iCloud and the App Store, install 1Password and sign in
+3. Clone the repo:
+   ```sh
+   xcode-select --install
+   git clone https://github.com/theimerj/.dotfiles.git ~/.dotfiles
+   ```
+4. Run `~/.dotfiles/fresh.sh`
+5. Wait for iCloud to sync Mackup, then `mackup restore`
+6. Put back fonts, SSH keys, `~/Developer`, databases
+7. Switch the remote to SSH once the key is in place: `git -C ~/.dotfiles remote set-url origin git@github.com:theimerj/.dotfiles.git`
+8. Restart
+
+### Manual steps
+
+- Keyboard input sources: add Czech QWERTY next to U.S.
+- Grant Accessibility permission to AeroSpace, Raycast, AltTab, SwiftBar
+- Raycast: import settings, set cmd + space (Spotlight shortcut is turned off by `.macos`)
+- Claude Code: plugins are listed in `.config/.claude/settings.json`, run `claude` and install them from the marketplaces in `plugins/known_marketplaces.json`
+
+### Neovim
+
+`fresh.sh` runs `Lazy! restore`, which installs plugins at the versions in `lazy-lock.json`. On the first real start Mason installs the LSP servers, formatters and debuggers, and treesitter compiles its parsers. Give it a minute, then run `:checkhealth`.

@@ -1,0 +1,157 @@
+#!/usr/bin/env bash
+
+# macOS preferences
+# Values mirror the settings of the previous install (dumped 2026-11-02).
+# Some changes need a logout/restart to take effect.
+
+# Close System Settings so it doesn't overwrite what we set here
+osascript -e 'tell application "System Settings" to quit'
+
+# Ask for the administrator password upfront and keep it alive
+sudo -v
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
+###############################################################################
+# General                                                                     #
+###############################################################################
+
+# Computer name
+sudo scutil --set ComputerName "Jakub’s MacBook Pro Max"
+sudo scutil --set HostName "Jakub-MacBook-Pro-Max"
+sudo scutil --set LocalHostName "Jakub-MacBook-Pro-Max"
+
+# Dark mode, orange accent and highlight color
+defaults write NSGlobalDomain AppleInterfaceStyle -string "Dark"
+defaults write NSGlobalDomain AppleAccentColor -int 1
+defaults write NSGlobalDomain AppleHighlightColor -string "1.000000 0.874510 0.701961 Orange"
+
+# Region: English (Czechia), metric units, Celsius
+defaults write NSGlobalDomain AppleLocale -string "en_CZ"
+defaults write NSGlobalDomain AppleMeasurementUnits -string "Centimeters"
+defaults write NSGlobalDomain AppleMetricUnits -bool true
+defaults write NSGlobalDomain AppleTemperatureUnit -string "Celsius"
+
+# Always open documents in tabs
+defaults write NSGlobalDomain AppleWindowTabbingMode -string "always"
+
+# Double-clicking a window title bar does nothing
+defaults write NSGlobalDomain AppleMiniaturizeOnDoubleClick -bool false
+
+# Don't enlarge the cursor when shaking the mouse
+defaults write NSGlobalDomain CGDisableCursorLocationMagnification -bool true
+
+# Drag windows with ctrl + cmd + click anywhere in the window (works nicely with AeroSpace)
+defaults write NSGlobalDomain NSWindowShouldDragOnGesture -bool true
+
+# Don't write .DS_Store files on network and USB volumes
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
+
+###############################################################################
+# Keyboard                                                                    #
+###############################################################################
+
+# Fast key repeat
+defaults write NSGlobalDomain InitialKeyRepeat -int 12
+defaults write NSGlobalDomain KeyRepeat -int 2
+
+# Tab moves focus between all controls
+defaults write NSGlobalDomain AppleKeyboardUIMode -int 2
+
+# No auto-capitalization or autocorrect
+defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool false
+defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
+
+# Disable Spotlight shortcuts (cmd + space goes to Raycast)
+/usr/libexec/PlistBuddy -c "Set :AppleSymbolicHotKeys:64:enabled false" ~/Library/Preferences/com.apple.symbolichotkeys.plist 2>/dev/null \
+  || defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 "<dict><key>enabled</key><false/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>49</integer><integer>1048576</integer></array><key>type</key><string>standard</string></dict></dict>"
+/usr/libexec/PlistBuddy -c "Set :AppleSymbolicHotKeys:65:enabled false" ~/Library/Preferences/com.apple.symbolichotkeys.plist 2>/dev/null \
+  || defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 65 "<dict><key>enabled</key><false/><key>value</key><dict><key>parameters</key><array><integer>65535</integer><integer>49</integer><integer>1572864</integer></array><key>type</key><string>standard</string></dict></dict>"
+
+###############################################################################
+# Trackpad & mouse                                                            #
+###############################################################################
+
+for domain in com.apple.AppleMultitouchTrackpad com.apple.driver.AppleBluetoothMultitouch.trackpad; do
+  # Tap to click
+  defaults write "$domain" Clicking -bool true
+  # No three-finger drag
+  defaults write "$domain" TrackpadThreeFingerDrag -bool false
+  # Notification Center: swipe left from the right edge
+  defaults write "$domain" TrackpadTwoFingerFromRightEdgeSwipeGesture -int 3
+done
+defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+
+# No swipe between pages with two fingers
+defaults write NSGlobalDomain AppleEnableSwipeNavigateWithScrolls -bool false
+
+# Tracking speed
+defaults write NSGlobalDomain com.apple.trackpad.scaling -float 1.5
+defaults write NSGlobalDomain com.apple.mouse.scaling -float 2
+
+###############################################################################
+# Finder                                                                      #
+###############################################################################
+
+# Show all file extensions
+defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+
+# Show path bar
+defaults write com.apple.finder ShowPathbar -bool true
+
+# Column view by default
+defaults write com.apple.finder FXPreferredViewStyle -string "clmv"
+
+# New windows open Recents
+defaults write com.apple.finder NewWindowTarget -string "PfAF"
+
+# Desktop icons: external drives and removable media, not internal disks
+defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool true
+defaults write com.apple.finder ShowHardDrivesOnDesktop -bool false
+defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool true
+
+###############################################################################
+# Dock, Mission Control & windows                                             #
+###############################################################################
+
+# Autohide, icon size, no recent apps
+defaults write com.apple.dock autohide -bool true
+defaults write com.apple.dock tilesize -int 57
+defaults write com.apple.dock largesize -int 128
+defaults write com.apple.dock show-recents -bool false
+
+# Don't rearrange Spaces based on most recent use
+defaults write com.apple.dock mru-spaces -bool false
+
+# Group windows by application in Mission Control (AeroSpace recommendation)
+defaults write com.apple.dock expose-group-apps -bool true
+
+# Displays don't have separate Spaces (AeroSpace recommendation)
+defaults write com.apple.spaces spans-displays -bool true
+
+# Hot corner: bottom right opens Quick Note
+defaults write com.apple.dock wvous-br-corner -int 14
+defaults write com.apple.dock wvous-br-modifier -int 0
+
+# Stage Manager off, clicking the wallpaper doesn't reveal the desktop
+defaults write com.apple.WindowManager GloballyEnabled -bool false
+defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -bool false
+defaults write com.apple.WindowManager StandardHideWidgets -bool true
+
+###############################################################################
+# Apps                                                                        #
+###############################################################################
+
+# SwiftBar reads plugins from the dotfiles
+defaults write com.ameba.SwiftBar PluginDirectory -string "$HOME/.config/swiftbar/plugins"
+defaults write com.ameba.SwiftBar MakePluginExecutable -bool true
+
+###############################################################################
+# Kill affected applications                                                 #
+###############################################################################
+
+for app in "cfprefsd" "Dock" "Finder" "SystemUIServer"; do
+  killall "${app}" &>/dev/null
+done
+
+echo "Done. Some of these changes need a logout/restart to take effect."

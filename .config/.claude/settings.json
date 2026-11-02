@@ -1,0 +1,27 @@
+{
+  "model": "opus",
+  "statusLine": {
+    "type": "command",
+    "command": "bash /Users/theimer/.claude/statusline-command.sh"
+  },
+  "enabledPlugins": {
+    "context7@claude-plugins-official": true,
+    "code-review@claude-plugins-official": true,
+    "ralph-loop@claude-plugins-official": true,
+    "playwright@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": true,
+    "linear@claude-plugins-official": true,
+    "sentry@claude-plugins-official": true,
+    "stripe@claude-plugins-official": true,
+    "php-lsp@claude-plugins-official": true,
+    "lua-lsp@claude-plugins-official": true,
+    "playground@claude-plugins-official": true,
+    "claude-mem@thedotmack": true,
+    "typescript-lsp@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true,
+    "mattpocock-skills@claude-plugins-official": true,
+    "figma@claude-plugins-official": true
+  },
+  "skipWorkflowUsageWarning": true,
+  "theme": "auto"
+}

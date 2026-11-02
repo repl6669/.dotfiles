@@ -15,7 +15,22 @@ return {
     ---@type blink.cmp.Config
     opts = {
       sources = {
+        default = { "lsp", "path", "snippets", "buffer" }, -- "ripgrep"
         providers = {
+          -- ripgrep = {
+          --   module = "blink-ripgrep",
+          --   name = "Ripgrep",
+          --   score_offset = 1,
+          --   ---@module "blink-ripgrep"
+          --   ---@type blink-ripgrep.Options
+          --   opts = {
+          --     prefix_min_len = 3,
+          --     context_size = 5,
+          --     max_filesize = "1M",
+          --     project_root_marker = ".git",
+          --     search_casing = "--smart-case",
+          --   },
+          -- },
           path = {
             min_keyword_length = 0,
           },

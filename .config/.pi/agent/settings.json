@@ -1,28 +1,31 @@
 {
-  "lastChangelogVersion": "0.67.6",
-  "defaultProvider": "github-copilot",
-  "defaultModel": "claude-opus-4.6",
-  "defaultThinkingLevel": "medium",
+  "lastChangelogVersion": "0.85.1",
+  "defaultProvider": "omlx",
+  "defaultModel": "GLM-4.7-Flash-4bit",
+  "defaultThinkingLevel": "high",
   "theme": "repl69",
   "subagents": {
     "agentOverrides": {
       "scout": {
-        "model": "github-copilot/claude-haiku-4-5"
+        "model": "github-copilot/claude-haiku-4.5"
       },
       "context-builder": {
-        "model": "github-copilot/claude-sonnet-4-6"
+        "model": "github-copilot/claude-sonnet-5"
       },
       "planner": {
-        "model": "github-copilot/claude-opus-4-6"
+        "model": "github-copilot/claude-sonnet-5"
       },
       "worker": {
-        "model": "github-copilot/claude-sonnet-4-6"
+        "model": "github-copilot/claude-sonnet-5"
       },
       "reviewer": {
-        "model": "github-copilot/claude-sonnet-4-6"
+        "model": "github-copilot/claude-sonnet-5"
       },
       "researcher": {
-        "model": "github-copilot/claude-sonnet-4-6"
+        "model": "github-copilot/claude-sonnet-5"
+      },
+      "delegate": {
+        "model": "github-copilot/claude-sonnet-5"
       }
     }
   },
@@ -31,7 +34,8 @@
     "npm:pi-nvim",
     "npm:pi-markdown-preview",
     "npm:pi-subagents",
-    "npm:pi-web-access"
+    "npm:pi-web-access",
+    "npm:pi-intercom",
+    "npm:pi-prompt-template-model"
   ]
 }
-

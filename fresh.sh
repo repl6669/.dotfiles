@@ -1,55 +1,100 @@
-#!/bin/sh
+#!/bin/bash
+
+# Fresh macOS setup. Safe to run more than once.
+# Usage: ~/.dotfiles/fresh.sh
+
+set -e
+
+DOTFILES="$HOME/.dotfiles"
 
 echo "Setting up your Mac... 💻"
 
-# Check for Homebrew and install if we don't have it
-if test ! $(which brew); then
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+# Xcode Command Line Tools
+if ! xcode-select -p &>/dev/null; then
+  xcode-select --install
+  echo "Finish installing the Command Line Tools, then run this script again."
+  exit 1
 fi
 
-# Update Homebrew recipes
+# Rosetta (some casks still need it)
+if [[ "$(uname -m)" == "arm64" ]] && ! /usr/bin/pgrep -q oahd; then
+  sudo softwareupdate --install-rosetta --agree-to-license
+fi
+
+# Homebrew
+if ! command -v brew &>/dev/null; then
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+eval "$(/opt/homebrew/bin/brew shellenv)"
+grep -q 'brew shellenv' "$HOME/.zprofile" 2>/dev/null || echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "$HOME/.zprofile"
+
+# Install everything from the Brewfile.
+# Mac App Store apps need you to be signed in to the App Store first.
 brew update
+brew bundle --file="$DOTFILES/Brewfile" || echo "⚠️  Some Brewfile entries failed, check the output above."
 
-# Install all our dependencies with bundle (See Brewfile)
-brew tap homebrew/bundle
-brew bundle
+# Oh My Zsh and custom plugins
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+  RUNZSH=no KEEP_ZSHRC=yes sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+fi
+ZSH_CUSTOM="$HOME/.oh-my-zsh/custom"
+clone_plugin() {
+  [ -d "$ZSH_CUSTOM/plugins/$1" ] || git clone --depth 1 "$2" "$ZSH_CUSTOM/plugins/$1"
+}
+clone_plugin artisan https://github.com/jessarcher/zsh-artisan.git
+clone_plugin zsh-autosuggestions https://github.com/zsh-users/zsh-autosuggestions
+clone_plugin zsh-completions https://github.com/zsh-users/zsh-completions
+clone_plugin zsh-syntax-highlighting https://github.com/zsh-users/zsh-syntax-highlighting.git
 
-# Set default MySQL root password and auth type.
-# mysql -u root -e "ALTER USER root@localhost IDENTIFIED WITH mysql_native_password BY 'password'; FLUSH PRIVILEGES;"
+# Symlinks
+# link <source in dotfiles> <target>
+link() {
+  local src="$DOTFILES/$1" dst="$2"
+  mkdir -p "$(dirname "$dst")"
+  if [ -e "$dst" ] && [ ! -L "$dst" ]; then
+    mv "$dst" "$dst.backup.$(date +%s)"
+  fi
+  ln -sfn "$src" "$dst"
+}
 
-# Setup PHP & Laravel
-sudo pecl install imagick # Install PHP extensions with PECL
-/usr/local/bin/composer global require laravel/installer laravel/valet # Install global Composer packages
-$HOME/.composer/vendor/bin/valet install # Install Laravel Valet
+link .zshrc "$HOME/.zshrc"
+link .gitignore_global "$HOME/.gitignore_global"
+link .mackup.cfg "$HOME/.mackup.cfg"
+link .shellcheckrc "$HOME/.shellcheckrc"
+link git-templates "$HOME/.git-templates"
+link .config/.claude "$HOME/.claude"
+link .config/.pi "$HOME/.pi"
+link .config/.agents "$HOME/.agents"
+link pint.json "$HOME/.config/pint.json"
+link .config/.ripgreprc "$HOME/.config/.ripgreprc"
+link .config/startship/starship.toml "$HOME/.config/starship.toml"
+for dir in aerospace bat btop ghostty lazygit nushell nvim opencode phpactor ranger swiftbar vectorcode zellij; do
+  link ".config/$dir" "$HOME/.config/$dir"
+done
 
-# Create projects directories
-mkdir $HOME/Developer # This is a default directory for macOS user accounts but doesn't come pre-installed
-mkdir $HOME/Developer/php # Create sites subdirectories
+# Git
+git config --global core.excludesfile "$HOME/.gitignore_global"
+git config --global init.templatedir "$HOME/.git-templates"
+git config --global init.defaultBranch main
 
-# Setup ZSH
-rm -rf $HOME/.zshrc # Removes .zshrc from $HOME (if it exists) and symlinks the .zshrc file from the .dotfiles
-ln -s $HOME/.dotfiles/.zshrc $HOME/.zshrc
+# Rust
+if ! command -v cargo &>/dev/null && [ ! -x "$HOME/.cargo/bin/cargo" ]; then
+  rustup-init -y --no-modify-path
+fi
+grep -q '.cargo/env' "$HOME/.zshenv" 2>/dev/null || echo '. "$HOME/.cargo/env"' >> "$HOME/.zshenv"
 
-# Symlink neovim config files
-ln -s $HOME/.dotfiles/.config/nvim $HOME/.config/nvim
+# Python
+pyenv install --skip-existing 3.13
+pyenv global "$(pyenv latest 3.13)"
 
-# Symlink lazygit config file
-ln -s $HOME/.dotfiles/lazygit.yml '/Users/theimer/Library/Application Support/jesseduffield/lazygit/config.yml'
+# PHP & Laravel
+mkdir -p "$HOME/Developer/php/projects" "$HOME/Developer/php/packages"
+composer global require laravel/installer laravel/valet beyondcode/expose
+"$HOME/.composer/vendor/bin/valet" install
 
-# Symlink pint config file
-ln -s $HOME/.dotfiles/pint.json $HOME/.config/pint.json
+# Neovim: install plugins at the versions pinned in lazy-lock.json.
+# Mason tools and treesitter parsers install on the first interactive start.
+nvim --headless "+Lazy! restore" +qa
 
-# Symlink the Mackup config file to the home directory
-rn -rf $HOME/.mackup.cfg
-ln -s $HOME/.dotfiles/.mackup.cfg $HOME/.mackup.cfg
-
-rm -rf $HOME/.gitignore_global # Remove defaiult global gitignore before symlink
-ln -s $HOME/.dotfiles/.gitignore_global $HOME/.gitignore_global # Symlink global gitignore file
-ln -s $HOME/.dotfiles/.ripgreprc $HOME/.config/.ripgreprc # Symlink global ripgrep config file
-
-# Set global giignore
-git config --global core.excludesfile ~/.gitignore_global
-
-# Set macOS preferences
-# We will run this last because this will reload the shell
-source .macos
+# macOS preferences. Runs last because it restarts Finder and the Dock.
+source "$DOTFILES/.macos"
