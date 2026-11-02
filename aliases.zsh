@@ -49,9 +49,6 @@ alias wip="commit wip"                                      # Git commit wip
 ## Tailscale
 alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
 
-# Copilot CLI
-command -v github-copilot-cli >/dev/null && eval "$(github-copilot-cli alias -- "$0")"
-
 ## Python
 # alias pip="pip3"                                          # Use pip3
 # alias python="python3"                                    # Use python3
@@ -67,5 +64,4 @@ alias vimr="nvim --listen ~/.cache/nvim/ray.sock"                               
 ## ZSH
 alias zshconfig="vim ~/.zshrc"                              # Open zsh config in vim
 alias ohmyzsh="vim ~/.oh-my-zsh"                            # Open oh my zsh config in vim
-
 

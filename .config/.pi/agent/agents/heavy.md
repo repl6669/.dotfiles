@@ -1,7 +1,7 @@
 ---
 name: heavy
 description: Escalation agent on Opus 4.8 for the hardest implementation, debugging, and architecture tasks that Sonnet stalls on
-model: github-copilot/claude-opus-4.8
+model: openrouter/anthropic/claude-opus-5.5
 thinking: high
 tools: read, write, edit, grep, find, ls, bash
 inheritProjectContext: true

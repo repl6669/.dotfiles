@@ -2,7 +2,7 @@
 name: planner
 description: Creates implementation plans from context and requirements
 tools: read, bash, write, intercom
-model: github-copilot/claude-sonnet-4.6
+model: openrouter/anthropic/claude-sonnet-5.5
 thinking: high
 systemPromptMode: replace
 inheritProjectContext: true

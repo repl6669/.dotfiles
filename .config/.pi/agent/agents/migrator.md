@@ -1,7 +1,7 @@
 ---
 name: migrator
 description: Authors safe, reversible Laravel database migrations and verifies they run up and down cleanly
-model: github-copilot/claude-sonnet-4.6
+model: openrouter/anthropic/claude-sonnet-5.5
 thinking: medium
 tools: read, write, edit, grep, find, ls, bash
 inheritProjectContext: true

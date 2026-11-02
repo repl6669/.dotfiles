@@ -1,7 +1,7 @@
 ---
 name: test-writer
 description: Writes and runs Laravel tests in Pest for given code or features
-model: github-copilot/claude-sonnet-4.6
+model: openrouter/anthropic/claude-sonnet-5.5
 thinking: medium
 tools: read, write, edit, grep, find, ls, bash
 inheritProjectContext: true

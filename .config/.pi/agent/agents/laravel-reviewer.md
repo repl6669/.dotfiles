@@ -1,7 +1,7 @@
 ---
 name: laravel-reviewer
 description: Laravel-aware adversarial code review of a diff or files; read-only, returns evidence-backed findings
-model: github-copilot/claude-sonnet-4.6
+model: openrouter/anthropic/claude-sonnet-5.5
 thinking: medium
 tools: read, grep, find, ls, bash
 inheritProjectContext: true

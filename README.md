@@ -46,6 +46,8 @@ Go through this list before you wipe the disk.
 ### Apps
 
 - [ ] Raycast: Settings → Advanced → Export (snippets, quicklinks, hotkeys)
+- [ ] TablePlus: select all connections → right click → Export, tick "Include passwords" and set a passphrase. Passwords live in the local Keychain, so mackup only carries the connection list. Save the export to 1Password.
+- [ ] FileZilla: mackup backs up `~/.config/filezilla/sitemanager.xml` (all sites + saved passwords). To be safe also copy the file itself or do File → Export.
 - [ ] Little Snitch: export rules
 - [ ] `~/SP404 User`, `~/Calibre Library`, `~/Screen Studio Projects`, `~/Movies`, `~/Pictures` if not in iCloud
 - [ ] Parallels / CrossOver VMs and bottles you want to keep

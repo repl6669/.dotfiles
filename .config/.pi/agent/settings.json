@@ -1,31 +1,31 @@
 {
   "lastChangelogVersion": "0.85.1",
-  "defaultProvider": "github-copilot",
-  "defaultModel": "claude-opus-4.6",
+  "defaultProvider": "openrouter",
+  "defaultModel": "anthropic/claude-opus-5.5",
   "defaultThinkingLevel": "high",
   "theme": "repl69",
   "subagents": {
     "agentOverrides": {
       "scout": {
-        "model": "github-copilot/claude-haiku-4.5"
+        "model": "openrouter/anthropic/claude-haiku-5.5"
       },
       "context-builder": {
-        "model": "github-copilot/claude-sonnet-5"
+        "model": "openrouter/anthropic/claude-sonnet-5.5"
       },
       "planner": {
-        "model": "github-copilot/claude-sonnet-5"
+        "model": "openrouter/anthropic/claude-sonnet-5.5"
       },
       "worker": {
-        "model": "github-copilot/claude-sonnet-5"
+        "model": "openrouter/anthropic/claude-sonnet-5.5"
       },
       "reviewer": {
-        "model": "github-copilot/claude-sonnet-5"
+        "model": "openrouter/anthropic/claude-sonnet-5.5"
       },
       "researcher": {
-        "model": "github-copilot/claude-sonnet-5"
+        "model": "openrouter/anthropic/claude-sonnet-5.5"
       },
       "delegate": {
-        "model": "github-copilot/claude-sonnet-5"
+        "model": "openrouter/anthropic/claude-sonnet-5.5"
       }
     }
   },

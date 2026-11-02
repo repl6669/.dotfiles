@@ -40,12 +40,6 @@ return {
           buffer = {
             max_items = 5,
           },
-          copilot = {
-            name = "copilot",
-            module = "blink-copilot",
-            score_offset = 0,
-            async = true,
-          },
         },
       },
 

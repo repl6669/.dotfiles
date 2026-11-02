@@ -1,7 +1,7 @@
 ---
 name: tester
 description: Bug scenario analyst and browser tester for Laravel/webdev projects — derives testing scenarios from bug reports or code, and uses Playwright to reproduce/verify in the browser when a running app is available
-model: github-copilot/claude-sonnet-4.6
+model: openrouter/anthropic/claude-sonnet-5.5
 thinking: high
 tools: read, grep, find, ls, bash, mcphub_playwright__browser_navigate, mcphub_playwright__browser_snapshot, mcphub_playwright__browser_take_screenshot, mcphub_playwright__browser_click, mcphub_playwright__browser_fill_form, mcphub_playwright__browser_type, mcphub_playwright__browser_evaluate, mcphub_playwright__browser_network_requests, mcphub_playwright__browser_network_request, mcphub_playwright__browser_console_messages, mcphub_playwright__browser_wait_for, mcphub_playwright__browser_navigate_back, mcphub_playwright__browser_select_option, mcphub_playwright__browser_press_key, mcphub_playwright__browser_hover, mcphub_playwright__browser_handle_dialog, mcphub_playwright__browser_close
 inheritProjectContext: true

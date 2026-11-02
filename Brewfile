@@ -142,7 +142,6 @@ cask 'alt-tab'
 ## AI
 cask 'claude'
 cask 'claude-code'
-cask 'copilot-cli'
 cask 'ollama-app'
 cask 'wispr-flow'
 
