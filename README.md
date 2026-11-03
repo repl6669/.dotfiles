@@ -68,6 +68,7 @@ Ableton Live 12 Suite, FileZilla, Ivanti Secure Access, RME (ADI-2 Remote, DigiC
 ### Manual steps
 
 - Keyboard input sources: add Czech QWERTY next to U.S.
+- Caps Lock → Escape: Keyboard → Keyboard Shortcuts… → Modifier Keys, once per keyboard
 - Grant Accessibility permission to AeroSpace, Raycast, SwiftBar
 - Raycast: import settings, set cmd + space (Spotlight shortcut is turned off by `.macos`)
 - TablePlus: File → Import connections from the export saved in 1Password
