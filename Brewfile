@@ -4,6 +4,7 @@
 tap 'darrylmorley/whatcable', trusted: true
 tap 'nicoverbruggen/cask', trusted: true                    # PHP Monitor
 tap 'nikitabobko/tap', trusted: true                        # AeroSpace
+tap 'oven-sh/bun', trusted: true
 tap 'stripe/stripe-cli', trusted: true
 
 ## Shell & CLI
@@ -13,6 +14,7 @@ brew 'bat-extras'
 brew 'btop'                                                 # Resource monitor
 brew 'carapace'                                             # Shell completions
 brew 'coreutils'                                            # Those that come with macOS are outdated
+brew 'defuddle'                                             # Web page to markdown (defuddle skill)
 brew 'eza'                                                  # ls replacement
 brew 'fd'                                                   # find replacement
 brew 'fzf'                                                  # Fuzzy finder
@@ -55,6 +57,7 @@ brew 'act'                                                  # Run GitHub Actions
 brew 'claude-agent-acp'                                     # Claude Code over ACP (Zed, pi)
 
 ## Languages & runtimes
+brew 'oven-sh/bun/bun'                                      # Also used by the claude-mem plugin
 brew 'deno'
 brew 'go'
 brew 'node'
