@@ -78,10 +78,9 @@ git config --global init.templatedir "$HOME/.git-templates"
 git config --global init.defaultBranch main
 
 # Rust
-if ! command -v cargo &>/dev/null && [ ! -x "$HOME/.cargo/bin/cargo" ]; then
-  rustup-init -y --no-modify-path
-fi
-grep -q '.cargo/env' "$HOME/.zshenv" 2>/dev/null || echo '. "$HOME/.cargo/env"' >> "$HOME/.zshenv"
+# Homebrew's rustup no longer ships rustup-init and is keg-only; its proxies
+# (cargo, rustc) live in $(brew --prefix rustup)/bin, which .zshrc puts on PATH.
+rustup toolchain list | grep -q stable || rustup default stable
 
 # Python
 pyenv install --skip-existing 3.13
