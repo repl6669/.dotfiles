@@ -48,7 +48,7 @@ Go through this list before you wipe the disk.
 
 ### Installed by hand (not in Brewfile)
 
-Ableton Live 12 Suite, FileZilla, Ivanti Secure Access, RME (ADI-2 Remote, DigiCheck NG, USB Flash Tool), Roland Cloud, Keydous Driver, ObinsKit, QMK Toolbox, Adobe Acrobat, Bambu Connect, Prusa drivers, Umbrel, mlx-dspark, CrossOver, TeamViewer, Autodesk Fusion, games (Steam).
+Ableton Live 12 Suite, FileZilla, Ivanti Secure Access, RME (ADI-2 Remote, DigiCheck NG, USB Flash Tool), Roland Cloud, Keydous Driver, ObinsKit, QMK Toolbox, Adobe Acrobat, Bambu Connect, Prusa drivers, Umbrel, mlx-dspark, CrossOver, TeamViewer, Autodesk Fusion, VibeRes, games (Steam).
 
 ## Setting up the new Mac
 

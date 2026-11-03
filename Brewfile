@@ -166,7 +166,6 @@ cask 'steam'
 mas '1Password for Safari', id: 1569813296
 mas 'AdGuard for Safari', id: 1440147259
 mas 'Blackmagic Disk Speed Test', id: 425264550
-mas 'EasyRes', id: 688211836
 mas 'Endel', id: 1346247457
 mas 'LocalSend', id: 1661733229
 mas 'Toggl Track', id: 1291898086
