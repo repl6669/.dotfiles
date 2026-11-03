@@ -57,12 +57,12 @@ Ableton Live 12 Suite, FileZilla, Ivanti Secure Access, RME (ADI-2 Remote, DigiC
 3. Clone the repo:
    ```sh
    xcode-select --install
-   git clone https://github.com/theimerj/.dotfiles.git ~/.dotfiles
+   git clone https://github.com/repl6669/.dotfiles.git ~/.dotfiles
    ```
 4. Run `~/.dotfiles/fresh.sh`
 5. Wait for iCloud to sync Mackup, then `mackup restore`
 6. Put back `~/Developer` and databases
-7. Switch the remote to SSH once the key is in place: `git -C ~/.dotfiles remote set-url origin git@github.com:theimerj/.dotfiles.git`
+7. Switch the remote to SSH once the key is in place: `git -C ~/.dotfiles remote set-url origin git@github.com:repl6669/.dotfiles.git`
 8. Restart
 
 ### Manual steps
