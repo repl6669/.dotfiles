@@ -50,8 +50,8 @@ Go through this list before you wipe the disk.
 - [ ] FileZilla: mackup backs up `~/.config/filezilla/sitemanager.xml` (all sites + saved passwords). To be safe also copy the file itself or do File → Export.
 - [ ] Little Snitch: export rules
 - [ ] `~/SP404 User`, `~/Calibre Library`, `~/Screen Studio Projects`, `~/Movies`, `~/Pictures` if not in iCloud
-- [ ] Parallels / CrossOver VMs and bottles you want to keep
-- [ ] Licence keys for paid apps not bought through the App Store: Beyond Compare, Transmit, Sketch, Screen Studio, Tinkerwell, Ray, SoundSource, Audio Hijack, Little Snitch, Parallels, CrossOver
+- [ ] CrossOver bottles you want to keep
+- [ ] Licence keys for paid apps not bought through the App Store: Beyond Compare, Little Snitch, CrossOver
 - [ ] Sign out of iCloud, deauthorize Music, unpair Bluetooth devices if selling
 
 ### Installed by hand (not in Brewfile)

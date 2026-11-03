@@ -19,16 +19,6 @@ lg() {
     fi
 }
 
-# Yazi
-function y() {
-	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-	yazi "$@" --cwd-file="$tmp"
-	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-		builtin cd -- "$cwd"
-	fi
-	rm -f -- "$tmp"
-}
-
 myip() {
     ifconfig | grep "inet " | grep -Fv 127.0.0.1 | awk '{print $2}'
 }
