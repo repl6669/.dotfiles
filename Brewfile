@@ -54,7 +54,6 @@ brew 'git-quick-stats'
 brew 'gitui'
 brew 'lazygit'
 brew 'act'                                                  # Run GitHub Actions locally
-brew 'claude-agent-acp'                                     # Claude Code over ACP (Zed, pi)
 
 ## Languages & runtimes
 brew 'oven-sh/bun/bun'                                      # Also used by the claude-mem plugin
@@ -173,6 +172,7 @@ mas 'LocalSend', id: 1661733229
 mas 'Toggl Track', id: 1291898086
 
 ## Global npm packages
+npm '@agentclientprotocol/claude-agent-acp'                 # Claude Code over ACP (Zed, pi)
 npm '@earendil-works/pi-coding-agent'
 npm 'git-stats'
 npm 'mcp-hub'                                               # mcphub.nvim
