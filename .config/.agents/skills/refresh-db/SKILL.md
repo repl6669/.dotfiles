@@ -25,7 +25,7 @@ Run the following command in the project directory:
 docker compose exec api php artisan migrate:fresh --seed
 ```
 
-Note: The container name may vary. Use `docker ps` to find the correct container name if needed.
+Note: The service name may vary. Check `docker compose ps` if `api` doesn't exist.
 
 ## What It Does
 

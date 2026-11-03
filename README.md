@@ -28,7 +28,6 @@ Go through this list before you wipe the disk.
 
 - [ ] `~/.gnupg`, if still needed
 - [ ] Any extra `~/.s3cfg-*` files (mackup only covers `~/.s3cfg`)
-- [ ] `~/.kube/config`
 - [ ] API keys live in 1Password. `secrets.zsh` maps env vars to `op://` references, configs only use the env vars. Check every referenced item exists in 1Password.
 
 ### Code and data
