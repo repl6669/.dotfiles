@@ -11,7 +11,7 @@ Special thanks to [Dries Vints](https://github.com/driesvints) for making a grea
 | `fresh.sh` | Full setup: Homebrew, Brewfile, Oh My Zsh, symlinks, Rust, Python, Valet, Neovim plugins, macOS prefs. Safe to re-run. |
 | `Brewfile` | CLI tools, apps (casks), Mac App Store apps, global npm and cargo packages |
 | `.macos` | System preferences (Dock, Finder, keyboard, trackpad, Spaces for AeroSpace) |
-| `.mackup.cfg` | App settings synced through iCloud. Ignores everything that lives in this repo. |
+| `.mackup.cfg` | Allowlist of app settings synced through iCloud (`mackup backup` / `mackup restore`). Nothing from this repo is on it. |
 | `.config/` | Neovim, Ghostty, AeroSpace, Zellij, lazygit, Claude Code, pi, ... (symlinked into `~/.config` and `~`) |
 
 ## Before you reinstall
@@ -76,7 +76,7 @@ Ableton Live 12 Suite, FileZilla, Ivanti Secure Access, RME (ADI-2 Remote, DigiC
 ### Manual steps
 
 - Keyboard input sources: add Czech QWERTY next to U.S.
-- Grant Accessibility permission to AeroSpace, Raycast, AltTab, SwiftBar
+- Grant Accessibility permission to AeroSpace, Raycast, SwiftBar
 - Raycast: import settings, set cmd + space (Spotlight shortcut is turned off by `.macos`)
 - TablePlus: File → Import connections from the export saved in 1Password
 - Claude Code: plugins are listed in `.config/.claude/settings.json`, run `claude` and install them from the marketplaces in `plugins/known_marketplaces.json`

@@ -137,7 +137,6 @@ cask 'ghostty'
 cask 'nikitabobko/tap/aerospace'
 cask 'raycast'
 cask 'swiftbar'                                             # Menu bar plugins (AI usage)
-cask 'alt-tab'
 
 ## AI
 cask 'claude'
