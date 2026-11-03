@@ -38,10 +38,6 @@ Go through this list before you wipe the disk.
 - [ ] `~/.git-stats` (git-stats commit history)
 - [ ] `~/.claude-mem` (claude-mem memory database) and `~/.claude/projects` if you want old Claude Code sessions
 
-### Fonts
-
-- [ ] Copy `~/Library/Fonts` (~150 MB). Most are paid and not on Homebrew: TX-02 (Ghostty), Berkeley Mono, Comic Code, Dank Mono, Apercu, ...
-
 ### Apps
 
 - [ ] Raycast: Settings → Advanced → Export (snippets, quicklinks, hotkeys)
@@ -68,7 +64,7 @@ Ableton Live 12 Suite, FileZilla, Ivanti Secure Access, RME (ADI-2 Remote, DigiC
    ```
 4. Run `~/.dotfiles/fresh.sh`
 5. Wait for iCloud to sync Mackup, then `mackup restore`
-6. Put back fonts, SSH keys, `~/Developer`, databases
+6. Put back `~/Developer` and databases
 7. Switch the remote to SSH once the key is in place: `git -C ~/.dotfiles remote set-url origin git@github.com:theimerj/.dotfiles.git`
 8. Restart
 
