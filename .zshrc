@@ -35,6 +35,10 @@ export ZSH=$HOME/.oh-my-zsh
 # Set date format
 HIST_STAMPS="dd.mm.yyyy"
 
+# Keep more history than OMZ's default of 10000 saved entries
+HISTSIZE=100000
+SAVEHIST=100000
+
 # Plugins definition
 plugins=(1password copypath fzf git zsh-autosuggestions zsh-completions zsh-syntax-highlighting)
 
