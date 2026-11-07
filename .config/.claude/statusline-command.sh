@@ -118,6 +118,54 @@ line="${C_DIR} ${dir_display} ${RESET}"
 [ -n "$git_segment" ] && line="${line}${git_segment} "
 line="${line}${C_MODEL}${model}${RESET}"
 
+# ---- tokens: context window bar + 5h/7d plan usage + session cost ----
+# One jq call; fields are absent on older versions or before the first
+# API response, so everything defaults to empty and the segment is skipped.
+IFS=$'\t' read -r ctx_pct ctx_used ctx_size five_pct week_pct cost < <(
+  printf '%s' "$input" | jq -r '[
+    (.context_window.used_percentage // ""),
+    (.context_window.total_input_tokens // ""),
+    (.context_window.context_window_size // ""),
+    (.rate_limits.five_hour.used_percentage // ""),
+    (.rate_limits.seven_day.used_percentage // ""),
+    (.cost.total_cost_usd // "")
+  ] | @tsv'
+)
+
+# 1234 -> 1.2k, 64990 -> 65k, 1000000 -> 1M
+human() {
+  awk -v n="$1" 'BEGIN {
+    if (n >= 1000000) printf "%gM", int(n / 100000) / 10
+    else if (n >= 10000) printf "%dk", n / 1000 + 0.5
+    else if (n >= 1000) printf "%.1fk", n / 1000
+    else printf "%d", n
+  }'
+}
+
+# Grey while there's room, lighter from 40%, orange from 60% (time to
+# compact or hand off to a fresh session).
+pct_color() {
+  if [ "$1" -ge 60 ]; then printf '%s' "$C_ORANGE"
+  elif [ "$1" -ge 40 ]; then printf '%s' "$C_DIR"
+  else printf '%s' "$C_GIT"; fi
+}
+
+if [ -n "$ctx_pct" ]; then
+  filled=$(( (ctx_pct + 5) / 10 ))
+  [ "$filled" -gt 10 ] && filled=10
+  bar=""
+  for ((i = 0; i < 10; i++)); do
+    [ "$i" -lt "$filled" ] && bar="${bar}▰" || bar="${bar}▱"
+  done
+  tokens="$(pct_color "$ctx_pct")${bar}  ${ctx_pct}%${RESET}"
+  [ -n "$ctx_used" ] && [ -n "$ctx_size" ] && \
+    tokens="${tokens} ${C_MODEL}$(human "$ctx_used")/$(human "$ctx_size")${RESET}"
+  [ -n "$five_pct" ] && tokens="${tokens} ${C_MODEL}5h${RESET} $(pct_color "$five_pct")${five_pct}%${RESET}"
+  [ -n "$week_pct" ] && tokens="${tokens} ${C_MODEL}7d${RESET} $(pct_color "$week_pct")${week_pct}%${RESET}"
+  [ -n "$cost" ] && tokens="${tokens} ${C_MODEL}\$$(printf '%.2f' "$cost")${RESET}"
+  line="${line} ${tokens}"
+fi
+
 # %s, not a variable-built format string: a directory or branch name
 # containing a % would otherwise be read as a printf conversion.
 printf '%s\n' "$line"
