@@ -72,6 +72,14 @@ for dir in aerospace bat btop ghostty lazygit nvim opencode phpactor swiftbar ve
   link ".config/$dir" "$HOME/.config/$dir"
 done
 
+# LaunchAgents (copied, launchd can skip symlinked plists at login)
+for plist in "$DOTFILES"/LaunchAgents/*.plist; do
+  dst="$HOME/Library/LaunchAgents/$(basename "$plist")"
+  cp "$plist" "$dst"
+  launchctl bootout "gui/$(id -u)" "$dst" 2>/dev/null
+  launchctl bootstrap "gui/$(id -u)" "$dst"
+done
+
 # Git
 git config --global core.excludesfile "$HOME/.gitignore_global"
 git config --global init.templatedir "$HOME/.git-templates"

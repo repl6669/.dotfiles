@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Key remapping applied with hidutil at login. Only the media codes are
+  remapped, so holding Fn still sends the plain function keys (except F4).
+
+  F4 / Spotlight (and its media codes) -> F18
+  F5 / Dictation                       -> keyboard brightness up
+  F6 / Do Not Disturb                  -> keyboard brightness down
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>local.keyremap</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/bin/hidutil</string>
+    <string>property</string>
+    <string>--set</string>
+    <string>{"UserKeyMapping":[
+      {"HIDKeyboardModifierMappingSrc":0xC00000221,"HIDKeyboardModifierMappingDst":0x70000006D},
+      {"HIDKeyboardModifierMappingSrc":0xC000002A2,"HIDKeyboardModifierMappingDst":0x70000006D},
+      {"HIDKeyboardModifierMappingSrc":0xFF0100000004,"HIDKeyboardModifierMappingDst":0x70000006D},
+      {"HIDKeyboardModifierMappingSrc":0x70000003D,"HIDKeyboardModifierMappingDst":0x70000006D},
+      {"HIDKeyboardModifierMappingSrc":0xC000000CF,"HIDKeyboardModifierMappingDst":0xFF00000009},
+      {"HIDKeyboardModifierMappingSrc":0x10000009B,"HIDKeyboardModifierMappingDst":0xFF00000008}
+    ]}</string>
+  </array>
+  <key>RunAtLoad</key>
+  <true/>
+</dict>
+</plist>
