@@ -5,7 +5,7 @@
       "repo": "anthropics/claude-plugins-official"
     },
     "installLocation": "/Users/theimer/.claude/plugins/marketplaces/claude-plugins-official",
-    "lastUpdated": "2026-11-03T14:53:31.131Z"
+    "lastUpdated": "2026-11-10T01:10:16.688Z"
   },
   "thedotmack": {
     "source": {
@@ -13,6 +13,6 @@
       "repo": "thedotmack/claude-mem"
     },
     "installLocation": "/Users/theimer/.claude/plugins/marketplaces/thedotmack",
-    "lastUpdated": "2026-02-05T03:38:52.408Z"
+    "lastUpdated": "2026-11-03T18:04:34.867Z"
   }
 }
