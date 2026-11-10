@@ -60,7 +60,7 @@ split_horizontal = ["prefix+d", "prefix+minus"]
 split_vertical = ["prefix+r", "prefix+v", "alt+n"]
 zoom = ["prefix+f", "prefix+z"]
 close_pane = "prefix+x"
-rename_pane = "prefix+c"
+rename_pane = "prefix+shift+p"
 last_pane = "prefix+tab"
 
 # Zellij tab mode (t): new / rename / close / 1..9
