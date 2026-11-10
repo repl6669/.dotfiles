@@ -1,0 +1,113 @@
+# herdr config, mapped to match .config/zellij/config.kdl muscle memory.
+# Full defaults: `herdr --default-config`. Apply edits: `herdr server reload-config`.
+#
+# Zellij runs "locked" by default and Ctrl+g unlocks it. Here Ctrl+g is the
+# herdr prefix: press it, release, then press an action key.
+# Alt+hjkl and Ctrl+Alt+hjkl are taken by AeroSpace, and herdr 0.9.5 can't bind
+# PageUp/PageDown/Home/End, so the direct chords reuse the zellij Alt keys
+# AeroSpace leaves free: Alt+n, Alt+f, Alt+i/o, Alt+[ and Alt+].
+
+onboarding = false
+
+[theme]
+# Use Ghostty's palette, same idea as the custom zellij theme.
+name = "terminal"
+
+# repl69.nvim: monochrome grays, green/orange accents (void palette + zellij extra)
+[theme.custom]
+panel_bg = "reset"
+sidebar_bg = "reset"
+active_row_bg = "#1e1e1e"
+selection_bg = "#333333"
+surface_dim = "#0a0a0a"
+surface0 = "#141414"
+surface1 = "#1e1e1e"
+overlay0 = "#474747"
+overlay1 = "#5b5b5b"
+text = "#e0e0e0"
+subtext0 = "#a3a3a3"
+accent = "#09aa6f"
+green = "#09aa6f"
+red = "#ea474c"
+yellow = "#dc4a00"
+peach = "#ff7919"
+blue = "#adadad"
+teal = "#7ab8b8"
+mauve = "#8e8e8e"
+
+[terminal]
+new_cwd = "follow"
+
+[keys]
+prefix = "ctrl+g"
+
+# Direct chords (zellij `shared` blocks)
+previous_tab = ["prefix+p", "prefix+shift+h", "alt+["]
+next_tab = ["prefix+n", "prefix+shift+l", "alt+]"]
+previous_workspace = "prefix+shift+k"
+next_workspace = "prefix+shift+j"
+previous_agent = "prefix+shift+i"
+next_agent = "prefix+shift+u"
+move_tab_previous = "alt+i"
+move_tab_next = "alt+o"
+focus_pane_left = "prefix+h"
+focus_pane_right = "prefix+l"
+focus_pane_down = "prefix+j"
+focus_pane_up = "prefix+k"
+
+# Zellij pane mode (p): d = split down, r = split right, f = fullscreen, x = close, c = rename
+split_horizontal = ["prefix+d", "prefix+minus"]
+split_vertical = ["prefix+r", "prefix+v", "alt+n"]
+zoom = ["prefix+f", "prefix+z"]
+close_pane = "prefix+x"
+rename_pane = "prefix+c"
+last_pane = "prefix+tab"
+
+# Zellij tab mode (t): new / rename / close / 1..9
+new_tab = "prefix+t"
+rename_tab = "prefix+shift+t"
+close_tab = "prefix+shift+x"
+switch_tab = "prefix+1..9"
+
+# Zellij resize mode is `r` there; `r` splits here, so `=` (same key zellij uses to grow)
+resize_mode = "prefix+="
+
+# Zellij scroll mode (s), with `e` opening scrollback in $EDITOR like EditScrollback
+copy_mode = ["prefix+s", "prefix+["]
+edit_scrollback = "prefix+e"
+settings = "prefix+comma"
+
+# Zellij session mode (o): w = session picker, d = detach
+workspace_picker = "prefix+w"
+goto = "prefix+g"
+detach = ["prefix+q", "prefix+o"]
+open_notification_target = "prefix+a"
+
+# Alt+f toggled floating panes in zellij; closest herdr thing is a popup shell
+[[keys.command]]
+key = "alt+f"
+type = "popup"
+command = "zsh"
+width = "80%"
+height = "80%"
+
+[[keys.command]]
+key = "prefix+shift+g"
+type = "popup"
+command = "lazygit"
+width = "90%"
+height = "90%"
+
+[ui]
+# zellij has pane_frames false + simplified_ui; keep herdr fairly quiet too
+pane_gaps = false
+pane_outer_borders = false
+hide_tab_bar_when_single_tab = true
+prompt_new_tab_name = false
+status_indicators = "symbols"
+show_agent_labels_on_pane_borders = true
+# Let Ghostty handle Cmd-click on URLs
+mouse_capture = true
+
+[ui.toast]
+delivery = "system"
