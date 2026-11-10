@@ -26,15 +26,15 @@ return {
     end,
   },
 
-  -- Disable LazyVim's automatic LSP server setup for servers we configure manually
+  -- Keep mason-lspconfig from auto-enabling servers we don't want running.
+  -- (LazyVim reads `servers` from the nvim-lspconfig spec, not LazyVim/LazyVim.)
   {
-    "LazyVim/LazyVim",
+    "neovim/nvim-lspconfig",
     opts = {
-      lsp = {
-        servers = {
-          -- Disable phpactor since we configure it manually in init.lua
-          phpactor = false,
-        },
+      servers = {
+        -- phpactor stays installed in Mason only for the RPC refactor commands
+        -- in lua/utils/phpactor.lua; phpantom_lsp is the PHP language server.
+        phpactor = false,
       },
     },
   },

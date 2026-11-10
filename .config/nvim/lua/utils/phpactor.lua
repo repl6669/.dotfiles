@@ -358,14 +358,14 @@ function M.import_class()
   M.call("import_class", {
     offset = utils.offset(),
     source = utils.source(),
-    current_path = utils.path(),
+    path = utils.path(), -- phpactor 2026.10 renamed current_path -> path
   })
 end
 
 function M.import_missing_classes()
   M.call("import_missing_classes", {
     source = utils.source(),
-    current_path = utils.path(),
+    path = utils.path(), -- phpactor 2026.10 renamed current_path -> path
   })
 end
 
@@ -379,7 +379,7 @@ function M.change_visibility()
   M.call("change_visibility", {
     offset = utils.offset(),
     source = utils.source(),
-    current_path = utils.path(),
+    path = utils.path(), -- phpactor 2026.10 renamed current_path -> path
   })
 end
 
@@ -410,7 +410,7 @@ function M.transform()
   M.call("transform", {
     offset = utils.offset(),
     source = utils.source(),
-    current_path = utils.path(),
+    path = utils.path(), -- phpactor 2026.10 renamed current_path -> path
   })
 end
 

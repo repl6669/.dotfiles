@@ -17,7 +17,8 @@ return {
         "vtsls",
         "tailwindcss-language-server",
         "vue-language-server",
-        "phpactor",
+        "phpantom_lsp",
+        "phpactor", -- CLI only: used by lua/utils/phpactor.lua refactor commands, not as LSP
         -- Formatters & Linters
         "pint",
         "prettierd",
