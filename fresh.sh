@@ -68,7 +68,7 @@ link .config/.agents "$HOME/.agents"
 link pint.json "$HOME/.config/pint.json"
 link .config/.ripgreprc "$HOME/.config/.ripgreprc"
 link .config/startship/starship.toml "$HOME/.config/starship.toml"
-for dir in aerospace bat btop ghostty lazygit nvim opencode phpactor swiftbar vectorcode zellij; do
+for dir in aerospace bat btop ghostty herdr lazygit nvim opencode phpactor swiftbar vectorcode zellij; do
   link ".config/$dir" "$HOME/.config/$dir"
 done
 

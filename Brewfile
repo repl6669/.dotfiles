@@ -32,6 +32,7 @@ brew 'trash'                                                # Manage the Trash b
 brew 'tree'                                                 # List directories in a tree structure
 brew 'wget'
 brew 'zellij'                                               # Terminal multiplexer
+brew 'herdr'                                                # Agent multiplexer (config in .config/herdr)
 brew 'zoxide'                                               # Smarter cd
 
 ## Neovim
